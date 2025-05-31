@@ -1,7 +1,0 @@
-display_library: sdl
-megs: 64 
-ata0: enabled=1
-ata0-master: type=disk, path="DISK_IMAGE", mode=flat, cylinders=16, heads=16, spt=63
-boot: disk
-com1: enabled=1, mode=file, dev="SERIAL_OUT"
-magic_break: enabled=1

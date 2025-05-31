@@ -1,30 +1,56 @@
-### os/64 ###
+# gentleOS
 
-A minimal 64-bit operating system for the x86-64 architecture, currently at an early stage of development.
+A GUI-first, 32-bit, hobby operating system for vintage PCs
 
-### Build requirements ###
+## Requirements
 
+### Building
+
+- GNU Make
+- Clang (supporting i386 targets)
+- Binutils (supporting i386 targets)
+- NASM
+- Mtools
+
+### Running
+
+- An i386-capable emulator (preferably QEMU)
+- An i386 PC with BIOS (no guarantees, try at your own risk)
+
+### Development
+
+- cproto (for rebuilding includes)
+- util-linux (for rebuilding disk image)
+- GRUB (for rebuilding disk image)
+- Python (for processing bitmaps)
+
+## Building
+
+- Copy `include/config.sample.h` to `include/config.h` and optionally edit
+- Run `make`
+
+## Testing ###
+
+### QEMU
+
+Run:
+
+```bash
+qemu-system-i386 -drive format=raw,file=build/disk.img -m 8 -debugcon stdio
 ```
-python-3
-binutils
-clang
-nasm
-genromfs
-grub-2
-util-linux 2.21+
+
+### Real hardware
+
+If your device is capable of USB boot, just write the image file
+to an empty pendrive:
+
+```bash
+dd if=build/disk.img of=<YOUR PENDRIVE> bs=1M conv=fsync
 ```
 
-### Testing ###
+Otherwise, if you have GRUB installed, you can point it directly to
+the kernel.elf file (see misc/grub.cfg)
 
-```
-vim config.py    # edit configuration
-./make.py        # build
-./make.py qemu   # launch in QEMU
-./make.py bochs  # launch in Bochs
-```
+## Attributions
 
-### Screenshots ###
-
-![](misc/shot-qemu.png)
-
-![](misc/shot-vbox.png)
+- Icons by [Icons8](https://icons8.com/)

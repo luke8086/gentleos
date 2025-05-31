@@ -1,0 +1,2 @@
+#define GUI_WIDTH 800
+#define GUI_HEIGHT 600

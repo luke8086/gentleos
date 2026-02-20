@@ -1,3 +1,5 @@
+/* apps/calendar.c */
+extern app_st app_calendar;
 /* apps/clock.c */
 extern app_st app_clock;
 /* apps/colors.c */

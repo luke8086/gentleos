@@ -48,7 +48,7 @@ draw_char_button(widget_st *widget)
     int is_active = widget == active_char_button;
 
     gui_surface_draw_rect(window.surface, widget->rect,
-        is_active ? COLOR_BORDER : COLOR_WINDOW);
+        is_active ? COLOR_BUTTON_PRESSED : COLOR_WINDOW);
 
     gui_surface_draw_str_centered(
         window.surface,

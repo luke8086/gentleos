@@ -9,7 +9,7 @@
 
 static app_st *apps[] = {
     &app_clock,
-    &app_chars,
+    &app_fonts,
     &app_colors,
     &app_snake
 };

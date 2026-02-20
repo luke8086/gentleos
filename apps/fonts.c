@@ -2,7 +2,7 @@
 // Copyright (c) 2025-2026 luke8086
 // Distributed under the terms of GPL-2 License
 // --------------------------------------------------------------------------------------
-// File: chars.c - Characters app
+// File: fonts.c - Font browser app
 // --------------------------------------------------------------------------------------
 
 #include <gui.h>
@@ -139,7 +139,7 @@ init_window(void)
     window_surface.pixels = window_pixels;
 
     window.surface = &window_surface;
-    window.title = "Characters";
+    window.title = "Fonts";
     window.bg_color = COLOR_WINDOW;
     window.widgets = widgets;
     window.widgets_capacity = sizeof(widgets) / sizeof(widgets[0]);
@@ -214,7 +214,7 @@ show_app(void)
     gui_wm_add_window(&window);
 }
 
-app_st app_chars = {
+app_st app_fonts = {
     .panel_icon_r = &bitmap_icon_fonts_r,
     .panel_icon_a = &bitmap_icon_fonts_a,
     .show = show_app,

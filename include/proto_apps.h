@@ -2,6 +2,8 @@
 extern app_st app_chars;
 /* apps/clock.c */
 extern app_st app_clock;
+/* apps/colors.c */
+extern app_st app_colors;
 /* apps/panel.c */
 extern app_st app_panel;
 /* apps/snake.c */

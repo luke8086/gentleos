@@ -3,6 +3,8 @@ extern bitmap_st bitmap_icon_snake_r;
 extern bitmap_st bitmap_icon_clock_r;
 extern bitmap_st bitmap_pointer;
 extern bitmap_st bitmap_icon_clock_a;
+extern bitmap_st bitmap_icon_colors_r;
+extern bitmap_st bitmap_icon_colors_a;
 extern bitmap_st bitmap_icon_fonts_a;
 extern bitmap_st bitmap_icon_fonts_r;
 extern bitmap_st bitmap_icon_snake_a;

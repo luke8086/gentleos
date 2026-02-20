@@ -39,6 +39,12 @@ Run:
 qemu-system-i386 -drive format=raw,file=build/disk.img -m 8 -debugcon stdio
 ```
 
+For audio support on Macs, also add:
+
+```
+-audiodev coreaudio,id=snd0 -machine pcspk-audiodev=snd0
+```
+
 ### Real hardware
 
 If your device is capable of USB boot, just write the image file

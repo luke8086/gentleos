@@ -1,5 +1,7 @@
 /* data/data_bitmaps.c */
 extern bitmap_st bitmap_icon_snake_r;
+extern bitmap_st bitmap_icon_sounds_r;
+extern bitmap_st bitmap_icon_sounds_a;
 extern bitmap_st bitmap_icon_clock_r;
 extern bitmap_st bitmap_pointer;
 extern bitmap_st bitmap_icon_clock_a;

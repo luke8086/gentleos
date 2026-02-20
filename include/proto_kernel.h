@@ -24,5 +24,8 @@ extern void krn_mouse_init(void);
 /* kernel/rtc.c */
 extern int krn_rtc_are_times_equal(time_st *t1, time_st *t2);
 extern void krn_rtc_get_time(time_st *t);
+/* kernel/speaker.c */
+extern void krn_speaker_stop(void);
+extern void krn_speaker_play(unsigned hz);
 /* kernel/timer.c */
 extern void krn_timer_init(void);

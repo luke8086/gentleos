@@ -10,3 +10,5 @@ extern app_st app_fonts;
 extern app_st app_panel;
 /* apps/snake.c */
 extern app_st app_snake;
+/* apps/sounds.c */
+extern app_st app_sounds;

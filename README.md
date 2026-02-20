@@ -2,6 +2,8 @@
 
 A GUI-first, 32-bit, hobby operating system for vintage PCs
 
+<img src="misc/screenshot.png" width="400">
+
 ## Requirements
 
 ### Building

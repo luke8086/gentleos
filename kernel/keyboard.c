@@ -9,6 +9,7 @@
 
 enum {
     PS2_PORT_DATA = 0x60,
+    PS2_PORT_CMD  = 0x64,
 };
 
 enum {
@@ -37,6 +38,8 @@ static void
 krn_keyboard_handle_intr(isr_stack_st *isr_stack __attribute__((unused)))
 {
     static uint8_t shift = 0;
+    static uint8_t ctrl = 0;
+    static uint8_t alt = 0;
 
     uint8_t scan;
     int evtype;
@@ -66,6 +69,12 @@ krn_keyboard_handle_intr(isr_stack_st *isr_stack __attribute__((unused)))
 
     if (ev.key_code == 0x2a || ev.key_code == 0x36) {
         shift = (ev.type == EVENT_KEY_UP) ? 0 : 1;
+    } else if (ev.key_code == 0x1d) {
+        ctrl = (ev.type == EVENT_KEY_UP) ? 0 : 1;
+    } else if (ev.key_code == 0x38) {
+        alt = (ev.type == EVENT_KEY_UP) ? 0 : 1;
+    } else if (ev.key_code == 0x53 && ctrl && alt && ev.type == EVENT_KEY_DOWN) {
+        outb(0xFE, PS2_PORT_CMD);
     } else {
         (void)krn_event_ipush(ev);
     }

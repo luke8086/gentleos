@@ -59,15 +59,9 @@ init_window(void)
     window.widgets_capacity = sizeof(widgets) / sizeof(widgets[0]);
     window.visible = 1;
 
-    gui_surface_draw_v_seg(window.surface, 0, 0, WINDOW_HEIGHT, COLOR_BORDER);
-
-    rect_st content_rect = {
-        .x = 1,
-        .y = 0,
-        .width = WINDOW_WIDTH - 1,
-        .height = WINDOW_HEIGHT,
-    };
-    gui_surface_draw_rect(window.surface, content_rect, COLOR_WINDOW);
+    gui_surface_draw_rect(window.surface, gui_window_area(&window), COLOR_WINDOW);
+    gui_surface_draw_v_seg(window.surface, 0, 0, WINDOW_HEIGHT - STATUS_HEIGHT + 1,
+        COLOR_BORDER);
 }
 
 static void

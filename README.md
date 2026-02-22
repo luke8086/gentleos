@@ -1,6 +1,6 @@
 # gentleOS
 
-A GUI-first, 32-bit, hobby operating system for vintage PCs
+A hobby operating system for vintage 32-bit PCs
 
 <img src="misc/screenshot.png" width="400">
 

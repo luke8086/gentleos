@@ -13,7 +13,8 @@ static app_st *apps[] = {
     &app_fonts,
     &app_colors,
     &app_sounds,
-    &app_snake
+    &app_snake,
+    &app_mines,
 };
 
 enum {

@@ -14,3 +14,5 @@ extern app_st app_panel;
 extern app_st app_snake;
 /* apps/sounds.c */
 extern app_st app_sounds;
+/* apps/tetris.c */
+extern app_st app_tetris;

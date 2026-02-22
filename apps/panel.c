@@ -15,6 +15,7 @@ static app_st *apps[] = {
     &app_sounds,
     &app_snake,
     &app_mines,
+    &app_tetris,
 };
 
 enum {

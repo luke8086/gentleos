@@ -2,7 +2,7 @@
 
 A hobby operating system for vintage 32-bit PCs
 
-<img src="misc/screenshot.png" width="400">
+<img src="misc/screenshot.png" width="320"> <img src="misc/screenshot-02.png" width="320">
 
 ## Requirements
 

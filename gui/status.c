@@ -9,8 +9,6 @@
 
 enum {
     STATUS_WIDTH = GUI_WIDTH - PANEL_WIDTH,
-    STATUS_X = 0,
-    STATUS_Y = GUI_HEIGHT - STATUS_HEIGHT,
 };
 
 enum {
@@ -19,10 +17,14 @@ enum {
 };
 
 enum {
-    TEXT_X = STATUS_X + FONT_WIDTH,
-    TEXT_Y = STATUS_Y + (STATUS_HEIGHT - FONT_HEIGHT) / 2,
+    TEXT_X = FONT_WIDTH,
+    TEXT_Y = (STATUS_HEIGHT - FONT_HEIGHT) / 2,
     TEXT_MAX_LEN = (STATUS_WIDTH / FONT_WIDTH) - 2,
 };
+
+static uint8_t window_pixels[STATUS_WIDTH * STATUS_HEIGHT];
+static surface_st window_surface;
+static window_st window;
 
 static size_t status_text_len = 0;
 static uint8_t status_bg_color = 0;
@@ -35,15 +37,14 @@ gui_status_set_bg_color(uint8_t color)
     }
 
     rect_st bg_rect = {
-        .x = STATUS_X,
-        .y = STATUS_Y + 1,
+        .x = 0,
+        .y = 1,
         .width = STATUS_WIDTH,
         .height = STATUS_HEIGHT - 1,
     };
 
-    gui_fb_draw_start();
-    gui_surface_draw_rect(gui_fb_surface, bg_rect, color);
-    gui_fb_draw_end();
+    gui_surface_draw_rect(window.surface, bg_rect, color);
+    gui_wm_render_window_region(&window, bg_rect);
 
     status_bg_color = color;
 }
@@ -54,9 +55,7 @@ gui_status_set_text(const char *text, uint8_t color)
     size_t len = strlen(text);
     font_st *font = font_8x16;
 
-    gui_fb_draw_start();
-
-    gui_surface_draw_str(gui_fb_surface, TEXT_X, TEXT_Y, font, text, color,
+    gui_surface_draw_str(window.surface, TEXT_X, TEXT_Y, font, text, color,
         status_bg_color);
 
     // If the new text is shorter than previous, clear the remaining space
@@ -68,10 +67,17 @@ gui_status_set_text(const char *text, uint8_t color)
             .height = font->size.height,
         };
 
-        gui_surface_draw_rect(gui_fb_surface, clear_rect, status_bg_color);
+        gui_surface_draw_rect(window.surface, clear_rect, status_bg_color);
     }
 
-    gui_fb_draw_end();
+    rect_st text_rect = {
+        .x = TEXT_X,
+        .y = TEXT_Y,
+        .width = STATUS_WIDTH - TEXT_X * 2,
+        .height = font->size.height,
+    };
+
+    gui_wm_render_window_region(&window, text_rect);
 
     status_text_len = len;
 }
@@ -110,12 +116,21 @@ gui_status_set_alert(const char *fmt, ...)
 void
 gui_status_init(void)
 {
-    gui_fb_draw_start();
+    window_surface.size.width = STATUS_WIDTH;
+    window_surface.size.height = STATUS_HEIGHT;
+    window_surface.pitch = STATUS_WIDTH;
+    window_surface.pixels = window_pixels;
 
-    gui_surface_draw_h_seg(gui_fb_surface, STATUS_X, STATUS_Y,
-        STATUS_WIDTH, COLOR_BORDER);
+    window.rect.x = 0;
+    window.rect.y = GUI_HEIGHT - STATUS_HEIGHT;
+    window.rect.width = STATUS_WIDTH;
+    window.rect.height = STATUS_HEIGHT;
+    window.surface = &window_surface;
+    window.visible = 1;
+
+    gui_surface_draw_h_seg(window.surface, 0, 0, STATUS_WIDTH, COLOR_BORDER);
 
     gui_status_set("", COLOR_TEXT_ACTIVE);
 
-    gui_fb_draw_end();
+    gui_wm_set_status_window(&window);
 }

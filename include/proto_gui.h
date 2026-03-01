@@ -78,4 +78,5 @@ extern void gui_wm_render_window_region(window_st *window, rect_st window_reg);
 extern window_st *gui_wm_find_window(uint16_t x, uint16_t y);
 extern window_st *gui_wm_top_window(void);
 extern void gui_wm_set_panel_window(window_st *w);
+extern void gui_wm_set_status_window(window_st *w);
 extern void gui_wm_init(void);

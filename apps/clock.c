@@ -110,7 +110,7 @@ init_window(void)
 
     window.surface = &window_surface;
     window.title = "Clock";
-    window.bg_color = 0x19;
+    window.bg_color = COLOR_WINDOW;
     window.widgets = widgets;
     window.widgets_capacity = sizeof(widgets) / sizeof(widgets[0]);
 

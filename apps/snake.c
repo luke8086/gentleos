@@ -237,7 +237,7 @@ init_window(void)
 
     window.surface = &window_surface;
     window.title = "Snake";
-    window.bg_color = 0x19;
+    window.bg_color = COLOR_WINDOW;
     window.widgets = widgets;
     window.widgets_capacity = sizeof(widgets) / sizeof(widgets[0]);
     window.on_key_down = on_keyboard;

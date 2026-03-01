@@ -84,6 +84,7 @@ struct widget {
     int press_on_move_in;
     int press_sticky;
     int press_fixed;
+    int hidden;
     int hide_border;
 
     void (*draw)(widget_st *);

@@ -65,7 +65,8 @@ widget_st *
 gui_window_find_widget_at(window_st *window, point_st pos)
 {
     for (size_t i = 0; i < window->widgets_count; i++) {
-        if (gui_rect_contains_point(window->widgets[i]->rect, pos)) {
+        if (!window->widgets[i]->hidden &&
+            gui_rect_contains_point(window->widgets[i]->rect, pos)) {
             return window->widgets[i];
         }
     }

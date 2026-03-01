@@ -10,6 +10,10 @@
 void
 gui_widget_draw(widget_st *widget)
 {
+    if (widget->hidden) {
+        return;
+    }
+
     if (widget->draw) {
         widget->draw(widget);
     } else if (widget->type == WIDGET_TYPE_BUTTON) {

@@ -8,6 +8,7 @@
 #include <gui.h>
 
 static app_st *apps[] = {
+    &app_about,
     &app_clock,
     &app_calendar,
     &app_fonts,
@@ -15,7 +16,7 @@ static app_st *apps[] = {
     &app_sounds,
     &app_snake,
     &app_mines,
-    &app_tetris,
+ //   &app_tetris,
 };
 
 enum {

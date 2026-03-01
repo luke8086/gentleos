@@ -28,6 +28,11 @@ extern void krn_rtc_get_time(time_st *t);
 /* kernel/speaker.c */
 extern void krn_speaker_stop(void);
 extern void krn_speaker_play(unsigned hz);
+/* kernel/system.c */
+extern const char *krn_system_get_cpu_vendor(void);
+extern uint32_t krn_system_get_total_mem(void);
+extern uint32_t krn_system_get_used_mem(void);
+extern uint32_t krn_system_get_avail_mem(void);
 /* kernel/timer.c */
 extern uint32_t krn_timer_get_msecs(void);
 extern void krn_timer_init(void);

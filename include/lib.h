@@ -37,6 +37,7 @@ void cpu_cli(void);
 void cpu_hlt(void);
 uint8_t inb(uint16_t port);
 void outb(uint8_t value, uint16_t port);
+void cpu_cpuid(uint32_t eax, uint32_t *ebx, uint32_t *ecx, uint32_t *edx);
 
 #include "proto_lib.h"
 

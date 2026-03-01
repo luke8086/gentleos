@@ -56,3 +56,28 @@ outb:
     mov esp, ebp
     pop ebp
     ret
+
+global cpu_cpuid:function
+cpu_cpuid:
+    push ebp
+    mov ebp, esp
+    push ebx
+    push edi
+
+    mov eax, [ebp + 8]
+    cpuid
+
+    mov edi, [ebp + 12]
+    mov [edi], ebx
+
+    mov edi, [ebp + 16]
+    mov [edi], ecx
+
+    mov edi, [ebp + 20]
+    mov [edi], edx
+
+    pop edi
+    pop ebx
+    mov esp, ebp
+    pop ebp
+    ret

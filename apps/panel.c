@@ -19,23 +19,61 @@ static app_st *apps[] = {
     &app_tetris,
 };
 
+#define APPS_COUNT (sizeof(apps) / sizeof(apps[0]))
+
 enum {
     WINDOW_WIDTH = PANEL_WIDTH,
     WINDOW_HEIGHT = GUI_HEIGHT,
 
-    BUTTON_MARGIN = 8,
-    BUTTON_SIZE = 48,
-    BUTTON_STRIDE = BUTTON_SIZE + BUTTON_MARGIN,
+    APP_BUTTON_MARGIN = 8,
+    APP_BUTTON_SIZE = 48,
+    APP_BUTTON_STRIDE = APP_BUTTON_SIZE + APP_BUTTON_MARGIN,
 
-    BUTTONS_COUNT = (WINDOW_HEIGHT - STATUS_HEIGHT) / BUTTON_STRIDE,
+    APP_BUTTONS_COUNT = (WINDOW_HEIGHT - STATUS_HEIGHT - APP_BUTTON_MARGIN)
+        / APP_BUTTON_STRIDE,
+
+    NAV_WIDTH = PANEL_WIDTH / 2,
+    NAV_HEIGHT = STATUS_HEIGHT,
 };
+
+static int current_page = 0;
 
 static uint8_t window_pixels[WINDOW_WIDTH * WINDOW_HEIGHT];
 static surface_st window_surface;
 static window_st window;
 
-static widget_st buttons[BUTTONS_COUNT];
-static widget_st *widgets[BUTTONS_COUNT];
+static widget_st app_buttons[APP_BUTTONS_COUNT];
+static widget_st prev_button;
+static widget_st next_button;
+static widget_st *widgets[APP_BUTTONS_COUNT + 2];
+
+static void
+set_page(int page)
+{
+    current_page = page;
+
+    rect_st area = { .x = 1, .y = 0, .width = WINDOW_WIDTH - 1,
+        .height = WINDOW_HEIGHT - STATUS_HEIGHT };
+    gui_surface_draw_rect(window.surface, area, COLOR_WINDOW);
+
+    for (size_t i = 0; i < APP_BUTTONS_COUNT; i++) {
+        size_t app_idx = current_page * APP_BUTTONS_COUNT + i;
+
+        if (app_idx >= APPS_COUNT) {
+            app_buttons[i].hidden = 0;
+            continue;
+        }
+
+        app_buttons[i].bitmap_regular = apps[app_idx]->panel_icon_r;
+        app_buttons[i].bitmap_pressed = apps[app_idx]->panel_icon_a;
+        app_buttons[i].tag1 = app_idx;
+        app_buttons[i].hidden = 0;
+
+        gui_widget_draw(&app_buttons[i]);
+    }
+
+    gui_wm_render_window_region(&window, gui_window_area(&window));
+}
 
 static void
 on_button_pointer_up(widget_st *widget, event_st event, point_st pos)
@@ -44,6 +82,28 @@ on_button_pointer_up(widget_st *widget, event_st event, point_st pos)
 
     if (apps[widget->tag1]) {
         apps[widget->tag1]->show();
+    }
+}
+
+static void
+on_prev_pointer_up(widget_st *widget, event_st event, point_st pos)
+{
+    gui_button_on_pointer_up(widget, event, pos);
+
+    if (current_page > 0) {
+        set_page(current_page - 1);
+    }
+}
+
+static void
+on_next_pointer_up(widget_st *widget, event_st event, point_st pos)
+{
+    gui_button_on_pointer_up(widget, event, pos);
+
+    int max_page = (APPS_COUNT + APP_BUTTONS_COUNT - 1) / APP_BUTTONS_COUNT - 1;
+
+    if (current_page < max_page) {
+        set_page(current_page + 1);
     }
 }
 
@@ -70,22 +130,46 @@ init_window(void)
 }
 
 static void
-init_buttons(void)
+init_app_buttons(void)
 {
-    for (size_t i = 0; i < sizeof(apps) / sizeof(apps[0]) && i < BUTTONS_COUNT; i++) {
-        buttons[i].type = WIDGET_TYPE_BUTTON;
-        buttons[i].rect.x = BUTTON_MARGIN;
-        buttons[i].rect.y = BUTTON_MARGIN + (i * BUTTON_STRIDE);
-        buttons[i].rect.width = BUTTON_SIZE;
-        buttons[i].rect.height = BUTTON_SIZE;
-        buttons[i].window = &window;
-        buttons[i].bitmap_regular = apps[i]->panel_icon_r;
-        buttons[i].bitmap_pressed = apps[i]->panel_icon_a;
-        buttons[i].on_pointer_up = on_button_pointer_up;
-        buttons[i].tag1 = i;
+    for (size_t i = 0; i < APP_BUTTONS_COUNT; i++) {
+        app_buttons[i].type = WIDGET_TYPE_BUTTON;
+        app_buttons[i].rect.x = APP_BUTTON_MARGIN;
+        app_buttons[i].rect.y = APP_BUTTON_MARGIN + (i * APP_BUTTON_STRIDE);
+        app_buttons[i].rect.width = APP_BUTTON_SIZE;
+        app_buttons[i].rect.height = APP_BUTTON_SIZE;
+        app_buttons[i].window = &window;
+        app_buttons[i].on_pointer_up = on_button_pointer_up;
+        app_buttons[i].hidden = 1;
 
-        gui_window_add_widget(&window, &buttons[i]);
+        gui_window_add_widget(&window, &app_buttons[i]);
     }
+}
+
+static void
+init_nav_buttons(void)
+{
+    prev_button.type = WIDGET_TYPE_BUTTON;
+    prev_button.rect.x = 0;
+    prev_button.rect.y = WINDOW_HEIGHT - NAV_HEIGHT;
+    prev_button.rect.width = NAV_WIDTH;
+    prev_button.rect.height = NAV_HEIGHT;
+    prev_button.window = &window;
+    prev_button.label = "<";
+    prev_button.hide_border = 1;
+    prev_button.on_pointer_up = on_prev_pointer_up;
+    gui_window_add_widget(&window, &prev_button);
+
+    next_button.type = WIDGET_TYPE_BUTTON;
+    next_button.rect.x = NAV_WIDTH;
+    next_button.rect.y = WINDOW_HEIGHT - NAV_HEIGHT;
+    next_button.rect.width = NAV_WIDTH;
+    next_button.rect.height = NAV_HEIGHT;
+    next_button.window = &window;
+    next_button.label = ">";
+    next_button.hide_border = 1;
+    next_button.on_pointer_up = on_next_pointer_up;
+    gui_window_add_widget(&window, &next_button);
 }
 
 static void
@@ -95,7 +179,9 @@ show_panel(void)
 
     if (!initialized) {
         init_window();
-        init_buttons();
+        init_app_buttons();
+        init_nav_buttons();
+        set_page(0);
         initialized = 1;
     }
 

@@ -24,6 +24,17 @@ krn_debug_printf(const char *fmt, ...)
     }
 }
 
+void
+krn_debug_beep(unsigned hz, unsigned msecs, unsigned count)
+{
+    for (unsigned i = 0; i < count; i++) {
+        krn_speaker_play(hz);
+        sleep(msecs);
+        krn_speaker_stop();
+        sleep(msecs);
+    }
+}
+
 static void
 krn_debug_dump_multiboot_mmap(uint64_t len, uint64_t paddr)
 {

@@ -27,6 +27,12 @@ krn_timer_handle_intr(isr_stack_st *isr_stack __attribute__((unused)))
     (void)krn_event_ipush(event);
 }
 
+uint32_t
+krn_timer_get_msecs(void)
+{
+    return timer_msecs;
+}
+
 void
 krn_timer_init(void)
 {

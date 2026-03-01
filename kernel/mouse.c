@@ -98,7 +98,7 @@ krn_mouse_handle_intr(isr_stack_st *isr_stack _unsd)
 static void
 krn_mouse_putc(uint8_t val, uint16_t port)
 {
-    // Wait for output buffer to be empty, assume the loop will take enough time
+    // Status bit 1 clear means 8042 input buffer is empty
     for (volatile int i = 0; i < 1000000; ++i) {
         if ((inb(PS2_PORT_STATUS) & 2) == 0) {
             break;
@@ -111,9 +111,9 @@ krn_mouse_putc(uint8_t val, uint16_t port)
 static uint8_t
 krn_mouse_getc(uint16_t port)
 {
-    // Wait for input buffer to be empty, assume the loop will take enough time
+    // Status bit 0 set means 8042 output buffer has data
     for (volatile int i = 0; i < 1000000; ++i) {
-        if ((inb(PS2_PORT_STATUS) & 1) == 0) {
+        if ((inb(PS2_PORT_STATUS) & 1) != 0) {
             break;
         }
     }
@@ -133,7 +133,7 @@ krn_mouse_init(void)
     krn_mouse_putc(PS2_CMD_READ_CONFIG, PS2_PORT_COMMAND);
     uint8_t status = krn_mouse_getc(PS2_PORT_DATA);
     krn_mouse_putc(PS2_CMD_WRITE_CONFIG, PS2_PORT_COMMAND);
-    krn_mouse_putc(status | 0x02, PS2_PORT_DATA);
+    krn_mouse_putc((status | 0x03) & ~0x30, PS2_PORT_DATA);
 
     // Send the default configuration to the mouse
     krn_mouse_putc(PS2_CMD_SEND_AUX, PS2_PORT_COMMAND);

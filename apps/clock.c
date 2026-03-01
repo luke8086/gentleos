@@ -43,16 +43,6 @@ draw_cell(int x, int y, int active)
 }
 
 static void
-draw_region(int x, int y, int w, int h, uint8_t active)
-{
-    for (int j = 0; j < h; ++j) {
-        for (int i = 0; i < w; ++i) {
-            draw_cell(x + i, y + j, active);
-        }
-    }
-}
-
-static void
 draw_digit(int x, int y, int digit)
 {
     static const uint16_t digit_pixels[10] = {

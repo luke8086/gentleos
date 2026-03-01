@@ -12,8 +12,8 @@ static void reveal_cell(int col, int row);
 enum {
     GRID_CELL_WIDTH = 17,
     GRID_CELL_HEIGHT = 17,
-    GRID_ROWS = 9,
-    GRID_COLS = 9,
+    GRID_ROWS = 11,
+    GRID_COLS = 11,
     GRID_CELL_COUNT = GRID_ROWS * GRID_COLS,
     GRID_WIDTH = GRID_WIDTH_SPACED(GRID_CELL_WIDTH, GRID_COLS),
     GRID_HEIGHT = GRID_HEIGHT_SPACED(GRID_CELL_HEIGHT, GRID_ROWS),
@@ -23,7 +23,7 @@ enum {
     WINDOW_WIDTH = GRID_X + GRID_WIDTH + 1,
     WINDOW_HEIGHT = GRID_Y + GRID_HEIGHT + 1,
 
-    MINE_COUNT = 10,
+    MINE_COUNT = 18,
 };
 
 static uint8_t window_pixels[WINDOW_WIDTH * WINDOW_HEIGHT];

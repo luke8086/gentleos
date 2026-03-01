@@ -8,10 +8,10 @@
 #include <gui.h>
 
 enum {
-    GRID_CELL_WIDTH = 10,
-    GRID_CELL_HEIGHT = 10,
-    GRID_COLS = 31,
-    GRID_ROWS = 9,
+    GRID_CELL_WIDTH = 9,
+    GRID_CELL_HEIGHT = 9,
+    GRID_COLS = 29,
+    GRID_ROWS = 7,
     GRID_X = 1,
     GRID_Y = TITLE_BAR_HEIGHT,
     GRID_WIDTH = GRID_WIDTH_SPACED(GRID_CELL_WIDTH, GRID_COLS),
@@ -78,16 +78,16 @@ draw_time(void)
 
     last_time = t;
 
-    draw_digit(2, 2, t.hour / 10);
-    draw_digit(6, 2, t.hour % 10);
-    draw_cell(10, 3, 1);
-    draw_cell(10, 5, 1);
-    draw_digit(12, 2, t.minute / 10);
-    draw_digit(16, 2, t.minute % 10);
-    draw_cell(20, 3, 1);
-    draw_cell(20, 5, 1);
-    draw_digit(22, 2, t.second / 10);
-    draw_digit(26, 2, t.second % 10);
+    draw_digit(1, 1, t.hour / 10);
+    draw_digit(5, 1, t.hour % 10);
+    draw_cell(9, 2, 1);
+    draw_cell(9, 4, 1);
+    draw_digit(11, 1, t.minute / 10);
+    draw_digit(15, 1, t.minute % 10);
+    draw_cell(19, 2, 1);
+    draw_cell(19, 4, 1);
+    draw_digit(21, 1, t.second / 10);
+    draw_digit(25, 1, t.second % 10);
 }
 
 static void
@@ -126,8 +126,6 @@ init_grid(void)
     grid.rows = GRID_ROWS;
     grid.x = GRID_X;
     grid.y = GRID_Y;
-
-    draw_region(0, 0, GRID_COLS, GRID_ROWS, 0);
 }
 
 static void

@@ -16,14 +16,18 @@ static app_st *apps[] = {
     &app_sounds,
     &app_snake,
     &app_mines,
- //   &app_tetris,
+    &app_tetris,
 };
 
 enum {
     WINDOW_WIDTH = PANEL_WIDTH,
     WINDOW_HEIGHT = GUI_HEIGHT,
 
-    BUTTONS_COUNT = sizeof(apps) / sizeof(apps[0]),
+    BUTTON_MARGIN = 8,
+    BUTTON_SIZE = 48,
+    BUTTON_STRIDE = BUTTON_SIZE + BUTTON_MARGIN,
+
+    BUTTONS_COUNT = (WINDOW_HEIGHT - STATUS_HEIGHT) / BUTTON_STRIDE,
 };
 
 static uint8_t window_pixels[WINDOW_WIDTH * WINDOW_HEIGHT];
@@ -68,12 +72,12 @@ init_window(void)
 static void
 init_buttons(void)
 {
-    for (size_t i = 0; i < sizeof(apps) / sizeof(apps[0]); i++) {
+    for (size_t i = 0; i < sizeof(apps) / sizeof(apps[0]) && i < BUTTONS_COUNT; i++) {
         buttons[i].type = WIDGET_TYPE_BUTTON;
-        buttons[i].rect.x = 8;
-        buttons[i].rect.y = 8 + (i * 56);
-        buttons[i].rect.width = 48;
-        buttons[i].rect.height = 48;
+        buttons[i].rect.x = BUTTON_MARGIN;
+        buttons[i].rect.y = BUTTON_MARGIN + (i * BUTTON_STRIDE);
+        buttons[i].rect.width = BUTTON_SIZE;
+        buttons[i].rect.height = BUTTON_SIZE;
         buttons[i].window = &window;
         buttons[i].bitmap_regular = apps[i]->panel_icon_r;
         buttons[i].bitmap_pressed = apps[i]->panel_icon_a;

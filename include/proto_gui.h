@@ -22,6 +22,7 @@ extern void gui_pointer_draw(void);
 extern void gui_pointer_move(uint16_t x, uint16_t y);
 extern void gui_pointer_init(void);
 /* gui/rect.c */
+extern int gui_rect_is_empty(rect_st r);
 extern rect_st gui_rect_make(int x, int y, int width, int height);
 extern rect_st gui_rect_translate(rect_st r, point_st v);
 extern rect_st gui_rect_translate_back(rect_st r, point_st v);
@@ -29,6 +30,7 @@ extern int gui_rect_contains_point(rect_st r, point_st p);
 extern rect_st gui_rect_center(rect_st r, rect_st container);
 extern rect_st gui_rect_limit(rect_st r, rect_st container);
 extern rect_st gui_rect_shrink(rect_st r, int amount);
+extern rect_st gui_rect_enclose(rect_st a, rect_st b);
 extern rect_st gui_rect_clip(rect_st r, rect_st clipper);
 extern void gui_rect_translate_diff(rect_st r1, rect_st r2, rect_st *hdiff, rect_st *vdiff);
 extern const char *gui_rect_format(rect_st r);

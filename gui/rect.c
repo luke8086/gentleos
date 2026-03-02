@@ -7,6 +7,12 @@
 
 #include <gui.h>
 
+int
+gui_rect_is_empty(rect_st r)
+{
+    return r.width <= 0 || r.height <= 0;
+}
+
 rect_st
 gui_rect_make(int x, int y, int width, int height)
 {
@@ -87,6 +93,28 @@ gui_rect_shrink(rect_st r, int amount)
     r.height = MAX(r.height, 0);
 
     return r;
+}
+
+rect_st
+gui_rect_enclose(rect_st a, rect_st b)
+{
+    if (gui_rect_is_empty(a)) {
+        return b;
+    }
+
+    if (gui_rect_is_empty(b)) {
+        return a;
+    }
+
+    int x2 = MAX(a.x + a.width, b.x + b.width);
+    int y2 = MAX(a.y + a.height, b.y + b.height);
+
+    return (rect_st) {
+        .x = MIN(a.x, b.x),
+        .y = MIN(a.y, b.y),
+        .width = x2 - MIN(a.x, b.x),
+        .height = y2 - MIN(a.y, b.y),
+    };
 }
 
 rect_st

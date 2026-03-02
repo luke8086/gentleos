@@ -10,20 +10,23 @@
 void *
 memcpy(void *dest, const void *src, size_t n)
 {
-    register uint32_t *srcq;
-    register uint32_t *destq;
-    uint8_t *srcb;
-    uint8_t *destb;
+    uint8_t *srcb = (uint8_t *)src;
+    uint8_t *destb = (uint8_t *)dest;
 
-    srcq = (uint32_t *)src;
-    destq = (uint32_t *)dest;
-    for (; n >= sizeof(*srcq); n -= sizeof(*srcq)) {
+    for (; n > 0 && ((uintptr_t)destb % 4) != 0; --n) {
+        *(destb++) = *(srcb++);
+    }
+
+    uint32_t *srcq = (uint32_t *)srcb;
+    uint32_t *destq = (uint32_t *)destb;
+
+    for (; n >= sizeof(*destq); n -= sizeof(*destq)) {
         *(destq++) = *(srcq++);
     }
 
     srcb = (uint8_t *)srcq;
     destb = (uint8_t *)destq;
-    while (n--) {
+    for (; n > 0; --n) {
         *(destb++) = *(srcb++);
     }
 
@@ -36,6 +39,10 @@ memset(void *dest, int c, size_t n)
     uint8_t *dest8 = (uint8_t *)dest;
     uint8_t c8 = (unsigned char)c;
 
+    for (; n > 0 && ((uintptr_t)dest8 % 4) != 0; --n) {
+        *(dest8++) = c8;
+    }
+
     uint32_t *dest32 = (uint32_t *)dest8;
     uint32_t c32 = c8 | (c8 << 8) | (c8 << 16) | (c8 << 24);
 
@@ -44,7 +51,7 @@ memset(void *dest, int c, size_t n)
     }
 
     dest8 = (uint8_t *)dest32;
-    while (n--) {
+    for (; n > 0; --n) {
         *(dest8++) = c8;
     }
 

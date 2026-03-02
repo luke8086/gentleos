@@ -7,8 +7,11 @@ extern void gui_button_draw(widget_st *widget);
 extern void gui_close_button_init(widget_st *button, window_st *window);
 /* gui/fb.c */
 extern surface_st *gui_fb_surface;
+extern surface_st *gui_fb_vram_surface;
 extern void gui_fb_draw_start(void);
 extern void gui_fb_draw_end(void);
+extern void gui_fb_mark_dirty(rect_st rect);
+extern void gui_fb_flush(void);
 extern void gui_fb_init(void);
 /* gui/grid.c */
 extern rect_st gui_grid_rect(grid_st *grid);
@@ -17,7 +20,6 @@ extern void gui_grid_draw_background(grid_st *grid, window_st *window, uint8_t c
 /* gui/main.c */
 extern void gui_main(void);
 /* gui/pointer.c */
-extern void gui_pointer_hide(void);
 extern void gui_pointer_draw(void);
 extern void gui_pointer_move(uint16_t x, uint16_t y);
 extern void gui_pointer_init(void);

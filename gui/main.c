@@ -16,6 +16,7 @@ gui_main(void)
     gui_fb_init();
     gui_pointer_init();
     gui_wm_init();
+    gui_fb_flush();
 
     while (1) {
         if (krn_event_count() == 0) {
@@ -73,5 +74,7 @@ gui_main(void)
                 w->on_key_up(w, event);
             }
         }
+
+        gui_fb_flush();
     }
 }

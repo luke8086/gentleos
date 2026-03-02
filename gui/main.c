@@ -28,10 +28,7 @@ gui_main(void)
 
         if (event.type == EVENT_TIMER_TICK) {
             gui_timeout_on_tick(event);
-            continue;
-        }
-
-        if (event.type == EVENT_POINTER_DOWN) {
+        } else if (event.type == EVENT_POINTER_DOWN) {
             gui_pointer_move(event.pointer_x, event.pointer_y);
 
             window_st *w = gui_wm_find_window(event.pointer_x, event.pointer_y);
@@ -41,21 +38,13 @@ gui_main(void)
                 gui_wm_raise_window(w);
                 gui_window_on_pointer_down(w, event);
             }
-
-            continue;
-        }
-
-        if (event.type == EVENT_POINTER_MOVE) {
+        } else if (event.type == EVENT_POINTER_MOVE) {
             gui_pointer_move(event.pointer_x, event.pointer_y);
 
             if (pressed_window) {
                 gui_window_on_pointer_move(pressed_window, event);
             }
-
-            continue;
-        }
-
-        if (event.type == EVENT_POINTER_UP) {
+        } else if (event.type == EVENT_POINTER_UP) {
             gui_pointer_move(event.pointer_x, event.pointer_y);
 
             if (pressed_window) {
@@ -63,11 +52,7 @@ gui_main(void)
             }
 
             pressed_window = NULL;
-
-            continue;
-        }
-
-        if (event.type == EVENT_POINTER_ALT) {
+        } else if (event.type == EVENT_POINTER_ALT) {
             gui_pointer_move(event.pointer_x, event.pointer_y);
 
             window_st *w = gui_wm_find_window(event.pointer_x, event.pointer_y);
@@ -75,28 +60,18 @@ gui_main(void)
             if (w && !pressed_window) {
                 gui_window_on_pointer_alt(w, event);
             }
-
-            continue;
-        }
-
-        if (event.type == EVENT_KEY_DOWN) {
+        } else if (event.type == EVENT_KEY_DOWN) {
             window_st *w = gui_wm_top_window();
 
             if (w && w->on_key_down) {
                 w->on_key_down(w, event);
             }
-
-            continue;
-        }
-
-        if (event.type == EVENT_KEY_UP) {
+        } else if (event.type == EVENT_KEY_UP) {
             window_st *w = gui_wm_top_window();
 
             if (w && w->on_key_up) {
                 w->on_key_up(w, event);
             }
-
-            continue;
         }
     }
 }

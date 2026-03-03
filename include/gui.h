@@ -145,6 +145,24 @@ typedef struct {
 typedef void *timeout_payload;
 typedef void (*timeout_callback_fn)(timeout_payload);
 
+#if GUI_PLANAR_MODE
+
+enum {
+    COLOR_BLACK = 0x00,
+    COLOR_WHITE = 0x0f,
+    COLOR_RED = 0x04,
+    COLOR_TITLE_BAR_ACTIVE = 0x0e,
+    COLOR_TITLE_BAR_INACTIVE = 0x07,
+    COLOR_WINDOW = 0x07,
+    COLOR_WINDOW_DARKER = 0x08,
+    COLOR_BORDER = 0x00,
+    COLOR_TEXT_ACTIVE = 0x00,
+    COLOR_BUTTON_PRESSED = 0x00,
+    COLOR_DESKTOP = 0x03,
+};
+
+#else
+
 enum {
     COLOR_BLACK = 0x00,
     COLOR_WHITE = 0x0f,
@@ -156,7 +174,10 @@ enum {
     COLOR_BORDER = 0x14,
     COLOR_TEXT_ACTIVE = 0x00,
     COLOR_BUTTON_PRESSED = 0x00,
+    COLOR_DESKTOP = 0x7c,
 };
+
+#endif
 
 enum {
     KEY_UP = 0x48,

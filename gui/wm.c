@@ -114,7 +114,7 @@ static void
 gui_wm_render_wallpaper(rect_st rect)
 {
     gui_fb_draw_start();
-    gui_surface_draw_rect(gui_fb_surface, rect, 0x7c);
+    gui_surface_draw_rect(gui_fb_surface, rect, COLOR_DESKTOP);
     gui_fb_mark_dirty(rect);
     gui_fb_draw_end();
 }

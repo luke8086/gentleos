@@ -114,7 +114,7 @@ static void
 gui_wm_render_wallpaper(rect_st rect)
 {
     gui_fb_draw_start();
-    gui_surface_draw_rect(gui_fb_surface, rect, COLOR_DESKTOP);
+    gui_fb_draw_rect(rect, COLOR_DESKTOP);
     gui_fb_mark_dirty(rect);
     gui_fb_draw_end();
 }
@@ -126,11 +126,8 @@ gui_wm_render_window_surface(window_st *window, rect_st desktop_reg)
     rect_st window_reg = gui_rect_translate_back(desktop_reg, window->rect.pos);
 
     gui_fb_draw_start();
-    gui_surface_copy(gui_fb_surface, desktop_reg.x, desktop_reg.y,
-        window->surface, window_reg);
-    gui_fb_mark_dirty(desktop_reg);
+    gui_fb_draw_surface(desktop_reg.x, desktop_reg.y, window->surface, window_reg);
     gui_fb_draw_end();
-
 }
 
 // Re-render a specified region of the desktop to the screen,

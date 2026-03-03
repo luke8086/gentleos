@@ -12,8 +12,12 @@ static rect_st gui_pointer_rect;
 void
 gui_pointer_draw(void)
 {
+#if GUI_PLANAR_MODE
+    gui_planar_draw_bitmap(gui_pointer_rect.x, gui_pointer_rect.y, &bitmap_pointer);
+#else
     gui_surface_draw_bitmap(gui_fb_vram_surface, gui_pointer_rect.x,
         gui_pointer_rect.y, &bitmap_pointer);
+#endif
 }
 
 void

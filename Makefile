@@ -53,6 +53,7 @@ disk: kernel
 	zcat $(EMPTY_DISK_IMAGE) > $(DISK_IMAGE)
 	mcopy -D o -i $(DISK_IMAGE)@@$(DISK_FS_OFFSET) $(BUILDDIR)/kernel.elf ::
 	mcopy -D o -i $(DISK_IMAGE)@@$(DISK_FS_OFFSET) $(BASEDIR)/misc/grub.cfg ::boot/grub
+	[ -e tmp/grub.cfg ] && mcopy -D o -i $(DISK_IMAGE)@@$(DISK_FS_OFFSET) $(BASEDIR)/tmp/grub.cfg ::boot/grub
 
 print:
 	@echo "SUBDIRS=$(SUBDIRS)"

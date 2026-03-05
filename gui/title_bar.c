@@ -10,51 +10,20 @@
 static void
 gui_title_bar_on_pointer_down(widget_st *widget, event_st event, point_st pos _unsd)
 {
-    window_st *window = widget->window;
-
-    window->drag_active = 1;
-    window->drag_start.x = event.pointer_x;
-    window->drag_start.y = event.pointer_y;
+    gui_drag_start(widget->window, event);
 }
 
 static void
-gui_title_bar_on_pointer_move(widget_st *widget, event_st event, point_st pos _unsd)
+gui_title_bar_on_pointer_move(widget_st *widget _unsd, event_st event, point_st pos _unsd)
 {
-    window_st *window = widget->window;
-
-    if (!window->drag_active) {
-        return;
-    }
-
-    rect_st saved_rect = window->rect;
-    rect_st hdiff, vdiff;
-
-    point_st dpos = {
-        .x = event.pointer_x - window->drag_start.x,
-        .y = event.pointer_y - window->drag_start.y,
-    };
-
-    window->rect = gui_rect_translate(window->rect, dpos);
-    window->rect = gui_rect_limit(window->rect, gui_wm_container);
-
-    gui_rect_translate_diff(saved_rect, window->rect, &hdiff, &vdiff);
-
-    gui_wm_render_desktop_region(hdiff, NULL);
-    gui_wm_render_desktop_region(vdiff, NULL);
-    gui_wm_render_desktop_region(window->rect, window);
-
-    window->drag_start.x = event.pointer_x;
-    window->drag_start.y = event.pointer_y;
+    gui_drag_move(event);
 }
 
 static void
-gui_title_bar_on_pointer_up(widget_st *widget, event_st event _unsd, point_st pos _unsd)
+gui_title_bar_on_pointer_up(widget_st *widget _unsd, event_st event _unsd,
+    point_st pos _unsd)
 {
-    window_st *window = widget->window;
-
-    if (window->drag_active) {
-        window->drag_active = 0;
-    }
+    gui_drag_end();
 }
 
 static void

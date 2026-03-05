@@ -72,6 +72,23 @@ outw:
     pop ebp
     ret
 
+global cpu_has_cpuid:function
+cpu_has_cpuid:
+    pushfd
+    pop eax
+    mov ecx, eax
+    xor eax, 1 << 21
+    push eax
+    popfd
+    pushfd
+    pop eax
+    push ecx
+    popfd
+    xor eax, ecx
+    shr eax, 21
+    and eax, 1
+    ret
+
 global cpu_cpuid:function
 cpu_cpuid:
     push ebp

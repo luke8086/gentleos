@@ -75,6 +75,8 @@ gui_main(void)
             }
         }
 
-        gui_fb_flush();
+        if (krn_event_count() == 0) {
+            gui_fb_flush();
+        }
     }
 }

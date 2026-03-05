@@ -80,7 +80,6 @@ struct widget {
     int tag2;
 
     int active;
-    int pressed;
     int press_on_move_in;
     int press_sticky;
     int press_fixed;

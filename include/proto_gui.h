@@ -9,13 +9,16 @@ extern void gui_close_button_init(widget_st *button, window_st *window);
 extern void gui_drag_start(window_st *window, event_st event);
 extern void gui_drag_move(event_st event);
 extern void gui_drag_end(void);
+extern void gui_drag_draw_outline(void);
+extern void gui_drag_clear_outline(void);
 /* gui/fb.c */
 extern surface_st *gui_fb_vram_surface;
 extern void gui_fb_draw_start(void);
 extern void gui_fb_draw_end(void);
+extern void gui_fb_mark_dirty(rect_st rect);
 extern void gui_fb_draw_rect(rect_st rect, uint8_t color);
 extern void gui_fb_draw_surface(int dst_x, int dst_y, surface_st *src_sf, rect_st src_rect);
-extern void gui_fb_mark_dirty(rect_st rect);
+extern void gui_fb_draw_outline(rect_st rect);
 extern void gui_fb_flush(void);
 extern void gui_fb_init(void);
 /* gui/grid.c */
@@ -30,6 +33,7 @@ extern void gui_planar_flush(rect_st rect);
 extern void gui_planar_draw_rect(rect_st rect, uint8_t color);
 extern void gui_planar_draw_surface(int dst_x, int dst_y, surface_st *src, rect_st src_rect);
 extern void gui_planar_draw_bitmap(int dst_x, int dst_y, bitmap_st *bitmap);
+extern void gui_planar_xor_corners(rect_st rect);
 /* gui/pointer.c */
 extern void gui_pointer_draw(void);
 extern void gui_pointer_move(uint16_t x, uint16_t y);

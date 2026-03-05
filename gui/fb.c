@@ -15,7 +15,6 @@ static uint8_t gui_fb_pixels[GUI_WIDTH * GUI_HEIGHT] __attribute__((aligned(16))
 static surface_st gui_fb_surface = { 0 };
 #endif
 
-static rect_st screen_rect = { .width = GUI_WIDTH, .height = GUI_HEIGHT };
 static rect_st dirty_rect = { 0 };
 
 void
@@ -29,13 +28,20 @@ gui_fb_draw_end(void)
 }
 
 void
+gui_fb_mark_dirty(rect_st rect)
+{
+    static rect_st screen_rect = { .width = GUI_WIDTH, .height = GUI_HEIGHT };
+    dirty_rect = gui_rect_clip(gui_rect_enclose(dirty_rect, rect), screen_rect);
+}
+
+void
 gui_fb_draw_rect(rect_st rect, uint8_t color)
 {
-    #if GUI_PLANAR_MODE
-        gui_planar_draw_rect(rect, color);
-    #else
-        gui_surface_draw_rect(&gui_fb_surface, rect, color);
-    #endif
+#if GUI_PLANAR_MODE
+    gui_planar_draw_rect(rect, color);
+#else
+    gui_surface_draw_rect(&gui_fb_surface, rect, color);
+#endif
 
     gui_fb_mark_dirty(rect);
 }
@@ -53,9 +59,13 @@ gui_fb_draw_surface(int dst_x, int dst_y, surface_st *src_sf, rect_st src_rect)
 }
 
 void
-gui_fb_mark_dirty(rect_st rect)
+gui_fb_draw_outline(rect_st rect)
 {
-    dirty_rect = gui_rect_clip(gui_rect_enclose(dirty_rect, rect), screen_rect);
+#if GUI_PLANAR_MODE
+    gui_planar_xor_corners(rect);
+#else
+    gui_surface_draw_border(gui_fb_vram_surface, rect, COLOR_BLACK);
+#endif
 }
 
 void
@@ -64,6 +74,8 @@ gui_fb_flush(void)
     if (gui_rect_is_empty(dirty_rect)) {
         return;
     }
+
+    gui_drag_clear_outline();
 
     rect_st rect = dirty_rect;
     dirty_rect = (rect_st) { 0 };
@@ -75,6 +87,7 @@ gui_fb_flush(void)
 #endif
 
     gui_pointer_draw();
+    gui_drag_draw_outline();
 }
 
 void

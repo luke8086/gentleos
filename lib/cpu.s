@@ -57,6 +57,21 @@ outb:
     pop ebp
     ret
 
+global outw:function
+outw:
+    push ebp
+    mov ebp, esp
+    pusha
+
+    mov dx, [ebp + 12]
+    mov ax, [ebp + 8]
+    out dx, ax
+
+    popa
+    mov esp, ebp
+    pop ebp
+    ret
+
 global cpu_cpuid:function
 cpu_cpuid:
     push ebp

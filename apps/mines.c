@@ -107,12 +107,19 @@ draw_cell(widget_st *widget)
     uint8_t state = cell_state[col][row];
     uint8_t type = cell_type[col][row];
     rect_st rect = widget->rect;
+    int pressed = widget->window->pressed_widget == widget;
     char num_str[2] = { 0, 0 };
 
-    if (state == CELL_STATE_HIDDEN) {
-        gui_surface_draw_rect(window.surface, rect, COLOR_WINDOW_DARKER);
+    if (state == CELL_STATE_HIDDEN && !pressed) {
+        gui_surface_draw_rect(window.surface, rect, COLOR_WINDOW);
+        gui_surface_draw_h_seg(window.surface, rect.x, rect.y, rect.width, COLOR_WHITE);
+        gui_surface_draw_v_seg(window.surface, rect.x, rect.y, rect.height, COLOR_WHITE);
+    } else if (state == CELL_STATE_HIDDEN && pressed) {
+        gui_surface_draw_rect(window.surface, rect, COLOR_WINDOW);
     } else if (state == CELL_STATE_FLAGGED) {
-        gui_surface_draw_rect(window.surface, rect, COLOR_WINDOW_DARKER);
+        gui_surface_draw_rect(window.surface, rect, COLOR_WINDOW);
+        gui_surface_draw_h_seg(window.surface, rect.x, rect.y, rect.width, COLOR_WHITE);
+        gui_surface_draw_v_seg(window.surface, rect.x, rect.y, rect.height, COLOR_WHITE);
         gui_surface_draw_bitmap_centered(window.surface, rect, &bitmap_sprite_flag);
     } else if (state == CELL_STATE_REVEALED && type == CELL_TYPE_MINE) {
         gui_surface_draw_rect(window.surface, rect, COLOR_WINDOW);
@@ -275,6 +282,12 @@ reveal_cell(int col, int row)
 }
 
 static void
+handle_cell_pointer_down(widget_st *widget, event_st event _unsd, point_st pos _unsd)
+{
+    draw_cell(widget);
+}
+
+static void
 handle_cell_pointer_up(widget_st *widget, event_st event _unsd, point_st pos _unsd)
 {
     if (get_game_state() != GAME_STATE_PLAYING) {
@@ -348,6 +361,7 @@ init_grid(void)
         cell_widgets[i].rect = gui_grid_cell_rect(&grid, col, row);
         cell_widgets[i].draw = draw_cell;
         cell_widgets[i].tag1 = i;
+        cell_widgets[i].on_pointer_down = handle_cell_pointer_down;
         cell_widgets[i].on_pointer_up = handle_cell_pointer_up;
         cell_widgets[i].on_pointer_alt = handle_cell_pointer_alt;
 

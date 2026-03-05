@@ -20,20 +20,17 @@ static uint8_t **gui_planar_pixels = 0;
 static void
 gui_planar_set_write_plane(uint8_t plane_mask)
 {
-    outb(0x02, 0x3C4);
-    outb(plane_mask, 0x3C5);
+    outw(0x02 | (plane_mask << 8), 0x3C4);
 }
 
 void
 gui_planar_init(void)
 {
     // Set write mode 0
-    outb(0x05, 0x3CE);
-    outb(0x00, 0x3CF);
+    outw(0x0005, 0x3CE);
 
     // Set bit mask 0xFF
-    outb(0x08, 0x3CE);
-    outb(0xFF, 0x3CF);
+    outw(0xFF08, 0x3CE);
 }
 
 void

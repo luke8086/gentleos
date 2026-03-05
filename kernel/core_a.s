@@ -10,6 +10,7 @@ extern krn_core_c_isr_handle
 extern krn_core_mboot_info
 
 [bits 32]
+[cpu 386]
 
 ; ---------------------------------------------------------------------------------------
 ; Main entry point for the bootloader

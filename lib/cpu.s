@@ -5,6 +5,8 @@
 ; File: cpu.s - CPU-related functions in assembly
 ; ---------------------------------------------------------------------------------------
 
+[cpu 386]
+
 global cpu_get_eflags:function
 cpu_get_eflags:
     pushfd
@@ -97,7 +99,9 @@ cpu_cpuid:
     push edi
 
     mov eax, [ebp + 8]
+[cpu 586]
     cpuid
+[cpu 386]
 
     mov edi, [ebp + 12]
     mov [edi], ebx

@@ -116,9 +116,6 @@ struct window {
     size_t widgets_capacity;
     widget_st *pressed_widget;
 
-    int drag_active;
-    point_st drag_start;
-
     void (*render_region)(window_st *, rect_st reg);
     void (*on_pointer)(window_st *, event_st event);
     void (*on_key_down)(window_st *, event_st event);

@@ -162,3 +162,18 @@ gui_surface_draw_bitmap_centered(surface_st *surface, rect_st rect, bitmap_st *b
     gui_surface_draw_bitmap(surface, x, y, b);
 }
 
+void
+gui_surface_draw_pattern(surface_st *surface, rect_st reg,
+    bitmap_st *b, uint8_t col1, uint8_t col2)
+{
+    for (uint16_t y = reg.y; y < reg.y + reg.height; y++) {
+        for (uint16_t x = reg.x; x < reg.x + reg.width; x++) {
+            size_t src_pixel_no = ((y % b->size.height) * b->size.width) +
+                (x % b->size.width);
+            size_t dst_pixel_no = y * surface->pitch + x;
+            int src_bit = b->pixels[src_pixel_no];
+
+            surface->pixels[dst_pixel_no] = src_bit ? col1 : col2;
+        }
+    }
+}

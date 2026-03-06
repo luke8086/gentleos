@@ -118,6 +118,50 @@ gui_planar_draw_rect(rect_st rect, uint8_t color)
 }
 
 void
+gui_planar_draw_pattern(rect_st dst_rect, bitmap_st *pattern, uint8_t c1, uint8_t c2)
+{
+    int pat_w = pattern->size.width;
+    int pat_h = pattern->size.height;
+
+    uint8_t tile_pixels[pat_h * pat_w];
+
+    surface_st tile = {
+        .size = pattern->size,
+        .pitch = pat_w,
+        .pixels = tile_pixels,
+    };
+
+    for (int i = 0; i < pat_w * pat_h; ++i) {
+        tile_pixels[i] = pattern->pixels[i] ? c1 : c2;
+    }
+
+    int ofs_x = dst_rect.x % pat_w;
+    int ofs_y = dst_rect.y % pat_h;
+
+    rect_st src_rect;
+
+    for (int y = dst_rect.y; y < dst_rect.y + dst_rect.height; y += src_rect.height) {
+        src_rect.y = (y - dst_rect.y + ofs_y) % pat_h;
+
+        src_rect.height = pat_h - src_rect.y;
+        if (src_rect.height + y > dst_rect.y + dst_rect.height) {
+            src_rect.height = dst_rect.y + dst_rect.height - y;
+        }
+
+        for (int x = dst_rect.x; x < dst_rect.x + dst_rect.width; x += src_rect.width) {
+            src_rect.x = (x - dst_rect.x + ofs_x) % pat_w;
+
+            src_rect.width = pat_w - src_rect.x;
+            if (x + src_rect.width > dst_rect.x + dst_rect.width) {
+                src_rect.width = dst_rect.x + dst_rect.width - x;
+            }
+
+            gui_planar_draw_surface(x, y, &tile, src_rect);
+        }
+    }
+}
+
+void
 gui_planar_draw_surface(int dst_x, int dst_y, surface_st *src, rect_st src_rect)
 {
     if (src_rect.width <= 0 || src_rect.height <= 0) {

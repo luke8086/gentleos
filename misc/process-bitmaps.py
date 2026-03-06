@@ -101,7 +101,7 @@ def load_bitmap(path, palette):
 
 def main():
     palette = load_palette("misc/vga-256.gpl")
-    bitmap_files = glob.glob("bitmaps/*.bmp")
+    bitmap_files = sorted(glob.glob("bitmaps/*.bmp"))
     bitmaps = (load_bitmap(x, palette) for x in bitmap_files)
 
     lines = [

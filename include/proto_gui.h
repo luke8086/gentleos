@@ -17,6 +17,7 @@ extern void gui_fb_draw_start(void);
 extern void gui_fb_draw_end(void);
 extern void gui_fb_mark_dirty(rect_st rect);
 extern void gui_fb_draw_rect(rect_st rect, uint8_t color);
+extern void gui_fb_draw_pattern(rect_st rect, bitmap_st *pattern, uint8_t c1, uint8_t c2);
 extern void gui_fb_draw_surface(int dst_x, int dst_y, surface_st *src_sf, rect_st src_rect);
 extern void gui_fb_draw_outline(rect_st rect);
 extern void gui_fb_flush(void);
@@ -31,6 +32,7 @@ extern void gui_main(void);
 extern void gui_planar_init(void);
 extern void gui_planar_flush(rect_st rect);
 extern void gui_planar_draw_rect(rect_st rect, uint8_t color);
+extern void gui_planar_draw_pattern(rect_st rect, bitmap_st *pattern, uint8_t c1, uint8_t c2);
 extern void gui_planar_draw_surface(int dst_x, int dst_y, surface_st *src, rect_st src_rect);
 extern void gui_planar_draw_bitmap(int dst_x, int dst_y, bitmap_st *bitmap);
 extern void gui_planar_xor_corners(rect_st rect);
@@ -66,6 +68,7 @@ extern void gui_surface_draw_str(surface_st *surface, uint16_t x, uint16_t y, fo
 extern void gui_surface_draw_str_centered(surface_st *surface, rect_st rect, font_st *font, const char *s, uint8_t fg, uint8_t bg);
 extern void gui_surface_draw_bitmap(surface_st *surface, int dst_x, int dst_y, bitmap_st *bitmap);
 extern void gui_surface_draw_bitmap_centered(surface_st *surface, rect_st rect, bitmap_st *b);
+extern void gui_surface_draw_pattern(surface_st *surface, rect_st reg, bitmap_st *b, uint8_t col1, uint8_t col2);
 /* gui/timeout.c */
 extern void gui_timeout_remove(uint64_t id);
 extern int gui_timeout_add(uint32_t msecs, timeout_callback_fn callback, timeout_payload payload);
@@ -87,6 +90,7 @@ extern void gui_window_on_pointer_alt(window_st *window, event_st event);
 extern void gui_window_on_active_change(window_st *window);
 /* gui/wm.c */
 extern rect_st gui_wm_container;
+extern bitmap_st *gui_wm_bg_pattern;
 extern void gui_wm_toggle_window_active(window_st *w, int active);
 extern void gui_wm_raise_window(struct window *w);
 extern int gui_wm_add_window(struct window *w);

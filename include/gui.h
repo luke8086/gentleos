@@ -155,6 +155,7 @@ enum {
     COLOR_TEXT_ACTIVE = 0x00,
     COLOR_BUTTON_PRESSED = 0x00,
     COLOR_DESKTOP = 0x03,
+    COLOR_DESKTOP_2 = 0x09,
 };
 
 #else
@@ -171,6 +172,7 @@ enum {
     COLOR_TEXT_ACTIVE = 0x00,
     COLOR_BUTTON_PRESSED = 0x00,
     COLOR_DESKTOP = 0x7c,
+    COLOR_DESKTOP_2 = 0x7d,
 };
 
 #endif

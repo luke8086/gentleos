@@ -47,6 +47,18 @@ gui_fb_draw_rect(rect_st rect, uint8_t color)
 }
 
 void
+gui_fb_draw_pattern(rect_st rect, bitmap_st *pattern, uint8_t c1, uint8_t c2)
+{
+#if GUI_PLANAR_MODE
+    gui_planar_draw_pattern(rect, pattern, c1, c2);
+#else
+    gui_surface_draw_pattern(&gui_fb_surface, rect, pattern, c1, c2);
+#endif
+
+    gui_fb_mark_dirty(rect);
+}
+
+void
 gui_fb_draw_surface(int dst_x, int dst_y, surface_st *src_sf, rect_st src_rect)
 {
 #if GUI_PLANAR_MODE

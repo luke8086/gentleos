@@ -11,6 +11,7 @@ extern bitmap_st bitmap_icon_clock_a;
 extern bitmap_st bitmap_icon_tetris_a;
 extern bitmap_st bitmap_icon_colors_r;
 extern bitmap_st bitmap_icon_colors_a;
+extern bitmap_st bitmap_icon_github;
 extern bitmap_st bitmap_icon_fonts_a;
 extern bitmap_st bitmap_icon_fonts_r;
 extern bitmap_st bitmap_icon_calendar_a;

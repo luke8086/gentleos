@@ -61,6 +61,22 @@ draw_text_sm(int col, int row, const char *text)
 }
 
 static void
+draw_github_line(void)
+{
+    const char *text = "   luke8086/gentleos";
+
+    int col = (GRID_COLS - strlen(text)) / 2;
+    int line = GRID_ROWS - 2;
+
+    draw_text_sm(col, line, text);
+
+    rect_st r = gui_grid_cell_rect(&grid, col, line);
+    r.y -= 5;
+    r.size = bitmap_icon_github.size;
+    gui_surface_draw_bitmap_centered(window.surface, r, &bitmap_icon_github);
+}
+
+static void
 draw_info(void)
 {
     rect_st r = gui_grid_rect(&grid);
@@ -101,8 +117,7 @@ draw_info(void)
     draw_text_sm(LABEL_COL, line, "Avail:");
     draw_text_sm(VALUE_COL, line++, buf);
 
-    line++;
-    draw_text_sm(LABEL_COL, line++, "github.com/luke8086/gentleos");
+    draw_github_line();
 
     gui_wm_render_window_region(&window, r);
 }

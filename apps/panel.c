@@ -11,6 +11,7 @@ static app_st *apps[] = {
     &app_about,
     &app_clock,
     &app_calendar,
+    &app_calc,
     &app_fonts,
     &app_colors,
     &app_patterns,

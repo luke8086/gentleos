@@ -1,6 +1,8 @@
 /* data/data_bitmaps.c */
 extern bitmap_st bitmap_icon_about_a;
 extern bitmap_st bitmap_icon_about_r;
+extern bitmap_st bitmap_icon_calc_a;
+extern bitmap_st bitmap_icon_calc_r;
 extern bitmap_st bitmap_icon_calendar_a;
 extern bitmap_st bitmap_icon_calendar_r;
 extern bitmap_st bitmap_icon_clock_a;

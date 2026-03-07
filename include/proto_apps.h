@@ -1,5 +1,7 @@
 /* apps/about.c */
 extern app_st app_about;
+/* apps/calc.c */
+extern app_st app_calc;
 /* apps/calendar.c */
 extern app_st app_calendar;
 /* apps/clock.c */

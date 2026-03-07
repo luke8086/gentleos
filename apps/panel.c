@@ -151,9 +151,9 @@ static void
 init_nav_buttons(void)
 {
     prev_button.type = WIDGET_TYPE_BUTTON;
-    prev_button.rect.x = 0;
+    prev_button.rect.x = 1;
     prev_button.rect.y = WINDOW_HEIGHT - NAV_HEIGHT;
-    prev_button.rect.width = NAV_WIDTH;
+    prev_button.rect.width = NAV_WIDTH - 1;
     prev_button.rect.height = NAV_HEIGHT;
     prev_button.window = &window;
     prev_button.label = "<";

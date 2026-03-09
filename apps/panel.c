@@ -19,6 +19,7 @@ static app_st *apps[] = {
     &app_snake,
     &app_mines,
     &app_tetris,
+    &app_pairs,
 };
 
 #define APPS_COUNT (sizeof(apps) / sizeof(apps[0]))

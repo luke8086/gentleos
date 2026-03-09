@@ -12,6 +12,8 @@ extern app_st app_colors;
 extern app_st app_fonts;
 /* apps/mines.c */
 extern app_st app_mines;
+/* apps/pairs.c */
+extern app_st app_pairs;
 /* apps/panel.c */
 extern app_st app_panel;
 /* apps/patterns.c */

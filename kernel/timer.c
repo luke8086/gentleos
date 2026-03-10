@@ -17,7 +17,7 @@ volatile static uint32_t timer_msecs = 0;
 static void
 krn_timer_handle_intr(isr_stack_st *isr_stack __attribute__((unused)))
 {
-    timer_msecs += 50;
+    timer_msecs += 10;
 
     event_st event = {
         .type = EVENT_TIMER_TICK,
@@ -36,7 +36,7 @@ krn_timer_get_msecs(void)
 void
 krn_timer_init(void)
 {
-    uint8_t hz = 20;
+    uint8_t hz = 100;
     uint32_t div = 1193180 / hz;
 
     // Set Counter 0, write both LSB and MSB, use mode 3, binary counter

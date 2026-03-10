@@ -12,21 +12,23 @@ SECTIONS {
     .text : {
         krn_link_text_start = .;
         KEEP(*(.multiboot))
-        *(.text)
+        *(.text*)
     }
     krn_link_text_end = .;
 
     .data : {
         krn_link_data_start = .;
-        *(.data)
-        *(.rodata)
+        *(.data*)
+        *(.rodata*)
+        *(.got.plt)
         *(.eh_frame)
     }
     krn_link_data_end = .;
 
     .bss : ALIGN(0x1000) {
         krn_link_bss_start = .;
-        *(.bss)
+        *(.bss*)
+        *(COMMON)
     }
     krn_link_bss_end = .;
 

@@ -6,6 +6,7 @@
 // --------------------------------------------------------------------------------------
 
 #include <gui.h>
+#include "vga.h"
 
 enum {
     FB_PITCH = GUI_WIDTH / 8,
@@ -18,44 +19,6 @@ static uint8_t gui_planar_pixels[4][FB_PLANE_SIZE] __attribute__((aligned(16)));
 static uint8_t **gui_planar_pixels;
 #endif
 
-static inline void
-vga_set_write_planes(uint8_t plane_mask)
-{
-    outw((plane_mask << 8) | 0x02, 0x3C4);
-}
-
-static inline void
-vga_set_bit_mask(uint8_t mask)
-{
-    outw((mask << 8) | 0x08, 0x3CE);
-}
-
-static inline void
-vga_set_write_mode(uint8_t mode)
-{
-    outw((mode << 8) | 0x05, 0x3CE);
-}
-
-static inline void
-vga_set_logic_op(uint8_t op)
-{
-    outw((op << 8) | 0x03, 0x3CE);
-}
-
-static inline void
-vga_latch_write(volatile uint8_t *addr, uint8_t val)
-{
-    (void)*addr;
-    *addr = val;
-}
-
-void
-gui_planar_init(void)
-{
-    vga_set_write_mode(0);
-    vga_set_bit_mask(0xFF);
-}
-
 void
 gui_planar_flush(rect_st rect)
 {
@@ -65,7 +28,7 @@ gui_planar_flush(rect_st rect)
     int byte_count = (x1 - x0) / 8;
 
     for (int plane = 0; plane < 4; ++plane) {
-        vga_set_write_planes(1 << plane);
+        gui_vga_set_write_planes(1 << plane);
 
         for (int y = rect.y; y < rect.y + rect.height; ++y) {
             memcpy(
@@ -302,7 +265,7 @@ gui_planar_draw_bitmap(int dst_x, int dst_y, bitmap_st *bitmap)
     int dst_byte_count = (dst_r_x - dst_l_x) / 8;
 
     for (int plane = 0; plane < 4; ++plane) {
-        vga_set_write_planes(1 << plane);
+        gui_vga_set_write_planes(1 << plane);
 
         for (int row = 0; row < bmp_h; ++row) {
             int y = dst_y + row;
@@ -354,23 +317,23 @@ gui_planar_xor_h_seg(uint8_t *vram, int x, int y, int w)
     uint8_t *row = vram + y * FB_PITCH;
 
     if (l_byte == r_byte) {
-        vga_set_bit_mask(l_mask & r_mask);
-        vga_latch_write(&row[l_byte], 0xFF);
+        gui_vga_set_bit_mask(l_mask & r_mask);
+        gui_vga_latch_write(&row[l_byte], 0xFF);
         return;
     }
 
-    vga_set_bit_mask(l_mask);
-    vga_latch_write(&row[l_byte], 0xFF);
+    gui_vga_set_bit_mask(l_mask);
+    gui_vga_latch_write(&row[l_byte], 0xFF);
 
     if (r_byte > l_byte + 1) {
-        vga_set_bit_mask(0xFF);
+        gui_vga_set_bit_mask(0xFF);
         for (int b = l_byte + 1; b < r_byte; ++b) {
-            vga_latch_write(&row[b], 0xFF);
+            gui_vga_latch_write(&row[b], 0xFF);
         }
     }
 
-    vga_set_bit_mask(r_mask);
-    vga_latch_write(&row[r_byte], 0xFF);
+    gui_vga_set_bit_mask(r_mask);
+    gui_vga_latch_write(&row[r_byte], 0xFF);
 }
 
 // This must be only be called from gui_planar_xor_corners()
@@ -384,10 +347,10 @@ gui_planar_xor_v_seg(uint8_t *vram, int x, int y, int h)
     int x_byte = x / 8;
     uint8_t mask = 0x80 >> (x & 7);
 
-    vga_set_bit_mask(mask);
+    gui_vga_set_bit_mask(mask);
 
     for (int row = 0; row < h; ++row) {
-        vga_latch_write(vram + (y + row) * FB_PITCH + x_byte, 0xFF);
+        gui_vga_latch_write(vram + (y + row) * FB_PITCH + x_byte, 0xFF);
     }
 }
 
@@ -402,8 +365,8 @@ gui_planar_xor_corners(rect_st rect)
     int r_x = rect.x + rect.width - 1;
     int b_y = rect.y + rect.height - 1;
 
-    vga_set_write_planes(0x0F);
-    vga_set_logic_op(0x18);
+    gui_vga_set_write_planes(0x0F);
+    gui_vga_set_logic_op(0x18);
 
     // Top-left
     gui_planar_xor_h_seg(vram, l_x, t_y, arm);
@@ -421,6 +384,6 @@ gui_planar_xor_corners(rect_st rect)
     gui_planar_xor_h_seg(vram, r_x - arm + 1, b_y, arm);
     gui_planar_xor_v_seg(vram, r_x, b_y - arm + 1, arm - 1);
 
-    vga_set_logic_op(0x00);
-    vga_set_bit_mask(0xFF);
+    gui_vga_set_logic_op(0x00);
+    gui_vga_set_bit_mask(0xFF);
 }

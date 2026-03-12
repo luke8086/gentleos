@@ -21,6 +21,7 @@ gui_main(void)
 
     while (1) {
         if (krn_event_count() == 0) {
+            cpu_hlt();
             continue;
         }
 

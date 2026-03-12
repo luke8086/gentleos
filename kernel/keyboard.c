@@ -45,6 +45,11 @@ krn_keyboard_handle_intr(isr_stack_st *isr_stack __attribute__((unused)))
     int evtype;
 
     scan = inb(PS2_PORT_DATA);
+
+    if (scan == 0xe0) {
+        return;
+    }
+
     evtype = scan & 0x80 ? EVENT_KEY_UP : EVENT_KEY_DOWN,
     scan = scan & 0x7f;
 

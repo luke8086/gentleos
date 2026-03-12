@@ -29,7 +29,6 @@ extern void gui_grid_draw_background(grid_st *grid, window_st *window, uint8_t c
 /* gui/main.c */
 extern void gui_main(void);
 /* gui/planar.c */
-extern void gui_planar_init(void);
 extern void gui_planar_flush(rect_st rect);
 extern void gui_planar_draw_rect(rect_st rect, uint8_t color);
 extern void gui_planar_draw_pattern(rect_st dst_rect, bitmap_st *pattern, uint8_t c1, uint8_t c2);

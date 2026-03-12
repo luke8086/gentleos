@@ -20,6 +20,8 @@ enum {
 
     WINDOW_WIDTH = GRID_X + GRID_WIDTH + 1,
     WINDOW_HEIGHT = GRID_Y + GRID_HEIGHT + 1,
+
+    TIMEOUT_DURATION = 120,
 };
 
 static uint8_t window_pixels[WINDOW_WIDTH * WINDOW_HEIGHT];
@@ -182,7 +184,7 @@ on_timeout(void *unused _unsd)
         return;
     }
 
-    timeout_id = gui_timeout_add(70, on_timeout, NULL);
+    timeout_id = gui_timeout_add(TIMEOUT_DURATION, on_timeout, NULL);
 
     coords_st next_head = move_head(*body.head);
 
@@ -217,7 +219,7 @@ static void
 on_active_change(window_st *window)
 {
     if (window->active) {
-        timeout_id = gui_timeout_add(70, on_timeout, NULL);
+        timeout_id = gui_timeout_add(TIMEOUT_DURATION, on_timeout, NULL);
     } else if (timeout_id) {
         gui_timeout_remove(timeout_id);
     }

@@ -62,15 +62,45 @@ static int score = 0;
 static int best_score = 0;
 static uint64_t timeout_id = 0;
 
+static void on_timeout(void *);
+
+static int
+is_game_paused(void)
+{
+    return timeout_id == 0;
+}
+
 static void
 update_status(void)
 {
-    char status[100];
+    const char *msg = is_game_paused() ? "  \xb3  Press 'p' to resume" : "";
 
-    snprintf(status, sizeof(status), "Length: %d  Score: %d  Best: %d",
-        body.tail - body.head + 1, score, best_score);
+    gui_status_set("Score: %d  Best: %d%s", score, best_score, msg);
+}
 
-    gui_status_set(status);
+static void
+pause_game(void)
+{
+    if (is_game_paused()) {
+        return;
+    }
+
+    gui_timeout_remove(timeout_id);
+    timeout_id = 0;
+
+    update_status();
+}
+
+static void
+resume_game(void)
+{
+    if (!is_game_paused()) {
+        return;
+    }
+
+    timeout_id = gui_timeout_add(TIMEOUT_DURATION, on_timeout, NULL);
+
+    update_status();
 }
 
 static void
@@ -164,17 +194,7 @@ restart_game(void)
     draw_board();
     add_fruit();
     update_status();
-}
-
-static void
-on_keyboard(window_st *window _unsd, event_st event)
-{
-    int key = event.key_code;
-
-    if (key == KEY_UP && prev_dir != DIR_DOWN) next_dir = DIR_UP;
-    else if (key == KEY_DOWN && prev_dir != DIR_UP) next_dir = DIR_DOWN;
-    else if (key == KEY_LEFT && prev_dir != DIR_RIGHT) next_dir = DIR_LEFT;
-    else if (key == KEY_RIGHT && prev_dir != DIR_LEFT) next_dir = DIR_RIGHT;
+    resume_game();
 }
 
 static void
@@ -209,24 +229,41 @@ on_timeout(void *unused _unsd)
 
     move_snake(next_head);
 
-    if (next_block == CELL_FRUIT)
+    if (next_block == CELL_FRUIT) {
         add_fruit();
+    }
 
     prev_dir = next_dir;
+}
+
+static void
+on_keyboard(window_st *window _unsd, event_st event)
+{
+    if (event.key_char == 'p') {
+        if (is_game_paused()) {
+            resume_game();
+        } else {
+            pause_game();
+        }
+        return;
+    }
+
+    int key = event.key_code;
+
+    if (key == KEY_UP && prev_dir != DIR_DOWN) next_dir = DIR_UP;
+    else if (key == KEY_DOWN && prev_dir != DIR_UP) next_dir = DIR_DOWN;
+    else if (key == KEY_LEFT && prev_dir != DIR_RIGHT) next_dir = DIR_LEFT;
+    else if (key == KEY_RIGHT && prev_dir != DIR_LEFT) next_dir = DIR_RIGHT;
 }
 
 static void
 on_active_change(window_st *window)
 {
     if (window->active) {
-        timeout_id = gui_timeout_add(TIMEOUT_DURATION, on_timeout, NULL);
-    } else if (timeout_id) {
-        gui_timeout_remove(timeout_id);
+        update_status();
+    } else {
+        pause_game();
     }
-
-    window->title = window->active ? "Snake" : "Snake (paused)";
-    gui_widget_draw(&title_bar);
-    update_status();
 }
 
 static void

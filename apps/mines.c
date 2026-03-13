@@ -388,8 +388,7 @@ show_app(void)
 }
 
 app_st app_mines = {
-    .panel_icon_r = &bitmap_icon_mines_r,
-    .panel_icon_a = &bitmap_icon_mines_a,
+    .icon = &bitmap_icon_mines,
     .show = show_app,
 };
 

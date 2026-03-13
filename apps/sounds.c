@@ -185,7 +185,6 @@ show_app(void)
 }
 
 app_st app_sounds = {
-    .panel_icon_r = &bitmap_icon_sounds_r,
-    .panel_icon_a = &bitmap_icon_sounds_a,
+    .icon = &bitmap_icon_sounds,
     .show = show_app,
 };

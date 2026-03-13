@@ -168,7 +168,6 @@ show_app(void)
 }
 
 app_st app_about = {
-    .panel_icon_r = &bitmap_icon_about_r,
-    .panel_icon_a = &bitmap_icon_about_a,
+    .icon = &bitmap_icon_about,
     .show = show_app,
 };

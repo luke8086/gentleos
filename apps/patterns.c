@@ -269,7 +269,6 @@ show_app(void)
 }
 
 app_st app_patterns = {
-    .panel_icon_r = &bitmap_icon_patterns_r,
-    .panel_icon_a = &bitmap_icon_patterns_a,
+    .icon = &bitmap_icon_patterns,
     .show = show_app,
 };

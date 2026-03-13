@@ -313,7 +313,6 @@ show_app(void)
 }
 
 app_st app_snake = {
-    .panel_icon_r = &bitmap_icon_snake_r,
-    .panel_icon_a = &bitmap_icon_snake_a,
+    .icon = &bitmap_icon_snake,
     .show = show_app,
 };

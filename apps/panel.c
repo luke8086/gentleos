@@ -68,8 +68,7 @@ set_page(int page)
             continue;
         }
 
-        app_buttons[i].bitmap_regular = apps[app_idx]->panel_icon_r;
-        app_buttons[i].bitmap_pressed = apps[app_idx]->panel_icon_a;
+        app_buttons[i].bitmap = apps[app_idx]->icon;
         app_buttons[i].tag1 = app_idx;
         app_buttons[i].hidden = 0;
 

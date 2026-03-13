@@ -268,8 +268,7 @@ show_app(void)
 }
 
 app_st app_calc = {
-    .panel_icon_r = &bitmap_icon_calc_r,
-    .panel_icon_a = &bitmap_icon_calc_a,
+    .icon = &bitmap_icon_calc,
     .show = show_app,
 };
 

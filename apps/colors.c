@@ -129,7 +129,6 @@ show_app(void)
 }
 
 app_st app_colors = {
-    .panel_icon_r = &bitmap_icon_colors_r,
-    .panel_icon_a = &bitmap_icon_colors_a,
+    .icon = &bitmap_icon_colors,
     .show = show_app,
 };

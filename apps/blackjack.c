@@ -411,7 +411,6 @@ show_app(void)
 }
 
 app_st app_blackjack = {
-    .panel_icon_r = &bitmap_icon_blackjack_r,
-    .panel_icon_a = &bitmap_icon_blackjack_a,
+    .icon = &bitmap_icon_blackjack,
     .show = show_app,
 };

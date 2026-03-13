@@ -44,11 +44,11 @@ gui_button_draw(widget_st *widget)
         is_pressed ? COLOR_BUTTON_PRESSED : COLOR_WINDOW
     );
 
-    if (widget->bitmap_regular && widget->bitmap_pressed) {
+    if (widget->bitmap) {
         gui_surface_draw_bitmap_centered(
             widget->window->surface,
             rect,
-            is_pressed ? widget->bitmap_pressed : widget->bitmap_regular,
+            widget->bitmap,
             is_pressed ? COLOR_WINDOW : COLOR_TEXT_ACTIVE
         );
     } else if (widget->label) {

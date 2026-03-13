@@ -96,9 +96,7 @@ struct widget {
 
     const char *label;
     font_st *font;
-
-    bitmap_st *bitmap_regular;
-    bitmap_st *bitmap_pressed;
+    bitmap_st *bitmap;
 };
 
 struct window {
@@ -133,9 +131,7 @@ typedef struct {
 } grid_st;
 
 typedef struct {
-    bitmap_st *panel_icon_r;
-    bitmap_st *panel_icon_a;
-
+    bitmap_st *icon;
     void (*show)(void);
 } app_st;
 

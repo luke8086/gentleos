@@ -307,8 +307,6 @@ show_app(void)
 
 
 app_st app_calendar = {
-    .panel_icon_r = &bitmap_icon_calendar_r,
-    .panel_icon_a = &bitmap_icon_calendar_a,
-
+    .icon = &bitmap_icon_calendar,
     .show = show_app,
 };

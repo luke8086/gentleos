@@ -403,7 +403,6 @@ show_app(void)
 }
 
 app_st app_tetris = {
-    .panel_icon_r = &bitmap_icon_tetris_r,
-    .panel_icon_a = &bitmap_icon_tetris_a,
+    .icon = &bitmap_icon_tetris,
     .show = show_app,
 };

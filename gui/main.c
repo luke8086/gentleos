@@ -21,7 +21,9 @@ gui_main(void)
 
     while (1) {
         if (krn_event_count() == 0) {
+            krn_timer_is_cpu_idle = 1;
             cpu_hlt();
+            krn_timer_is_cpu_idle = 0;
             continue;
         }
 

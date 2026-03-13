@@ -10,7 +10,7 @@
 enum {
     GRID_CELL_WIDTH = 7,
     GRID_CELL_HEIGHT = 15,
-    GRID_ROWS = 12,
+    GRID_ROWS = 13,
     GRID_COLS = 33,
     GRID_CELLS_COUNT = (GRID_ROWS * GRID_COLS),
     GRID_WIDTH = GRID_WIDTH_SPACED(GRID_CELL_WIDTH, GRID_COLS),
@@ -61,6 +61,20 @@ draw_text_sm(int col, int row, const char *text)
 }
 
 static void
+draw_cpu_usage(void)
+{
+    static char buf[8];
+    snprintf(buf, sizeof(buf), "%u%%   ", krn_timer_get_cpu_usage());
+
+    rect_st r = gui_grid_cell_rect(&grid, VALUE_COL, 6);
+    gui_surface_draw_str(window.surface, r.x, r.y, font_8x8,
+        buf, COLOR_TEXT_ACTIVE, COLOR_WINDOW);
+
+    r.width = (sizeof(buf) - 1) * 8;
+    gui_wm_render_window_region(&window, r);
+}
+
+static void
 draw_github_line(void)
 {
     const char *text = "   luke8086/gentleos";
@@ -105,6 +119,9 @@ draw_info(void)
     snprintf(buf, sizeof(buf), "%s", krn_system_get_cpu_vendor());
     draw_text_sm(LABEL_COL, line, "CPU:");
     draw_text_sm(VALUE_COL, line++, buf);
+
+    draw_text_sm(LABEL_COL, line++, "Busy:");
+    draw_cpu_usage();
 
     snprintf(buf, sizeof(buf), "%u KB", krn_system_get_total_mem() >> 10);
     draw_text_sm(LABEL_COL, line, "Mem:");
@@ -152,6 +169,16 @@ init_grid(void)
 }
 
 static void
+on_timeout(void *unused _unsd)
+{
+    if (window.visible) {
+        draw_cpu_usage();
+    }
+
+    gui_timeout_add(1000, on_timeout, NULL);
+}
+
+static void
 show_app(void)
 {
     static int initialized = 0;
@@ -159,6 +186,7 @@ show_app(void)
     if (!initialized) {
         init_window();
         init_grid();
+        on_timeout(NULL);
         initialized = 1;
     }
 

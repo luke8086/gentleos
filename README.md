@@ -25,7 +25,7 @@ A hobby operating system for vintage 32-bit PCs
 - cproto (for rebuilding includes)
 - util-linux (for rebuilding disk image)
 - GRUB (for rebuilding disk image)
-- Python (for processing bitmaps)
+- Python with PIL library (for processing images)
 
 ## Building
 

@@ -4,6 +4,8 @@ import re
 import os
 import glob
 
+from PIL import Image
+
 def load_palette(path):
     ignored = ['GIMP Palette', 'Name:', 'Columns:', '#']
     split_rex = r'\s+'
@@ -30,46 +32,22 @@ def load_palette(path):
     return ret
 
 def load_pixels(path):
-    with open(path, "rb") as f:
-        assert f.read(2) == b'BM', "Not a BMP file"
-        f.read(4) # size
-        f.read(4) # reserved
-        bf_off_bits = int.from_bytes(f.read(4), 'little')
+    img = Image.open(path).convert("RGB")
+    width, height = img.size
+    data = img.load()
 
-        bi_size = int.from_bytes(f.read(4), 'little')
-        assert bi_size == 40, f"Unsupported DIB header size in {path}"
+    rows = []
+    for y in range(height):
+        row = []
+        for x in range(width):
+            r, g, b = data[x, y]
+            row.append((r << 16) | (g << 8) | b)
+        rows.append(row)
 
-        width = int.from_bytes(f.read(4), 'little', signed=True)
-        height = int.from_bytes(f.read(4), 'little', signed=True)
-        planes = int.from_bytes(f.read(2), 'little')
-        bits_per_pixel = int.from_bytes(f.read(2), 'little')
-        compression = int.from_bytes(f.read(4), 'little')
-        f.read(12) # Skip biSizeImage, biXPelsPerMeter, biYPelsPerMeter
-        f.read(8) # Skip biClrUsed, biClrImportant
+    return rows
 
-        assert planes == 1 and bits_per_pixel == 24 and compression == 0, "Only 24‑bit uncompressed BMP supported"
-
-        row_padding = (4 - (width * 3) % 4) % 4 # rows are 4‑byte aligned
-        top_down = height < 0 # BMP stores rows bottom‑to‑top; if height <0 it’s top‑to‑bottom
-
-        f.seek(bf_off_bits)
-
-        rows = []
-        for _ in range(abs(height)):
-            row = []
-            for _ in range(width):
-                b, g, r = f.read(3)
-                row.append((r << 16) | (g << 8) | b)
-            f.read(row_padding) # discard padding
-            rows.append(row)
-
-        if not top_down:
-            rows.reverse()
-
-        return rows
-
-def load_bitmap(path, palette):
-    print(f"Loading bitmap: {path}")
+def load_image(path, palette):
+    print(f"Loading image: {path}")
     name = os.path.splitext(os.path.basename(path))[0]
     alpha = int(0x56)
     pixels = load_pixels(path)
@@ -102,7 +80,7 @@ def load_bitmap(path, palette):
 def main():
     palette = load_palette("misc/vga-256.gpl")
     bitmap_files = sorted(glob.glob("bitmaps/*.bmp"))
-    bitmaps = (load_bitmap(x, palette) for x in bitmap_files)
+    bitmaps = (load_image(x, palette) for x in bitmap_files)
 
     lines = [
         '#include <gui.h>',

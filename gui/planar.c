@@ -239,8 +239,9 @@ gui_planar_draw_surface(int dst_x, int dst_y, surface_st *src, rect_st src_rect)
 }
 
 void
-gui_planar_draw_bitmap(int dst_x, int dst_y, bitmap_st *bitmap)
+gui_planar_draw_pointer(int dst_x, int dst_y)
 {
+    bitmap_st *bitmap = &bitmap_pointer;
     uint8_t alpha = bitmap->alpha;
 
     int bmp_w = bitmap->size.width;

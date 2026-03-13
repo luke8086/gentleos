@@ -33,7 +33,7 @@ extern void gui_planar_flush(rect_st rect);
 extern void gui_planar_draw_rect(rect_st rect, uint8_t color);
 extern void gui_planar_draw_pattern(rect_st dst_rect, bitmap_st *pattern, uint8_t c1, uint8_t c2);
 extern void gui_planar_draw_surface(int dst_x, int dst_y, surface_st *src, rect_st src_rect);
-extern void gui_planar_draw_bitmap(int dst_x, int dst_y, bitmap_st *bitmap);
+extern void gui_planar_draw_pointer(int dst_x, int dst_y);
 extern void gui_planar_xor_corners(rect_st rect);
 /* gui/pointer.c */
 extern void gui_pointer_draw(void);

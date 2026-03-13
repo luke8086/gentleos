@@ -8,16 +8,20 @@
 #include <gui.h>
 #include "vga.h"
 
+#if GUI_PLANAR_MODE
+static const uint8_t gui_vga_dac_indexes[16] = {
+    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x14, 0x07,
+    0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
+};
+#endif
+
 void
 gui_vga_set_color(int index, uint32_t rgb)
 {
     uint8_t dac_index = index;
 
 #if GUI_PLANAR_MODE
-    // In planar mode, resolve the real DAC index via the attribute controller
-    inb(0x3DA);
-    outb(index | 0x20, 0x3C0);
-    dac_index = inb(0x3C1);
+    dac_index = gui_vga_dac_indexes[index & 0x0F];
 #endif
 
     outb(dac_index, 0x3C8);

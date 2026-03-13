@@ -53,14 +53,49 @@ static size_t score;
 static size_t best_score;
 static uint64_t timeout_id;
 
+static void on_timeout(void *);
+
+static int
+is_game_paused(void)
+{
+    return timeout_id == 0;
+}
+
 static void
 update_status(void)
 {
+    const char *paused_msg = is_game_paused() ? "  \xb3  Press 'p' to resume" : "";
+
     if (game_over) {
         gui_status_set("Game Over!  Score: %u  Best: %u", score, best_score);
     } else {
-        gui_status_set("Score: %u  Best: %u", score, best_score);
+        gui_status_set("Score: %u  Best: %u%s", score, best_score, paused_msg);
     }
+}
+
+static void
+pause_game(void)
+{
+    if (is_game_paused()) {
+        return;
+    }
+
+    gui_timeout_remove(timeout_id);
+    timeout_id = 0;
+
+    update_status();
+}
+
+static void
+resume_game(void)
+{
+    if (!is_game_paused()) {
+        return;
+    }
+
+    timeout_id = gui_timeout_add(DROP_INTERVAL, on_timeout, NULL);
+
+    update_status();
 }
 
 static void
@@ -246,6 +281,7 @@ restart_game(void)
     }
 
     spawn_piece();
+    resume_game();
     update_status();
 }
 
@@ -277,6 +313,19 @@ on_keyboard(window_st *w _unsd, event_st event)
         return;
     }
 
+    if (event.key_char == 'p') {
+        if (is_game_paused()) {
+            resume_game();
+        } else {
+            pause_game();
+        }
+        return;
+    }
+
+    if (is_game_paused()) {
+        return;
+    }
+
     if (event.key_code == KEY_LEFT) {
         move_current_piece(0, -1, 0);
     } else if (event.key_code == KEY_RIGHT) {
@@ -296,15 +345,10 @@ static void
 on_active_change(window_st *win)
 {
     if (win->active) {
-        timeout_id = gui_timeout_add(DROP_INTERVAL, on_timeout, NULL);
-    } else if (timeout_id) {
-        gui_timeout_remove(timeout_id);
-        timeout_id = 0;
+        update_status();
+    } else {
+        pause_game();
     }
-
-    win->title = win->active ? "Tetris" : "Tetris (p)";
-    gui_widget_draw(&title_bar);
-    update_status();
 }
 
 static void

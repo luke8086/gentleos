@@ -33,7 +33,6 @@ gui_vga_set_color(int index, uint32_t rgb)
 void
 gui_vga_init(void)
 {
-    gui_vga_set_color(0x07, 0xb0b0b0);
     gui_vga_set_color(0x09, 0x3366aa);
     gui_vga_set_color(0x0e, 0xffcc00);
 

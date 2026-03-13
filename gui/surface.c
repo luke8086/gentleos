@@ -119,9 +119,11 @@ gui_surface_draw_str_centered(surface_st *surface, rect_st rect,
 }
 
 void
-gui_surface_draw_bitmap(surface_st *surface, int dst_x, int dst_y, bitmap_st *bitmap)
+gui_surface_draw_bitmap(surface_st *surface, int dst_x, int dst_y, bitmap_st *bitmap,
+    uint8_t fill)
 {
-    char alpha = (char)bitmap->alpha;
+    uint8_t alpha = (uint8_t)bitmap->alpha;
+    uint8_t foreground = (uint8_t)bitmap->foreground;
 
     rect_st src_rect = {
         .x = 0,
@@ -148,18 +150,20 @@ gui_surface_draw_bitmap(surface_st *surface, int dst_x, int dst_y, bitmap_st *bi
             size_t src_pixel_no = i * bitmap->size.width + j;
             size_t dst_pixel_no = (dst_x + j) + (dst_y + i) * surface->pitch;
 
-            surface->pixels[dst_pixel_no] = bitmap->pixels[src_pixel_no];
+            uint8_t pixel = bitmap->pixels[src_pixel_no];
+            surface->pixels[dst_pixel_no] = (pixel == foreground) ? fill : pixel;
         }
     }
 }
 
 void
-gui_surface_draw_bitmap_centered(surface_st *surface, rect_st rect, bitmap_st *b)
+gui_surface_draw_bitmap_centered(surface_st *surface, rect_st rect, bitmap_st *bitmap,
+    uint8_t fill)
 {
-    int x = rect.x + (rect.width - b->size.width) / 2;
-    int y = rect.y + (rect.height - b->size.height) / 2;
+    int x = rect.x + (rect.width - bitmap->size.width) / 2;
+    int y = rect.y + (rect.height - bitmap->size.height) / 2;
 
-    gui_surface_draw_bitmap(surface, x, y, b);
+    gui_surface_draw_bitmap(surface, x, y, bitmap, fill);
 }
 
 void

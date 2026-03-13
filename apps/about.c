@@ -73,7 +73,8 @@ draw_github_line(void)
     rect_st r = gui_grid_cell_rect(&grid, col, line);
     r.y -= 5;
     r.size = bitmap_icon_github.size;
-    gui_surface_draw_bitmap_centered(window.surface, r, &bitmap_icon_github);
+    gui_surface_draw_bitmap_centered(window.surface, r, &bitmap_icon_github,
+        COLOR_TEXT_ACTIVE);
 }
 
 static void

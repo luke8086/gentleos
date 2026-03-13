@@ -120,10 +120,12 @@ draw_cell(widget_st *widget)
         gui_surface_draw_rect(window.surface, rect, COLOR_WINDOW);
         gui_surface_draw_h_seg(window.surface, rect.x, rect.y, rect.width, COLOR_WHITE);
         gui_surface_draw_v_seg(window.surface, rect.x, rect.y, rect.height, COLOR_WHITE);
-        gui_surface_draw_bitmap_centered(window.surface, rect, &bitmap_sprite_flag);
+        gui_surface_draw_bitmap_centered(window.surface, rect, &bitmap_sprite_flag,
+            COLOR_TEXT_ACTIVE);
     } else if (state == CELL_STATE_REVEALED && type == CELL_TYPE_MINE) {
         gui_surface_draw_rect(window.surface, rect, COLOR_WINDOW);
-        gui_surface_draw_bitmap_centered(window.surface, rect, &bitmap_sprite_mine);
+        gui_surface_draw_bitmap_centered(window.surface, rect, &bitmap_sprite_mine,
+            COLOR_TEXT_ACTIVE);
     } else if (state == CELL_STATE_REVEALED && type == CELL_TYPE_EMPTY) {
         gui_surface_draw_rect(window.surface, rect, COLOR_WINDOW);
     } else if (state == CELL_STATE_REVEALED) {

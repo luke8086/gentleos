@@ -65,8 +65,8 @@ extern void gui_surface_draw_rect(surface_st *surface, rect_st r, uint8_t color)
 extern void gui_surface_draw_char(surface_st *surface, uint16_t x, uint16_t y, font_st *font, uint8_t ch, uint8_t fg, uint8_t bg);
 extern void gui_surface_draw_str(surface_st *surface, uint16_t x, uint16_t y, font_st *font, const char *s, uint8_t fg, uint8_t bg);
 extern void gui_surface_draw_str_centered(surface_st *surface, rect_st rect, font_st *font, const char *s, uint8_t fg, uint8_t bg);
-extern void gui_surface_draw_bitmap(surface_st *surface, int dst_x, int dst_y, bitmap_st *bitmap);
-extern void gui_surface_draw_bitmap_centered(surface_st *surface, rect_st rect, bitmap_st *b);
+extern void gui_surface_draw_bitmap(surface_st *surface, int dst_x, int dst_y, bitmap_st *bitmap, uint8_t fill);
+extern void gui_surface_draw_bitmap_centered(surface_st *surface, rect_st rect, bitmap_st *bitmap, uint8_t fill);
 extern void gui_surface_draw_pattern(surface_st *surface, rect_st reg, bitmap_st *b, uint8_t col1, uint8_t col2);
 /* gui/timeout.c */
 extern void gui_timeout_remove(uint64_t id);

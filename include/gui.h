@@ -50,6 +50,7 @@ typedef struct {
 
 typedef struct {
     size_st size;
+    int foreground;
     int alpha;
     const uint8_t *pixels;
 } bitmap_st;

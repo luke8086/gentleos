@@ -68,6 +68,7 @@ def load_image(path, palette):
     lines = [
         f"bitmap_st bitmap_{name} = {{",
         f"    .size = {{ .width = {width}, .height = {height} }},",
+        f"    .foreground = 0x00,",
         f"    .alpha = {hex(alpha)},",
         f"    .pixels = (uint8_t *)",
         *pixel_lines,

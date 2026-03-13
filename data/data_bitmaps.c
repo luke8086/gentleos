@@ -2,6 +2,7 @@
 
 bitmap_st bitmap_icon_about_a = {
     .size = { .width = 24, .height = 27 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07" \
@@ -35,6 +36,7 @@ bitmap_st bitmap_icon_about_a = {
 
 bitmap_st bitmap_icon_about_r = {
     .size = { .width = 24, .height = 27 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" \
@@ -68,6 +70,7 @@ bitmap_st bitmap_icon_about_r = {
 
 bitmap_st bitmap_icon_blackjack_a = {
     .size = { .width = 26, .height = 32 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x56\x56\x56\x56" \
@@ -106,6 +109,7 @@ bitmap_st bitmap_icon_blackjack_a = {
 
 bitmap_st bitmap_icon_blackjack_r = {
     .size = { .width = 26, .height = 32 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56" \
@@ -144,6 +148,7 @@ bitmap_st bitmap_icon_blackjack_r = {
 
 bitmap_st bitmap_icon_calc_a = {
     .size = { .width = 20, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07" \
@@ -176,6 +181,7 @@ bitmap_st bitmap_icon_calc_a = {
 
 bitmap_st bitmap_icon_calc_r = {
     .size = { .width = 20, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" \
@@ -208,6 +214,7 @@ bitmap_st bitmap_icon_calc_r = {
 
 bitmap_st bitmap_icon_calendar_a = {
     .size = { .width = 26, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x07\x07\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x07\x07\x56\x56\x56\x56" \
@@ -240,6 +247,7 @@ bitmap_st bitmap_icon_calendar_a = {
 
 bitmap_st bitmap_icon_calendar_r = {
     .size = { .width = 26, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x00\x00\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x00\x00\x56\x56\x56\x56" \
@@ -272,6 +280,7 @@ bitmap_st bitmap_icon_calendar_r = {
 
 bitmap_st bitmap_icon_clock_a = {
     .size = { .width = 22, .height = 22 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07" \
@@ -300,6 +309,7 @@ bitmap_st bitmap_icon_clock_a = {
 
 bitmap_st bitmap_icon_clock_r = {
     .size = { .width = 22, .height = 22 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" \
@@ -328,6 +338,7 @@ bitmap_st bitmap_icon_clock_r = {
 
 bitmap_st bitmap_icon_colors_a = {
     .size = { .width = 26, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x56\x56\x07\x07\x07\x07\x07\x07\x07\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -360,6 +371,7 @@ bitmap_st bitmap_icon_colors_a = {
 
 bitmap_st bitmap_icon_colors_r = {
     .size = { .width = 26, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x56\x56\x00\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -392,6 +404,7 @@ bitmap_st bitmap_icon_colors_r = {
 
 bitmap_st bitmap_icon_fonts_a = {
     .size = { .width = 22, .height = 20 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x56\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07" \
@@ -418,6 +431,7 @@ bitmap_st bitmap_icon_fonts_a = {
 
 bitmap_st bitmap_icon_fonts_r = {
     .size = { .width = 22, .height = 20 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x56\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" \
@@ -444,6 +458,7 @@ bitmap_st bitmap_icon_fonts_r = {
 
 bitmap_st bitmap_icon_github = {
     .size = { .width = 16, .height = 16 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56\x56" \
@@ -466,6 +481,7 @@ bitmap_st bitmap_icon_github = {
 
 bitmap_st bitmap_icon_mines_a = {
     .size = { .width = 26, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x07\x07\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -498,6 +514,7 @@ bitmap_st bitmap_icon_mines_a = {
 
 bitmap_st bitmap_icon_mines_r = {
     .size = { .width = 26, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x00\x00\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -530,6 +547,7 @@ bitmap_st bitmap_icon_mines_r = {
 
 bitmap_st bitmap_icon_pairs_a = {
     .size = { .width = 26, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07" \
@@ -562,6 +580,7 @@ bitmap_st bitmap_icon_pairs_a = {
 
 bitmap_st bitmap_icon_pairs_bear = {
     .size = { .width = 28, .height = 24 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x00\x00\x00\x00\x56\x56\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x56\x56\x00\x00\x00\x00\x56\x56" \
@@ -592,6 +611,7 @@ bitmap_st bitmap_icon_pairs_bear = {
 
 bitmap_st bitmap_icon_pairs_bot = {
     .size = { .width = 30, .height = 27 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -625,6 +645,7 @@ bitmap_st bitmap_icon_pairs_bot = {
 
 bitmap_st bitmap_icon_pairs_butterfly = {
     .size = { .width = 28, .height = 23 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x00\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x00\x00\x00\x00\x00\x00\x00" \
@@ -654,6 +675,7 @@ bitmap_st bitmap_icon_pairs_butterfly = {
 
 bitmap_st bitmap_icon_pairs_cat = {
     .size = { .width = 23, .height = 25 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x00\x00\x56\x56\x56\x56\x56\x56\x56\x00\x00" \
@@ -685,6 +707,7 @@ bitmap_st bitmap_icon_pairs_cat = {
 
 bitmap_st bitmap_icon_pairs_elephant = {
     .size = { .width = 32, .height = 23 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x00\x00\x00\x00\x00\x00\x00\x00\x00\x56\x56\x56\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56\x56\x56\x56" \
@@ -714,6 +737,7 @@ bitmap_st bitmap_icon_pairs_elephant = {
 
 bitmap_st bitmap_icon_pairs_fish = {
     .size = { .width = 28, .height = 24 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -744,6 +768,7 @@ bitmap_st bitmap_icon_pairs_fish = {
 
 bitmap_st bitmap_icon_pairs_ghost = {
     .size = { .width = 20, .height = 24 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56" \
@@ -774,6 +799,7 @@ bitmap_st bitmap_icon_pairs_ghost = {
 
 bitmap_st bitmap_icon_pairs_r = {
     .size = { .width = 26, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" \
@@ -806,6 +832,7 @@ bitmap_st bitmap_icon_pairs_r = {
 
 bitmap_st bitmap_icon_pairs_rabbit = {
     .size = { .width = 25, .height = 23 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x56\x00\x00\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -835,6 +862,7 @@ bitmap_st bitmap_icon_pairs_rabbit = {
 
 bitmap_st bitmap_icon_pairs_snake = {
     .size = { .width = 28, .height = 28 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56\x56\x56" \
@@ -869,6 +897,7 @@ bitmap_st bitmap_icon_pairs_snake = {
 
 bitmap_st bitmap_icon_pairs_turtle = {
     .size = { .width = 30, .height = 23 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x56\x56\x00\x00\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -898,6 +927,7 @@ bitmap_st bitmap_icon_pairs_turtle = {
 
 bitmap_st bitmap_icon_patterns_a = {
     .size = { .width = 28, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07" \
@@ -930,6 +960,7 @@ bitmap_st bitmap_icon_patterns_a = {
 
 bitmap_st bitmap_icon_patterns_r = {
     .size = { .width = 28, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" \
@@ -962,6 +993,7 @@ bitmap_st bitmap_icon_patterns_r = {
 
 bitmap_st bitmap_icon_snake_a = {
     .size = { .width = 28, .height = 20 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x56\x56\x56\x56\x56\x56" \
@@ -988,6 +1020,7 @@ bitmap_st bitmap_icon_snake_a = {
 
 bitmap_st bitmap_icon_snake_r = {
     .size = { .width = 28, .height = 20 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56\x56\x56" \
@@ -1014,6 +1047,7 @@ bitmap_st bitmap_icon_snake_r = {
 
 bitmap_st bitmap_icon_sounds_a = {
     .size = { .width = 24, .height = 15 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07" \
@@ -1035,6 +1069,7 @@ bitmap_st bitmap_icon_sounds_a = {
 
 bitmap_st bitmap_icon_sounds_r = {
     .size = { .width = 24, .height = 15 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" \
@@ -1056,6 +1091,7 @@ bitmap_st bitmap_icon_sounds_r = {
 
 bitmap_st bitmap_icon_tetris_a = {
     .size = { .width = 18, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x07\x07\x07\x07\x07\x07\x07\x07\x07\x07\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -1088,6 +1124,7 @@ bitmap_st bitmap_icon_tetris_a = {
 
 bitmap_st bitmap_icon_tetris_r = {
     .size = { .width = 18, .height = 26 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -1120,6 +1157,7 @@ bitmap_st bitmap_icon_tetris_r = {
 
 bitmap_st bitmap_pattern_1 = {
     .size = { .width = 16, .height = 16 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x00\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -1142,6 +1180,7 @@ bitmap_st bitmap_pattern_1 = {
 
 bitmap_st bitmap_pattern_2 = {
     .size = { .width = 16, .height = 16 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -1164,6 +1203,7 @@ bitmap_st bitmap_pattern_2 = {
 
 bitmap_st bitmap_pattern_3 = {
     .size = { .width = 16, .height = 16 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x00\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -1186,6 +1226,7 @@ bitmap_st bitmap_pattern_3 = {
 
 bitmap_st bitmap_pattern_4 = {
     .size = { .width = 16, .height = 16 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x00\x00\x00\x56\x56\x56\x00\x56\x56\x56\x00\x00\x00\x00\x00\x00" \
@@ -1208,6 +1249,7 @@ bitmap_st bitmap_pattern_4 = {
 
 bitmap_st bitmap_pattern_5 = {
     .size = { .width = 16, .height = 16 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -1230,6 +1272,7 @@ bitmap_st bitmap_pattern_5 = {
 
 bitmap_st bitmap_pattern_6 = {
     .size = { .width = 16, .height = 16 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x00\x00\x00\x00\x00\x00\x00\x00\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -1252,6 +1295,7 @@ bitmap_st bitmap_pattern_6 = {
 
 bitmap_st bitmap_pattern_7 = {
     .size = { .width = 16, .height = 16 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x56\x56\x00\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -1274,6 +1318,7 @@ bitmap_st bitmap_pattern_7 = {
 
 bitmap_st bitmap_pointer = {
     .size = { .width = 11, .height = 15 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x00\x56\x56\x56\x56\x56\x56\x56\x56\x56\x56" \
@@ -1295,6 +1340,7 @@ bitmap_st bitmap_pointer = {
 
 bitmap_st bitmap_sprite_flag = {
     .size = { .width = 8, .height = 10 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x00\x00\x00\x00\x56\x56\x56\x56" \
@@ -1311,6 +1357,7 @@ bitmap_st bitmap_sprite_flag = {
 
 bitmap_st bitmap_sprite_mine = {
     .size = { .width = 11, .height = 11 },
+    .foreground = 0x00,
     .alpha = 0x56,
     .pixels = (uint8_t *)
         "\x56\x56\x56\x56\x56\x00\x56\x56\x56\x56\x56" \

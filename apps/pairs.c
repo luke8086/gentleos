@@ -102,7 +102,8 @@ draw_button(widget_st *widget)
         gui_surface_draw_rect(window.surface, rect, COLOR_WINDOW);
     } else {
         gui_surface_draw_rect(window.surface, rect, COLOR_WINDOW);
-        gui_surface_draw_bitmap_centered(window.surface, rect, icons[button_icons[idx]]);
+        gui_surface_draw_bitmap_centered(window.surface, rect, icons[button_icons[idx]],
+            COLOR_TEXT_ACTIVE);
     }
 
     gui_wm_render_window_region(&window, rect);

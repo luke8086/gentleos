@@ -48,7 +48,8 @@ gui_button_draw(widget_st *widget)
         gui_surface_draw_bitmap_centered(
             widget->window->surface,
             rect,
-            is_pressed ? widget->bitmap_pressed : widget->bitmap_regular
+            is_pressed ? widget->bitmap_pressed : widget->bitmap_regular,
+            is_pressed ? COLOR_WINDOW : COLOR_TEXT_ACTIVE
         );
     } else if (widget->label) {
         gui_surface_draw_str_centered(

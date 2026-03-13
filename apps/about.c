@@ -91,10 +91,6 @@ draw_info(void)
     draw_text_lg((GRID_COLS - strlen(title)) / 2, line++, title);
     line++;
 
-    snprintf(buf, sizeof(buf), "%s", krn_system_get_cpu_vendor());
-    draw_text_sm(LABEL_COL, line, "CPU:");
-    draw_text_sm(VALUE_COL, line++, buf);
-
     if (m->flags & 0x04) {
         snprintf(buf, sizeof(buf), "%s", m->boot_loader_name);
         draw_text_sm(LABEL_COL, line, "Boot:");
@@ -103,6 +99,10 @@ draw_info(void)
 
     snprintf(buf, sizeof(buf), "%dx%dx%d", m->fb_width, m->fb_height, 1 << m->fb_bpp);
     draw_text_sm(LABEL_COL, line, "Display:");
+    draw_text_sm(VALUE_COL, line++, buf);
+
+    snprintf(buf, sizeof(buf), "%s", krn_system_get_cpu_vendor());
+    draw_text_sm(LABEL_COL, line, "CPU:");
     draw_text_sm(VALUE_COL, line++, buf);
 
     snprintf(buf, sizeof(buf), "%u KB", krn_system_get_total_mem() >> 10);

@@ -284,6 +284,13 @@ pf_cprintf(const char *fmt, struct pf_config *c)
         // PF_STATE_FLAGS
         //
 
+        // Handle '%%'
+        if (c->state == PF_STATE_FLAGS && ch == '%') {
+            pf_emit(c, '%');
+            c->state = PF_STATE_DEFAULT;
+            continue;
+        }
+
         // Handle flag '0'
         if (c->state == PF_STATE_FLAGS && ch == '0') {
             c->zpad = 1;

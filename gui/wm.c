@@ -72,6 +72,7 @@ gui_wm_add_window(struct window *w)
 
     for (i = 0; i < WINDOWS_COUNT_MAX; ++i) {
         if (gui_wm_windows[i] == w) {
+            gui_wm_raise_window(w);
             return 0;
         }
 

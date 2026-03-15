@@ -42,6 +42,18 @@ static size_t current_font = 0;
 static grid_st grid;
 
 static void
+update_status(void)
+{
+    if (!active_char_button) {
+        gui_status_set("");
+        return;
+    }
+
+    gui_status_set("hex:%02x dec:%03d", active_char_button->tag2,
+        active_char_button->tag2);
+}
+
+static void
 draw_char_button(widget_st *widget)
 {
     char str[2] = { widget->tag2 ? widget->tag2 : ' ', 0 };
@@ -126,8 +138,16 @@ on_char_button_press(widget_st *widget, event_st event _unsd, point_st pos _unsd
     }
 
     gui_widget_draw(active_char_button);
-    gui_status_set("hex:%02x dec:%03d", active_char_button->tag2,
-        active_char_button->tag2);
+
+    update_status();
+}
+
+static void
+on_active_change(window_st *window)
+{
+    if (window->active) {
+        update_status();
+    }
 }
 
 static void
@@ -143,6 +163,7 @@ init_window(void)
     window.bg_color = COLOR_WINDOW;
     window.widgets = widgets;
     window.widgets_capacity = sizeof(widgets) / sizeof(widgets[0]);
+    window.on_active_change = on_active_change;
 
     gui_window_init_frame(&window, &title_bar, &close_button);
 }

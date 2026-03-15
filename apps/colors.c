@@ -37,6 +37,17 @@ static widget_st *widgets[GRID_CELLS_COUNT + 2];
 static grid_st grid;
 
 static void
+update_status(void)
+{
+    if (!active_color_button) {
+        gui_status_set("");
+        return;
+    };
+
+    gui_status_set("hex:%02x dec:%03d", active_color_button->tag2,
+        active_color_button->tag2);
+}
+static void
 on_color_button_press(widget_st *widget, event_st event _unsd, point_st pos _unsd)
 {
     widget_st *prev_active_color_button = active_color_button;
@@ -52,8 +63,8 @@ on_color_button_press(widget_st *widget, event_st event _unsd, point_st pos _uns
     }
 
     gui_widget_draw(active_color_button);
-    gui_status_set("hex:%02x dec:%03d", active_color_button->tag2,
-        active_color_button->tag2);
+
+    update_status();
 }
 
 static void
@@ -73,6 +84,14 @@ draw_color_button(widget_st *widget)
 }
 
 static void
+on_active_change(window_st *window)
+{
+    if (window->active) {
+        update_status();
+    }
+}
+
+static void
 init_window(void)
 {
     window_surface.size.width = WINDOW_WIDTH;
@@ -85,6 +104,7 @@ init_window(void)
     window.bg_color = COLOR_BLACK;
     window.widgets = widgets;
     window.widgets_capacity = sizeof(widgets) / sizeof(widgets[0]);
+    window.on_active_change = on_active_change;
 
     gui_window_init_frame(&window, &title_bar, &close_button);
 }

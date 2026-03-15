@@ -209,6 +209,14 @@ on_cell_pointer_up(widget_st *widget, event_st event _unsd, point_st pos _unsd)
 }
 
 static void
+on_active_change(window_st *window)
+{
+    if (window->active) {
+        update_status();
+    }
+}
+
+static void
 init_window(void)
 {
     window_surface.size.width = WINDOW_WIDTH;
@@ -221,6 +229,7 @@ init_window(void)
     window.bg_color = COLOR_BORDER;
     window.widgets = widgets;
     window.widgets_capacity = sizeof(widgets) / sizeof(widgets[0]);
+    window.on_active_change = on_active_change;
 
     gui_window_init_frame(&window, &title_bar, &close_button);
 }

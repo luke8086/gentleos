@@ -150,7 +150,7 @@ update_display(void)
 }
 
 static void
-handle_button_press(widget_st *widget, event_st event _unsd, point_st pos _unsd)
+on_button_press(widget_st *widget, event_st event _unsd, point_st pos _unsd)
 {
     gui_button_on_pointer_up(widget, event, pos);
 
@@ -245,7 +245,7 @@ init_buttons(void)
             button->window = &window;
             button->label = button_labels[idx];
             button->font = font_8x16;
-            button->on_pointer_up = handle_button_press;
+            button->on_pointer_up = on_button_press;
 
             gui_window_add_widget(&window, button);
         }

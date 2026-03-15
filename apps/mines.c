@@ -284,13 +284,13 @@ reveal_cell(int col, int row)
 }
 
 static void
-handle_cell_pointer_down(widget_st *widget, event_st event _unsd, point_st pos _unsd)
+on_cell_pointer_down(widget_st *widget, event_st event _unsd, point_st pos _unsd)
 {
     draw_cell(widget);
 }
 
 static void
-handle_cell_pointer_up(widget_st *widget, event_st event _unsd, point_st pos _unsd)
+on_cell_pointer_up(widget_st *widget, event_st event _unsd, point_st pos _unsd)
 {
     if (get_game_state() != GAME_STATE_PLAYING) {
         restart_game();
@@ -309,7 +309,7 @@ handle_cell_pointer_up(widget_st *widget, event_st event _unsd, point_st pos _un
 }
 
 static void
-handle_cell_pointer_alt(widget_st *widget, event_st event _unsd, point_st pos _unsd)
+on_cell_pointer_alt(widget_st *widget, event_st event _unsd, point_st pos _unsd)
 {
     if (get_game_state() != GAME_STATE_PLAYING) {
         return;
@@ -363,9 +363,9 @@ init_grid(void)
         cell_widgets[i].rect = gui_grid_cell_rect(&grid, col, row);
         cell_widgets[i].draw = draw_cell;
         cell_widgets[i].tag1 = i;
-        cell_widgets[i].on_pointer_down = handle_cell_pointer_down;
-        cell_widgets[i].on_pointer_up = handle_cell_pointer_up;
-        cell_widgets[i].on_pointer_alt = handle_cell_pointer_alt;
+        cell_widgets[i].on_pointer_down = on_cell_pointer_down;
+        cell_widgets[i].on_pointer_up = on_cell_pointer_up;
+        cell_widgets[i].on_pointer_alt = on_cell_pointer_alt;
 
         gui_window_add_widget(&window, &cell_widgets[i]);
     }

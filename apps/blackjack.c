@@ -319,7 +319,7 @@ player_hit(void)
 }
 
 static void
-handle_hit_button(widget_st *widget, event_st event, point_st pos)
+on_hit_button(widget_st *widget, event_st event, point_st pos)
 {
     gui_button_on_pointer_up(widget, event, pos);
 
@@ -329,7 +329,7 @@ handle_hit_button(widget_st *widget, event_st event, point_st pos)
 }
 
 static void
-handle_stand_button(widget_st *widget, event_st event, point_st pos)
+on_stand_button(widget_st *widget, event_st event, point_st pos)
 {
     gui_button_on_pointer_up(widget, event, pos);
 
@@ -339,7 +339,7 @@ handle_stand_button(widget_st *widget, event_st event, point_st pos)
 }
 
 static void
-handle_deal_button(widget_st *widget, event_st event, point_st pos)
+on_deal_button(widget_st *widget, event_st event, point_st pos)
 {
     gui_button_on_pointer_up(widget, event, pos);
 
@@ -373,14 +373,14 @@ init_buttons(void)
     hit_button.type = WIDGET_TYPE_BUTTON;
     hit_button.rect = gui_rect_make(BUTTON_HIT_X, BUTTONS_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
     hit_button.label = "Hit";
-    hit_button.on_pointer_up = handle_hit_button;
+    hit_button.on_pointer_up = on_hit_button;
     gui_window_add_widget(&window, &hit_button);
 
     stand_button.type = WIDGET_TYPE_BUTTON;
     stand_button.rect = gui_rect_make(BUTTON_STAND_X, BUTTONS_Y, BUTTON_WIDTH,
         BUTTON_HEIGHT);
     stand_button.label = "Stand";
-    stand_button.on_pointer_up = handle_stand_button;
+    stand_button.on_pointer_up = on_stand_button;
     gui_window_add_widget(&window, &stand_button);
 
     deal_button.type = WIDGET_TYPE_BUTTON;
@@ -388,7 +388,7 @@ init_buttons(void)
         BUTTON_HEIGHT);
     deal_button.label = "Deal";
     deal_button.hidden = 1;
-    deal_button.on_pointer_up = handle_deal_button;
+    deal_button.on_pointer_up = on_deal_button;
     gui_window_add_widget(&window, &deal_button);
 }
 

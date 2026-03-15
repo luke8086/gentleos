@@ -153,7 +153,7 @@ restart_game(void)
 }
 
 static void
-handle_mismatch_timeout(timeout_payload payload _unsd)
+on_mismatch_timeout(timeout_payload payload _unsd)
 {
     hide_icon(first_pick);
     first_pick = -1;
@@ -167,7 +167,7 @@ handle_mismatch_timeout(timeout_payload payload _unsd)
 }
 
 static void
-handle_cell_pointer_up(widget_st *widget, event_st event _unsd, point_st pos _unsd)
+on_cell_pointer_up(widget_st *widget, event_st event _unsd, point_st pos _unsd)
 {
     if (matched_count == PAIR_COUNT) {
         restart_game();
@@ -202,7 +202,7 @@ handle_cell_pointer_up(widget_st *widget, event_st event _unsd, point_st pos _un
         matched_count++;
     } else {
         waiting = 1;
-        gui_timeout_add(MISMATCH_DELAY, handle_mismatch_timeout, NULL);
+        gui_timeout_add(MISMATCH_DELAY, on_mismatch_timeout, NULL);
     }
 
     update_status();
@@ -243,7 +243,7 @@ init_grid(void)
         buttons[i].rect = gui_grid_cell_rect(&grid, col, row);
         buttons[i].tag1 = i;
         buttons[i].draw = draw_button;
-        buttons[i].on_pointer_up = handle_cell_pointer_up;
+        buttons[i].on_pointer_up = on_cell_pointer_up;
         buttons[i].hide_border = 1;
 
         gui_window_add_widget(&window, &buttons[i]);

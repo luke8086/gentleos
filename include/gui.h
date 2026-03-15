@@ -150,7 +150,7 @@ enum {
     COLOR_TEXT_ACTIVE = 0x00,
     COLOR_BUTTON_PRESSED = 0x00,
     COLOR_DESKTOP = 0x03,
-    COLOR_DESKTOP_2 = 0x03,
+    COLOR_DESKTOP_ALT = 0x01,
 };
 
 enum {

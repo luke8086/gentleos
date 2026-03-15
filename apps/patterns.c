@@ -132,7 +132,7 @@ on_color1_button_press(widget_st *widget, event_st event _unsd, point_st pos _un
     widget_st *prev = active_color1_button;
     active_color1_button = widget;
 
-    gui_wm_bg_color1 = widget->tag2;
+    gui_wm_desktop_color = widget->tag2;
 
     if (prev && prev != widget) {
         gui_widget_draw(prev);
@@ -149,7 +149,7 @@ on_color2_button_press(widget_st *widget, event_st event _unsd, point_st pos _un
     widget_st *prev = active_color2_button;
     active_color2_button = widget;
 
-    gui_wm_bg_color2 = widget->tag2;
+    gui_wm_desktop_alt_color = widget->tag2;
 
     if (prev && prev != widget) {
         gui_widget_draw(prev);
@@ -239,11 +239,11 @@ select_active_buttons(void)
     }
 
     for (int i = 0; i < COLOR_COUNT; i++) {
-        if (gui_wm_bg_color1 == i) {
+        if (gui_wm_desktop_color == i) {
             active_color1_button = &color1_buttons[i];
         }
 
-        if (gui_wm_bg_color2 == i) {
+        if (gui_wm_desktop_alt_color == i) {
             active_color2_button = &color2_buttons[i];
         }
     }

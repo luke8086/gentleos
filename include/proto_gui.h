@@ -93,8 +93,8 @@ extern void gui_window_on_active_change(window_st *window);
 /* gui/wm.c */
 extern rect_st gui_wm_container;
 extern bitmap_st *gui_wm_bg_pattern;
-extern uint8_t gui_wm_bg_color1;
-extern uint8_t gui_wm_bg_color2;
+extern uint8_t gui_wm_desktop_color;
+extern uint8_t gui_wm_desktop_alt_color;
 extern void gui_wm_toggle_window_active(window_st *w, int active);
 extern void gui_wm_raise_window(struct window *w);
 extern int gui_wm_add_window(struct window *w);

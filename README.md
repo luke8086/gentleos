@@ -11,15 +11,15 @@ A hobby operating system for vintage 32-bit PCs
 ### Building
 
 - GNU Make
-- Clang (supporting i386 targets)
-- Binutils (supporting i386 targets)
+- Clang (supporting i486 targets)
+- Binutils (supporting i486 targets)
 - NASM
 - Mtools
 
 ### Running
 
-- An i386-capable emulator (preferably QEMU)
-- An i386 PC with BIOS (no guarantees, try at your own risk)
+- An i486-capable emulator (preferably QEMU)
+- An i486+ PC with BIOS (no guarantees, try at your own risk)
 
 ### Development
 

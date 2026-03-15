@@ -3,7 +3,8 @@
 A hobby operating system for vintage 32-bit PCs
 
 <img src="misc/screenshot-01.png" width="320"> <img src="misc/screenshot-02.png" width="320">
-<img src="misc/screenshot-03.jpg" width="320">
+<img src="misc/screenshot-03.png" width="320"> <img src="misc/screenshot-t4800ct.jpg" width="320">
+<img src="misc/screenshot-380z.jpg" width="320"> <img src="misc/screenshot-t2130ct.jpg" width="320">
 
 ## Requirements
 

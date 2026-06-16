@@ -57,6 +57,8 @@ global void
 krn_event_wait(event_st *out)
 {
     while (1) {
+        krn_keyboard_handle_bios();
+
         if (krn_event_count() > 0 && krn_event_pop(out) == 0) {
             break;
         }

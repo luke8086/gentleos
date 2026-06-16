@@ -109,6 +109,23 @@ krn_keyboard_handle_intr(void)
 }
 
 global void
+krn_keyboard_handle_bios(void)
+{
+    event_st ev;
+    key_st key;
+
+    while ((key.encoded = bios_get_key()) != 0) {
+        ev.payload = key.encoded;
+
+        ev.type = EVENT_KEY_DOWN;
+        (void)krn_event_push(&ev);
+
+        ev.type = EVENT_KEY_UP;
+        (void)krn_event_push(&ev);
+    }
+}
+
+global void
 krn_keyboard_init(void)
 {
     krn_debug_printf("Initializing keyboard... ");

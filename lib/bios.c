@@ -54,6 +54,33 @@ bios_getc(void)
     return regs.x.ax;
 }
 
+global uint16_t
+bios_get_key(void)
+{
+    regs_st regs;
+    key_st key;
+
+    regs.h.ah = 0x01;
+    intr(0x16, &regs);
+
+    if (regs.x.flags & 0x40) {
+        return 0;
+    }
+
+    regs.h.ah = 0x00;
+    intr(0x16, &regs);
+    key.p.code = regs.h.ah;
+
+    regs.h.ah = 0x02;
+    intr(0x16, &regs);
+    key.p.mods =
+        (KEY_MOD_SHIFT * ((regs.h.al & 0x03) != 0)) |
+        (KEY_MOD_CTRL  * ((regs.h.al & 0x04) != 0)) |
+        (KEY_MOD_ALT   * ((regs.h.al & 0x08) != 0));
+
+    return key.encoded;
+}
+
 global void
 bios_uart_init(void)
 {

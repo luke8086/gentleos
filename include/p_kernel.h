@@ -17,6 +17,7 @@ extern void krn_heap_init(void);
 /* kernel/keyboard.c */
 extern uint16_t krn_keyboard_getc(void);
 extern void krn_keyboard_handle_intr(void);
+extern void krn_keyboard_handle_bios(void);
 extern void krn_keyboard_init(void);
 extern void krn_keyboard_deinit(void);
 /* kernel/main.c */

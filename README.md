@@ -69,6 +69,11 @@ All apps running on Tandy 1100FD (NEC V20 CPU, 640KB RAM, 640x200 STN LCD):
   sourced from https://github.com/luizbills/font4x6
   ([LICENSE](vendor/font4x6/LICENSE.txt))
 
+## Contributors
+
+-  Alexander Rau ([l00nix](https://github.com/l00nix)) -
+   Tested and made a release for [HP 200LX](https://github.com/l00nix/gentleos-hp200lx)
+
 ## License
 
 Except where otherwise noted, GentleOS/16 is licensed under [GPLv2](LICENSE).

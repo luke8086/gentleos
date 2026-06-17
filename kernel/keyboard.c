@@ -130,6 +130,11 @@ krn_keyboard_init(void)
 {
     krn_debug_printf("Initializing keyboard... ");
 
+    if (USE_BIOS_KEYBOARD) {
+        krn_debug_printf("ok (bios)\n");
+        return;
+    }
+
     krn_get_isr(0x09, &saved_isr_handler);
     krn_set_isr(0x09, krn_main_segment, (uint16_t)(uint32_t)&krn_isr_keyboard);
 
@@ -139,5 +144,9 @@ krn_keyboard_init(void)
 global void
 krn_keyboard_deinit(void)
 {
+    if (USE_BIOS_KEYBOARD) {
+        return;
+    }
+
     krn_set_isr(0x09, saved_isr_handler.seg, saved_isr_handler.ofs);
 }

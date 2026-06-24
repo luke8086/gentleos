@@ -1,50 +1,42 @@
 # GentleOS/16
 
-A hobby operating system for vintage 16-bit PCs.
+A hobby operating system for vintage 16-bit PCs,
+built for tinkering with old hardware on the bare metal.
 
-Its goal is to provide a simple platform for tinkering with retro
-hardware and running graphical interactive apps on bare metal.
+You can find more information on its [website](https://luke8086.dev/gentleos16).
 
-At minimum, it only requires an 8086+ CPU, 192 KB of RAM, and a CGA display
-supporting 320x200x4 mode.
+It's a simplified version of [GentleOS/32](https://github.com/luke8086/gentleos32),
+targetting i386+ devices.
 
-By design it's entirely monolithic, mostly configured at compile time,
-and only supports standard PC devices: CGA/VGA, keyboard, PC speaker.
-The only future plans are bugfixes, optimizations, and adding more apps.
+## Building
 
-GentleOS/16 is a sibling of [GentleOS/32](https://github.com/luke8086/gentleos32),
-a slightly more advanced 32-bit OS that targets i386+ devices.
+The only prerequisite is [DOSBox](https://www.dosbox.com/), the
+entire toolchain (OpenWatcom, NASM, Perl) is included in the repo.
 
-For details on building and running, see [USAGE.md](USAGE.md).
+To build GentleOS, start DOSBox from the source directory and run
+the following commands:
 
-<img src="doc/machimg/t1100fd.webp" width="400">
+```dos
+Z:\>MOUNT C .
+Z:\>C:
+C:\>ENV
+C:\>AUTOGEN
+C:\>WMAKE
+```
 
-## Gallery
+## Development notes
 
-Amstrad PPC 512 (NEC V30 CPU, 512KB RAM, 640x200 STN LCD):
+- The official compiler is [OpenWatcom 1.9](https://www.openwatcom.org/),
+  because it can be freely distributed, but
+  [Turbo C 2.01](https://duckduckgo.com/?q=Turbo+C+2x)
+  is also supported and it's much faster.
+  You can install it to `C:\TMP\TC` and use with `WMAKE TC=1`
 
-<img src="doc/machimg/ppc512.webp" width="360"> <img src="doc/machimg/ppc512-2.webp" width="360">
+- For faster compilation, you can try setting `cycles=fixed 99999`
+  in the `[cpu]` section of your DOSBox config file
 
-All apps running on Tandy 1100FD (NEC V20 CPU, 640KB RAM, 640x200 STN LCD):
-
-<p>
-  <img src="doc/appimg/launcher.webp" width="240">
-  <img src="doc/appimg/clock.webp" width="240">
-  <img src="doc/appimg/calendar.webp" width="240">
-  <img src="doc/appimg/calc.webp" width="240">
-  <img src="doc/appimg/fonts.webp" width="240">
-  <img src="doc/appimg/keys.webp" width="240">
-  <img src="doc/appimg/sounds.webp" width="240">
-  <img src="doc/appimg/mines.webp" width="240">
-  <img src="doc/appimg/pairs.webp" width="240">
-  <img src="doc/appimg/mahjong.webp" width="240">
-  <img src="doc/appimg/snake.webp" width="240">
-  <img src="doc/appimg/tetris.webp" width="240">
-  <img src="doc/appimg/freecell.webp" width="240">
-  <img src="doc/appimg/klondike.webp" width="240">
-  <img src="doc/appimg/bjack.webp" width="240">
-  <img src="doc/appimg/setup.webp" width="240">
-</p>
+- For a quick turnaround, GentleOS can be started as a COM file
+  with `BUILD\GENTLEOS.COM`. Pressing `Shift-Q` returns back to DOS.
 
 ## Attributions
 

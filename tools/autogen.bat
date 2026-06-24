@@ -1,3 +1,4 @@
+perl tools/mkcfg.pl
 perl tools/mkbuild.pl
 perl tools/fixlns.pl
 perl tools/mkdata.pl

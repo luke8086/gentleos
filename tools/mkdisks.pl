@@ -31,7 +31,7 @@ sub make_disk {
     my ($path, $size) = @_;
     my $boot1 = pad(slurp("build/boot1/boot1.bin"), 512);
     my $boot2 = pad(slurp("build/boot2/boot2.com"), 2048);
-    my $kernel = slurp("build/kernel.com");
+    my $kernel = slurp("build/gentleos.com");
     my $image = pad($boot1 . $boot1 . $boot2 . $kernel, $size);
 
     print "Creating $path... ";

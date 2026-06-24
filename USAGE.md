@@ -78,4 +78,4 @@ use `BUILD/FD720.IMG` or `BUILD/FD1440.IMG` as raw disk images.
   in the `[cpu]` section of your DOSBox config file
 
 - For a quick turnaround, GentleOS can be started as a COM file
-  with `BUILD\KERNEL.COM`. Pressing `Shift-Q` returns back to DOS.
+  with `BUILD\GENTLEOS.COM`. Pressing `Shift-Q` returns back to DOS.

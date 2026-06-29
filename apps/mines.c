@@ -348,8 +348,8 @@ move_cursor(int dx, int dy)
     int prev_col = current_col;
     int prev_row = current_row;
 
-    current_col = (current_col + dx) % grid.cols;
-    current_row = (current_row + dy) % grid.rows;
+    current_col = (current_col + dx + grid.cols) % grid.cols;
+    current_row = (current_row + dy + grid.rows) % grid.rows;
 
     draw_cursor(prev_col, prev_row, gui_color_bg);
     draw_cursor(current_col, current_row, gui_color_fg);

@@ -10,26 +10,26 @@
 static uint16_t rand_seed = 1;
 
 global void
-rand_init(void)
+rand_add_entropy(uint16_t seed)
 {
-	time_st t;
+    rand_seed ^= seed;
 
-	time_get(&t);
-
-    rand_seed = ((uint16_t)t.second << 8) | t.minute;
+    if (!rand_seed) {
+        ++rand_seed;
+    }
 }
 
 global uint16_t
 rand(void)
 {
     /* See https://en.wikipedia.org/wiki/Xorshift */
-	uint16_t x = rand_seed;
+    uint16_t x = rand_seed;
 
-	x ^= x << 7;
-	x ^= x >> 9;
-	x ^= x << 8;
+    x ^= x << 7;
+    x ^= x >> 9;
+    x ^= x << 8;
 
-	rand_seed = x;
+    rand_seed = x;
 
-	return x;
+    return x;
 }

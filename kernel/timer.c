@@ -40,6 +40,19 @@ krn_timer_get_msecs(void)
     return timer_msecs;
 }
 
+global uint16_t
+krn_timer_get_counter_0(void)
+{
+    uint8_t lo, hi;
+
+    /* Latch counter 0 and read the snapshot */
+    outb(0x00, PIT_CWR);
+    lo = inb(PIT_CR0);
+    hi = inb(PIT_CR0);
+
+    return ((uint16_t)hi << 8) | lo;
+}
+
 global void
 krn_timer_init(void)
 {

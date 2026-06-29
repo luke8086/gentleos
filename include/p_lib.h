@@ -22,7 +22,7 @@ extern int append32(int32_t *out, int32_t a, int32_t d);
 extern int vsnprintf(char *buf, size_t nbyte, const char *fmt, va_list va);
 extern int snprintf(char *buf, size_t nbyte, const char *fmt, ...);
 /* lib/rand.c */
-extern void rand_init(void);
+extern void rand_add_entropy(uint16_t seed);
 extern uint16_t rand(void);
 /* lib/sleep.c */
 extern void sleep(uint32_t msecs);

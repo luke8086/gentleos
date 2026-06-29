@@ -47,7 +47,6 @@ krn_main(void)
     krn_keyboard_init();
     krn_timer_init();
     krn_rtc_init();
-    rand_init();
 
 #if MANUAL_START
     krn_debug_printf("Press any key to continue...");

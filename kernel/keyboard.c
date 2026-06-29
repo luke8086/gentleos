@@ -49,6 +49,10 @@ krn_keyboard_handle_scancode(uint8_t scancode)
         return;
     }
 
+    if (is_key_down) {
+        rand_add_entropy(krn_timer_get_counter_0());
+    }
+
     last_scan_was_e0 = 0;
 
     key.p.code = scancode & 0x7f;

@@ -171,14 +171,12 @@ static void
 load_fields(void)
 {
     time_st time;
-    date_st date;
 
-    bios_get_time(&time);
-    bios_get_date(&date);
+    time_get(&time);
 
-    fields[FIELD_YEAR].val = date.year;
-    fields[FIELD_MONTH].val = date.month;
-    fields[FIELD_DAY].val = date.day;
+    fields[FIELD_YEAR].val = time.year;
+    fields[FIELD_MONTH].val = time.month;
+    fields[FIELD_DAY].val = time.day;
     fields[FIELD_HOUR].val = time.hour;
     fields[FIELD_MINUTE].val = time.minute;
     fields[FIELD_SECOND].val = time.second;
@@ -189,17 +187,15 @@ load_fields(void)
 static void
 save_fields(void)
 {
-    bios_set_date(
-        fields[FIELD_YEAR].val,
-        fields[FIELD_MONTH].val,
-        fields[FIELD_DAY].val
-    );
+    time_st t;
 
-    bios_set_time(
-        fields[FIELD_HOUR].val,
-        fields[FIELD_MINUTE].val,
-        fields[FIELD_SECOND].val
-    );
+    t.year = fields[FIELD_YEAR].val;
+    t.month = fields[FIELD_MONTH].val;
+    t.day = fields[FIELD_DAY].val;
+    t.hour = fields[FIELD_HOUR].val;
+    t.minute = fields[FIELD_MINUTE].val;
+    t.second = fields[FIELD_SECOND].val;;
+    time_set(&t, 1);
 
     if (fields[FIELD_THEME].val != krn_vga_current_theme) {
         krn_vga_set_theme(fields[FIELD_THEME].val);

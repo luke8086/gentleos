@@ -49,7 +49,7 @@ static grid_st grid;
 static void
 draw_month_label(void)
 {
-    const char *month_name = CAL_MONTH_NAMES_SHORT[selected_month - 1];
+    const char *month_name = TIME_MONTH_NAMES_SHORT[selected_month - 1];
     char buf[16];
     rect_st rect;
 
@@ -70,7 +70,7 @@ static void
 draw_day_button(widget_st *widget)
 {
     int day = widget->tag1;
-    int num_days = cal_get_days_in_month(selected_month, selected_year);
+    int num_days = time_get_days_in_month(selected_month, selected_year);
     int is_in_month = day >= 0 && day < num_days;
     int is_current = (day == current_day - 1 && selected_month == current_month
         && selected_year == current_year);
@@ -98,7 +98,7 @@ draw_day_button(widget_st *widget)
 static void
 draw_selected_month(void)
 {
-    int day_of_week = cal_get_day_of_week(1, selected_month, selected_year);
+    int day_of_week = time_get_day_of_week(1, selected_month, selected_year);
     size_t i;
 
     for (i = 0; i < GRID_CELLS_COUNT; ++i) {
@@ -123,7 +123,7 @@ draw_week_bar(void)
 
         gui_surface_draw_border(&window.origin, &rect, gui_color_fg);
         gui_surface_draw_str_centered(&window.origin, &rect, NULL,
-            CAL_DAY_NAMES_SHORT[y], gui_color_fg, gui_color_bg);
+            TIME_DAY_NAMES_SHORT[y], gui_color_fg, gui_color_bg);
     }
 }
 
@@ -192,12 +192,12 @@ init_day_buttons(void)
 static void
 init_current_date(void)
 {
-    date_st d;
-    bios_get_date(&d);
+    time_st t;
+    time_get(&t);
 
-    current_month = d.month;
-    current_year = d.year;
-    current_day = d.day;
+    current_month = t.month;
+    current_year = t.year;
+    current_day = t.day;
 
     selected_month = current_month;
     selected_year = current_year;

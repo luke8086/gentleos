@@ -14,7 +14,7 @@ rand_init(void)
 {
 	time_st t;
 
-	bios_get_time(&t);
+	time_get(&t);
 
     rand_seed = ((uint16_t)t.second << 8) | t.minute;
 }

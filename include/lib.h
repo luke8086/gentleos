@@ -85,12 +85,6 @@ typedef struct {
     uint16_t year;
 } time_st;
 
-typedef struct {
-    uint8_t day;
-    uint8_t month;
-    uint16_t year;
-} date_st;
-
 enum {
     KEY_UP = 0x48,
     KEY_DOWN = 0x50,

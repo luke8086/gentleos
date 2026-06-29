@@ -28,6 +28,10 @@ extern void krn_set_isr(uint8_t no, uint16_t seg, uint16_t ofs);
 extern void krn_get_isr(uint8_t no, isr_st *dst);
 /* kernel/mem.c */
 extern void krn_mem_init(void);
+/* kernel/rtc.c */
+extern int krn_rtc_get_time(time_st *t);
+extern void krn_rtc_set_time(time_st *t);
+extern void krn_rtc_init(void);
 /* kernel/speaker.c */
 extern void krn_speaker_stop(void);
 extern void krn_speaker_play(uint16_t hz);

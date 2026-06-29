@@ -7,18 +7,6 @@
 
 #include <lib.h>
 
-static uint8_t
-to_bcd(uint8_t v)
-{
-    return ((v / 10) << 4) | (v % 10);
-}
-
-static unsigned
-from_bcd(uint16_t v)
-{
-    return ((v >> 4) & 0x0F) * 10 + (v & 0x0F);
-}
-
 global void
 bios_putc(char c)
 {
@@ -115,72 +103,6 @@ bios_uart_puts(const char *s)
 
         bios_uart_putc(*s++);
     }
-}
-
-global void
-bios_get_time(time_st *t)
-{
-    regs_st regs;
-
-    regs.h.ah = 0x02;
-
-    intr(0x1a, &regs);
-
-    t->hour = from_bcd(regs.h.ch);
-    t->minute = from_bcd(regs.h.cl);
-    t->second = from_bcd(regs.h.dh);
-
-    /* Temporary workaround for machines not supporting this call */
-    t->hour = MIN(23, t->hour);
-    t->minute = MIN(59, t->minute);
-    t->second = MIN(59, t->second);
-}
-
-global void
-bios_set_time(uint8_t hour, uint8_t minute, uint8_t second)
-{
-    regs_st regs;
-
-    regs.h.ah = 0x03;
-    regs.h.ch = to_bcd(hour);
-    regs.h.cl = to_bcd(minute);
-    regs.h.dh = to_bcd(second);
-    regs.h.dl = 0;
-
-    intr(0x1a, &regs);
-}
-
-global void
-bios_get_date(date_st *d)
-{
-    regs_st regs;
-
-    regs.h.ah = 0x04;
-
-    intr(0x1a, &regs);
-
-    d->year = from_bcd(regs.h.ch) * 100 + from_bcd(regs.h.cl);
-    d->month = from_bcd(regs.h.dh);
-    d->day = from_bcd(regs.h.dl);
-
-    /* Temporary workaround for machines not supporting this call */
-    d->year = MAX(1900, MIN(2100, d->year));
-    d->month = MAX(1, MIN(12, d->month));
-    d->day = MAX(1, MIN(31, d->month));
-}
-
-global void
-bios_set_date(uint16_t year, uint8_t month, uint8_t day)
-{
-    regs_st regs;
-
-    regs.h.ah = 0x05;
-    regs.h.ch = to_bcd(year / 100);
-    regs.h.cl = to_bcd(year % 100);
-    regs.h.dh = to_bcd(month);
-    regs.h.dl = to_bcd(day);
-
-    intr(0x1a, &regs);
 }
 
 global void

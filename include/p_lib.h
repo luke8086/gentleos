@@ -6,17 +6,7 @@ extern uint16_t bios_get_key(void);
 extern void bios_uart_init(void);
 extern void bios_uart_putc(char c);
 extern void bios_uart_puts(const char *s);
-extern void bios_get_time(time_st *t);
-extern void bios_set_time(uint8_t hour, uint8_t minute, uint8_t second);
-extern void bios_get_date(date_st *d);
-extern void bios_set_date(uint16_t year, uint8_t month, uint8_t day);
 extern void bios_reboot(void);
-/* lib/cal.c */
-extern const char *CAL_MONTH_NAMES_SHORT[];
-extern const char *CAL_DAY_NAMES_SHORT[];
-extern const char *CAL_DAY_NAMES_LONG[];
-extern int cal_get_day_of_week(int day, int month, int year);
-extern int cal_get_days_in_month(int month, int year);
 /* lib/key.c */
 extern char key_char_for_code(uint8_t code, uint8_t mods);
 extern int key_number_for_code(uint8_t code);
@@ -47,3 +37,16 @@ extern size_t strlen(const char *s1);
 extern char * strncpy(char *dest, const char *src, size_t n);
 /* lib/tests.c */
 extern void tests_run(void);
+/* lib/time.c */
+extern const char *TIME_MONTH_NAMES_SHORT[];
+extern const char *TIME_DAY_NAMES_SHORT[];
+extern const char *TIME_DAY_NAMES_LONG[];
+extern int time_get_day_of_week(int day, int month, int year);
+extern int time_get_days_in_month(int month, int year);
+extern int time_equals(time_st *t1, time_st *t2);
+extern void time_init(time_st *t, uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
+extern void time_clear(time_st *t);
+extern void time_copy(time_st *dst, time_st *src);
+extern void time_add_seconds(time_st *t, uint32_t secs);
+extern void time_get(time_st *t);
+extern void time_set(time_st *t, int set_rtc);

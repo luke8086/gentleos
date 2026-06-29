@@ -87,15 +87,12 @@ update_status_bl(void)
 static void
 update_status_br(void)
 {
-    time_st time;
-    date_st date;
+    time_st t;
 
-    bios_get_time(&time);
-    bios_get_date(&date);
+    time_get(&t);
 
     gui_status_set_br("%04u-%02u-%02u %02u:%02u",
-        date.year, date.month, date.day,
-        time.hour, time.minute);
+        t.year, t.month, t.day, t.hour, t.minute);
 }
 
 static void

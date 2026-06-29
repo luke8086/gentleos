@@ -59,7 +59,7 @@ draw_time(void)
 {
     time_st time;
 
-    bios_get_time(&time);
+    time_get(&time);
 
     if (time.second == last_second) {
         return;
@@ -82,21 +82,21 @@ draw_time(void)
 static void
 update_status(void)
 {
-    date_st date;
+    time_st time;
     int day_of_week;
 
-    bios_get_date(&date);
+    time_get(&time);
 
-    if (date.day == last_day) {
+    if (time.day == last_day) {
         return;
     }
 
-    last_day = date.day;
-    day_of_week = cal_get_day_of_week(date.day, date.month, date.year);
+    last_day = time.day;
+    day_of_week = time_get_day_of_week(time.day, time.month, time.year);
 
     gui_status_set_br("%04d-%02d-%02d (%s)",
-        date.year, date.month, date.day,
-        CAL_DAY_NAMES_LONG[day_of_week]
+        time.year, time.month, time.day,
+        TIME_DAY_NAMES_LONG[day_of_week]
     );
 }
 
@@ -114,7 +114,7 @@ on_tick(void)
 
     ++count;
 
-    if (count >= 10) {
+    if (count >= 5) {
         count = 0;
         on_timeout();
     }

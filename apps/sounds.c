@@ -209,7 +209,7 @@ on_show(void)
         keys_w[i].draw(&keys_w[i]);
     }
 
-    if (USE_BIOS_KEYBOARD) {
+    if (krn_keyboard_use_bios) {
         gui_status_set("This app is unavailable when USE_BIOS_KEYBOARD is set");
     } else {
         gui_status_set("Z-,: Wh/Lo  S-J: Bl/Lo  W-O: Wh/Hi  3-8: Bl/Hi");

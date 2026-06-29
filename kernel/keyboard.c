@@ -14,6 +14,7 @@ enum {
 
 static isr_st saved_isr_handler;
 extern void *krn_isr_keyboard;
+global int krn_keyboard_use_bios = USE_BIOS_KEYBOARD;
 
 global uint16_t
 krn_keyboard_getc(void)
@@ -134,7 +135,7 @@ krn_keyboard_init(void)
 {
     krn_debug_printf("Initializing keyboard... ");
 
-    if (USE_BIOS_KEYBOARD) {
+    if (krn_keyboard_use_bios) {
         krn_debug_printf("ok (bios)\n");
         return;
     }
@@ -148,7 +149,7 @@ krn_keyboard_init(void)
 global void
 krn_keyboard_deinit(void)
 {
-    if (USE_BIOS_KEYBOARD) {
+    if (krn_keyboard_use_bios) {
         return;
     }
 

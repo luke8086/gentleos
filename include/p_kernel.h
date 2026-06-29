@@ -15,6 +15,7 @@ extern uint16_t krn_event_count(void);
 extern void far * krn_heap_alloc(uint16_t size);
 extern void krn_heap_init(void);
 /* kernel/keyboard.c */
+extern int krn_keyboard_use_bios;
 extern uint16_t krn_keyboard_getc(void);
 extern void krn_keyboard_handle_intr(void);
 extern void krn_keyboard_handle_bios(void);

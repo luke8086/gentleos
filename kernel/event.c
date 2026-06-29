@@ -57,7 +57,7 @@ global void
 krn_event_wait(event_st *out)
 {
     while (1) {
-        if (USE_BIOS_KEYBOARD) {
+        if (krn_keyboard_use_bios) {
             krn_keyboard_handle_bios();
         }
 

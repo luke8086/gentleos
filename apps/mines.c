@@ -261,9 +261,25 @@ restart_game(void)
 }
 
 static void
-reveal_adjacent_cells(int col, int row)
+reveal_cell(int col, int row)
 {
     int dx, dy;
+    int adj_mine_count;
+
+    if (col < 0 || col >= GRID_COLS || row < 0 || row >= GRID_ROWS) {
+        return;
+    }
+
+    if (cell_state[col][row] != CELL_STATE_HIDDEN) {
+        return;
+    }
+
+    adj_mine_count = count_adjacent_mines(col, row);
+    update_cell(col, row, adj_mine_count, CELL_STATE_REVEALED);
+
+    if (adj_mine_count > 0) {
+        return;
+    }
 
     for (dy = -1; dy <= 1; dy++) {
         for (dx = -1; dx <= 1; dx++) {
@@ -277,10 +293,8 @@ reveal_adjacent_cells(int col, int row)
 }
 
 static void
-reveal_cell(int col, int row)
+press_cell(int col, int row)
 {
-    int adjacent_mine_count;
-
     if (get_game_state() != GAME_STATE_PLAYING) {
         return;
     }
@@ -303,12 +317,7 @@ reveal_cell(int col, int row)
         return;
     };
 
-    adjacent_mine_count = count_adjacent_mines(col, row);
-    update_cell(col, row, adjacent_mine_count, CELL_STATE_REVEALED);
-
-    if (adjacent_mine_count == 0) {
-        reveal_adjacent_cells(col, row);
-    }
+    reveal_cell(col, row);
 
     if (get_game_state() == GAME_STATE_WON) {
         update_all_mines(CELL_STATE_FLAGGED);
@@ -355,7 +364,7 @@ on_key_down(uint8_t key_code, uint8_t key_mods)
         case KEY_UP: move_cursor(0, -1); return;
         case KEY_DOWN: move_cursor(0, 1); return;
         case KEY_SPACE:
-        case KEY_ENTER: reveal_cell(current_col, current_row); return;
+        case KEY_ENTER: press_cell(current_col, current_row); return;
         case KEY_F: flag_cell(current_col, current_row); return;
     }
 

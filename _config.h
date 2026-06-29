@@ -32,11 +32,6 @@
 #define DEBUG_TO_UART 0
 
 /*
- * Wait for key press before starting GUI
- */
-#define MANUAL_START 0
-
-/*
  * Default date & time to set on boot if the current year is below 2000.
  * This is useful for hardware with dead RTC battery
  */

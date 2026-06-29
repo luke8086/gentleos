@@ -48,11 +48,9 @@ krn_main(void)
     krn_timer_init();
     krn_rtc_init();
 
-#if MANUAL_START
-    krn_debug_printf("Press any key to continue...");
+    krn_debug_printf("Press any key to launch GentleOS...");
     (void)krn_keyboard_getc();
     krn_debug_printf("\n");
-#endif
 
     krn_vga_init();
     gui_main();

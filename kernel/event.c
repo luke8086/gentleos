@@ -73,12 +73,13 @@ global int
 krn_event_ipush(event_st *event)
 {
     uint16_t next_head = (krn_event_queue.head + 1) % EVENT_QUEUE_SIZE;
+    uint16_t last_head = (krn_event_queue.head + EVENT_QUEUE_SIZE - 1) % EVENT_QUEUE_SIZE;
 
     if (event->type == EVENT_TIMER_TICK &&
         krn_event_queue.head != krn_event_queue.tail &&
-        krn_event_queue.events[krn_event_queue.head].type == EVENT_TIMER_TICK) {
+        krn_event_queue.events[last_head].type == EVENT_TIMER_TICK) {
 
-        krn_event_queue.events[krn_event_queue.head].payload = event->payload;
+        krn_event_queue.events[last_head].payload = event->payload;
 
         if (EVENT_QUEUE_DEBUG) {
             krn_debug_printf("%s: squashed %s\n", krn_event_format_queue(),

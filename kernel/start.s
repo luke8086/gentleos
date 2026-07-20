@@ -34,6 +34,7 @@ section _DATA class=DATA
 _krn_marker_data_start:
 
 _krn_main_segment:
+    dw 0
 
 section _DATAEND class=DATAEND
 _krn_magic_number:

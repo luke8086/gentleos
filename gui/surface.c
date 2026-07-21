@@ -7,8 +7,13 @@
 
 #include <gui.h>
 
+enum {
+    DIRTY_RECTS_MAX = 8,
+};
+
 static uint8_t far *gui_surface_pixels;
-static rect_st gui_surface_dirty_rect = { 0 };
+static rect_st gui_surface_dirty_rects[DIRTY_RECTS_MAX];
+static int gui_surface_dirty_rects_count = 0;
 static uint16_t gui_surface_byte_expansions[256];
 
 global void
@@ -35,7 +40,7 @@ global void
 gui_surface_clear(void)
 {
     memset_far(gui_surface_pixels, (gui_color_bg & 1) ? 0xFF : 0x00, GUI_FB_PLANE_SIZE);
-    gui_rect_init(&gui_surface_dirty_rect, 0, 0, GUI_WIDTH, GUI_HEIGHT);
+    gui_surface_mark_dirty(&GUI_POINT_ZERO, &GUI_RECT_SCREEN);
 }
 
 global void
@@ -55,43 +60,77 @@ gui_surface_invert(void)
 global void
 gui_surface_mark_dirty(const point_st *origin, const rect_st *rect)
 {
-    static rect_st screen_rect = { 0, 0, GUI_WIDTH, GUI_HEIGHT };
-    rect_st combined;
-    rect_st translated;
+    int i, absorbed, min_growth_idx;
+    uint16_t growth, min_growth;
+    rect_st final_rect, tmp_rect;
 
-    gui_rect_copy(&translated, rect);
-    gui_rect_translate(&translated, origin);
+    gui_rect_copy(&final_rect, rect);
+    gui_rect_translate(&final_rect, origin);
+    gui_rect_clip(&final_rect, &GUI_RECT_SCREEN);
 
-    gui_rect_copy(&combined, &gui_surface_dirty_rect);
-    gui_rect_enclose(&combined, &translated);
-    gui_rect_clip(&combined, &screen_rect);
+    if (gui_rect_is_empty(&final_rect)) {
+        return;
+    }
 
-    gui_rect_copy(&gui_surface_dirty_rect, &combined);
+    while (1) {
+        /* Keep absorbing existing slots that the rect touches */
+        do {
+            absorbed = 0;
+
+            for (i = 0; i < gui_surface_dirty_rects_count; ++i) {
+                if (gui_rect_touches(&final_rect, &gui_surface_dirty_rects[i])) {
+                    gui_rect_enclose(&final_rect, &gui_surface_dirty_rects[i]);
+                    gui_rect_copy(&gui_surface_dirty_rects[i],
+                        &gui_surface_dirty_rects[--gui_surface_dirty_rects_count]);
+                    absorbed = 1;
+                }
+            }
+        } while (absorbed);
+
+        /* Break if there is an empty slot to use */
+        if (gui_surface_dirty_rects_count < DIRTY_RECTS_MAX) {
+            break;
+        }
+
+        /* Otherwise find slot that will cause minimal growth when absorbed */
+        min_growth_idx = 0;
+        min_growth = 0;
+        for (i = 0; i < gui_surface_dirty_rects_count; ++i) {
+            gui_rect_copy(&tmp_rect, &gui_surface_dirty_rects[i]);
+            gui_rect_enclose(&tmp_rect, &final_rect);
+            growth = gui_rect_area(&tmp_rect) - gui_rect_area(&gui_surface_dirty_rects[i]);
+
+            if (i == 0 || growth < min_growth) {
+                min_growth_idx = i;
+                min_growth = growth;
+            }
+        }
+
+        /* Absorb it and repeat the process in case the new rect touches existing ones */
+        gui_rect_enclose(&final_rect, &gui_surface_dirty_rects[min_growth_idx]);
+        gui_rect_copy(&gui_surface_dirty_rects[min_growth_idx],
+            &gui_surface_dirty_rects[--gui_surface_dirty_rects_count]);
+    }
+
+    gui_rect_copy(&gui_surface_dirty_rects[gui_surface_dirty_rects_count++], &final_rect);
 }
 
-global void
-gui_surface_flush(void)
+static void
+gui_surface_flush_rect(const rect_st *rect)
 {
-    rect_st rect;
     int x0, x1, src_word_x, src_words, vram_word_x, y, i;
     uint8_t far *vram = MK_FP(0xb800, 0);
     uint16_t far *src;
     uint16_t far *dst;
     uint16_t pair;
 
-    gui_rect_copy(&rect, &gui_surface_dirty_rect);
-
-    if (gui_rect_is_empty(&rect)) {
-        return;
-    }
-
-    x0 = (rect.x / 16) * 16;
-    x1 = ((rect.x + rect.width + 15) / 16) * 16;
+    x0 = (rect->x / 16) * 16;
+    x1 = ((rect->x + rect->width + 15) / 16) * 16;
     src_word_x = x0 / 16;
     src_words = (x1 - x0) / 16;
     vram_word_x = x0 / 8;
 
-    for (y = rect.y; y < rect.y + rect.height; ++y) {
+    for (y = rect->y; y < rect->y + rect->height; ++y) {
         src = (uint16_t far *)(gui_surface_pixels + y * GUI_FB_PITCH) + src_word_x;
         dst = (uint16_t far *)(vram + (y % 2) * 0x2000 + (y / 2) * GUI_VRAM_PITCH) + vram_word_x;
 
@@ -101,8 +140,27 @@ gui_surface_flush(void)
             dst[i * 2 + 1] = gui_surface_byte_expansions[pair >> 8];
         }
     }
+}
 
-    gui_rect_init(&gui_surface_dirty_rect, 0, 0, 0, 0);
+global void
+gui_surface_flush(void)
+{
+    rect_st rects[DIRTY_RECTS_MAX];
+    int i, count;
+
+    count = gui_surface_dirty_rects_count;
+
+    if (count == 0) {
+        return;
+    }
+
+    /* Reset the list before flushing - gui_status_set_urgent() may re-enter */
+    memcpy(rects, gui_surface_dirty_rects, count * sizeof(rects[0]));
+    gui_surface_dirty_rects_count = 0;
+
+    for (i = 0; i < count; ++i) {
+        gui_surface_flush_rect(&rects[i]);
+    }
 }
 
 global void

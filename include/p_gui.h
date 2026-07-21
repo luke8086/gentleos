@@ -35,6 +35,8 @@ extern void gui_rect_copy(rect_st *dst, const rect_st *src);
 extern void gui_point_copy(point_st *dst, const point_st *src);
 extern void gui_size_copy(size_st *dst, const size_st *src);
 extern int gui_rect_is_empty(const rect_st *r);
+extern uint16_t gui_rect_area(const rect_st *r);
+extern int gui_rect_touches(const rect_st *a, const rect_st *b);
 extern void gui_rect_init(rect_st *out, int x, int y, int width, int height);
 extern void gui_rect_translate(rect_st *r, const point_st *v);
 extern void gui_rect_center(rect_st *r, const rect_st *container);

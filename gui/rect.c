@@ -39,6 +39,22 @@ gui_rect_is_empty(const rect_st *r)
     return r->width <= 0 || r->height <= 0;
 }
 
+global uint16_t
+gui_rect_area(const rect_st *r)
+{
+    return (uint16_t)r->width * (uint16_t)r->height;
+}
+
+global int
+gui_rect_touches(const rect_st *a, const rect_st *b)
+{
+    return 1
+        && (a->x <= b->x + b->width)
+        && (b->x <= a->x + a->width)
+        && (a->y <= b->y + b->height)
+        && (b->y <= a->y + a->height);
+}
+
 global void
 gui_rect_init(rect_st *out, int x, int y, int width, int height)
 {

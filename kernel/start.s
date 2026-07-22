@@ -18,12 +18,20 @@ global _krn_marker_bss_end
 
 global _krn_main_segment
 global _krn_magic_number
+global _krn_flags
+
 
 section _TEXT class=CODE
 _krn_marker_text_start:
 
 resb 0x100
 ..start:
+    jmp short krn_start
+
+_krn_flags:
+    dw 0
+
+krn_start:
     mov [_krn_main_segment], ds
     jmp _krn_main
 

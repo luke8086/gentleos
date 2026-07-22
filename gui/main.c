@@ -64,8 +64,8 @@ gui_main(void)
     gui_app_rect.height = GUI_HEIGHT - STATUS_HEIGHT * 2;
 
     gui_surface_init();
-    gui_colors_inverted = DEFAULT_COLORS_INVERTED;
-    gui_set_colors_inverted(DEFAULT_COLORS_INVERTED);
+    gui_colors_inverted = (krn_flags & KRN_FLAG_COLORS_INVERTED) ? 1 : DEFAULT_COLORS_INVERTED;
+    gui_set_colors_inverted(gui_colors_inverted);
     gui_surface_clear();
     gui_status_init();
     gui_run_app(&app_launcher);

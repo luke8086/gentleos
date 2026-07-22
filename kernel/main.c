@@ -28,7 +28,7 @@ krn_check_load(void)
         /* UNREACHABLE */
     }
 
-    krn_debug_printf("ok\n");
+    krn_debug_printf("ok (flags: %02x)\n", krn_flags);
 }
 
 global void

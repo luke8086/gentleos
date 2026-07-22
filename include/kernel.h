@@ -38,6 +38,11 @@ typedef struct {
 extern void *krn_link_start;
 extern void *krn_link_end;
 extern uint16_t krn_main_segment;
+extern uint16_t krn_flags;
+
+enum {
+    KRN_FLAG_COLORS_INVERTED = 1 << 1,
+};
 
 void far *krn_heap_alloc(uint16_t);
 

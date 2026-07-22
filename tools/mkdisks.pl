@@ -5,6 +5,8 @@
 # File: mkdisks.pl - Script for creating disk images
 #
 
+my $KRN_FLAG_COLORS_INVERTED = (1 << 1);
+
 sub slurp {
     my ($path) = @_;
     open(my $f, $path) or die "Cannot read $path\n";
@@ -28,10 +30,14 @@ sub pad {
 }
 
 sub make_disk {
-    my ($path, $size) = @_;
+    my ($path, $size, $flags) = @_;
+
     my $boot1 = pad(slurp("build/boot1/boot1.bin"), 512);
     my $boot2 = pad(slurp("build/boot2/boot2.com"), 2048);
+
     my $kernel = slurp("build/gentleos.com");
+    substr($kernel, 2, 2, pack("v", $flags));
+
     my $image = pad($boot1 . $boot1 . $boot2 . $kernel, $size);
 
     print "Creating $path... ";
@@ -45,6 +51,7 @@ sub make_disk {
     print "Done\n";
 }
 
-make_disk("BUILD/DISK.IMG", 0);
-make_disk("BUILD/FD720.IMG", 720 * 1024);
-make_disk("BUILD/FD1440.IMG", 1440 * 1024);
+make_disk("BUILD/DISK.IMG", 0, 0x00);
+make_disk("BUILD/FD720.IMG", 720 * 1024, 0x00);
+make_disk("BUILD/FD1440.IMG", 1440 * 1024, 0x00);
+make_disk("BUILD/WEB.IMG", 1440 * 1024, $KRN_FLAG_COLORS_INVERTED);

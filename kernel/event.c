@@ -166,7 +166,7 @@ krn_event_count(void)
     flags = cpu_get_flags();
     cpu_cli();
 
-    ret = (krn_event_queue.head - krn_event_queue.tail) % EVENT_QUEUE_SIZE;
+    ret = (krn_event_queue.head + EVENT_QUEUE_SIZE - krn_event_queue.tail) % EVENT_QUEUE_SIZE;
 
     cpu_set_flags(flags);
     return ret;

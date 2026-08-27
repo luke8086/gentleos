@@ -138,11 +138,16 @@ static uint8_t
 get_sectors_per_track(void)
 {
     regs_st regs;
+    uint8_t spt;
 
     regs_init(&regs);
 
     regs.h.ah = 0x08;
     regs.h.dl = drive;
+
+    /* Setting these 2 just in case, not sure if needed */
+    regs.x.es = 0;
+    regs.x.di = 0;
 
     intr(0x13, &regs);
 
@@ -151,7 +156,10 @@ get_sectors_per_track(void)
         return 9;
     }
 
-    return regs.h.cl & 0x3f;
+    spt = regs.h.cl & 0x3f;
+    spt = spt ? spt : 9;
+
+    return spt;
 }
 
 static void

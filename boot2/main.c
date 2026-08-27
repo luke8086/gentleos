@@ -5,7 +5,19 @@
  * File: main.c - Stage 2 bootloader C code
  */
 
+/* Silence IDE warnings */
+#ifdef __clang__
+#define far
+#endif
+
+#ifdef __WATCOMC__
+#define far __far
+#endif
+
 enum {
+    STORAGE_SEGMENT = 0x0000,
+    STORAGE_OFFSET_DPT = 0x0600,
+
     BOOT2_SEGMENT = 0x2000,
 
     KERNEL_SEGMENT = 0x1000,
@@ -16,6 +28,14 @@ enum {
 
 typedef unsigned int uint16_t;
 typedef unsigned char uint8_t;
+
+typedef union {
+    void far *ptr;
+
+    struct {
+        uint16_t ofs, seg;
+    } w;
+} farptr_st;
 
 typedef union {
     struct {
@@ -38,6 +58,40 @@ extern void halt(void);
 
 static uint8_t drive = 0;
 static uint8_t sectors_per_track = 0;
+
+/*
+ * Copy BIOS's diskette parameter table to a new location and fix SPT value.
+ * This is needed for some very old BIOSes, including one in MartyPC
+ */
+static void
+fix_diskette_param_table(uint8_t spt)
+{
+    farptr_st src_fptr, dst_fptr, vec_fptr;
+    uint16_t far *vec;
+    uint8_t far *dst, far *src;
+    int i;
+
+    vec_fptr.w.seg = 0;
+    vec_fptr.w.ofs = 0x1e * 4;
+    vec = (uint16_t far *)vec_fptr.ptr;
+
+    dst_fptr.w.seg = STORAGE_SEGMENT;
+    dst_fptr.w.ofs = STORAGE_OFFSET_DPT;
+    dst = (uint8_t far *)dst_fptr.ptr;
+
+    src_fptr.w.seg = vec[1];
+    src_fptr.w.ofs = vec[0];
+    src = (uint8_t far *)src_fptr.ptr;
+
+    for (i = 0; i < 11; ++i) {
+        dst[i] = src[i];
+    }
+
+    dst[4] = spt;
+
+    vec[0] = STORAGE_OFFSET_DPT;
+    vec[1] = STORAGE_SEGMENT;
+}
 
 static void
 regs_init(regs_st *regs)
@@ -196,6 +250,7 @@ cmain(void)
     reset_drive();
 
     sectors_per_track = get_sectors_per_track();
+    fix_diskette_param_table(sectors_per_track);
 
     load_kernel();
     start_kernel();

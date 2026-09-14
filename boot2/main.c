@@ -21,9 +21,14 @@ enum {
     BOOT2_SEGMENT = 0x2000,
 
     KERNEL_SEGMENT = 0x1000,
-    KERNEL_START_SECTOR = 7,
+    KERNEL_START_LBA = 6,
     KERNEL_SIZE = 127,
     KERNEL_OFFSET = 0x100,
+
+    INITRD_SEGMENT = 0x3000,
+    INITRD_START_LBA = KERNEL_START_LBA + KERNEL_SIZE,
+    INITRD_SIZE = 128,
+    INITRD_OFFSET = 0,
 };
 
 typedef unsigned int uint16_t;
@@ -170,6 +175,16 @@ load_drive_geometry(void)
 }
 
 static void
+lba_to_chs(uint16_t lba, chs_st *chs)
+{
+    uint16_t track = lba / boot_drive_spt;
+
+    chs->sector = lba % boot_drive_spt + 1;
+    chs->head = track % boot_drive_heads;
+    chs->cylinder = track / boot_drive_heads;
+}
+
+static void
 reset_drive(void)
 {
     regs_st regs;
@@ -183,7 +198,7 @@ reset_drive(void)
 }
 
 static int
-load_sectors(uint8_t n, const chs_st *chs, unsigned target)
+load_sectors(uint8_t n, const chs_st *chs, uint16_t seg, uint16_t ofs)
 {
     regs_st regs;
 
@@ -195,8 +210,8 @@ load_sectors(uint8_t n, const chs_st *chs, unsigned target)
     regs.h.cl = chs->sector;
     regs.h.dh = chs->head;
     regs.h.dl = boot_drive_index;
-    regs.x.bx = target;
-    regs.x.es = KERNEL_SEGMENT;
+    regs.x.bx = ofs;
+    regs.x.es = seg;
 
     intr(0x13, &regs);
 
@@ -204,12 +219,12 @@ load_sectors(uint8_t n, const chs_st *chs, unsigned target)
 }
 
 static void
-safe_load_sectors(uint8_t n, const chs_st *chs, unsigned target)
+safe_load_sectors(uint8_t n, const chs_st *chs, uint16_t seg, uint16_t ofs)
 {
     int i, status;
 
     for (i = 0; i < 3; ++i) {
-        status = load_sectors(n, chs, target);
+        status = load_sectors(n, chs, seg, ofs);
 
         if (status == 0) {
             putc('.');
@@ -225,35 +240,26 @@ safe_load_sectors(uint8_t n, const chs_st *chs, unsigned target)
 }
 
 static void
-load_kernel(void)
+load_region(uint16_t seg, uint16_t ofs, uint16_t lba, int count)
 {
     chs_st chs;
-    int remaining = KERNEL_SIZE;
-    unsigned target = KERNEL_OFFSET;
+    int remaining = count;
     unsigned n;
 
-    chs.cylinder = 0;
-    chs.head = 0;
-    chs.sector = KERNEL_START_SECTOR;
-
     while (remaining > 0) {
+        lba_to_chs(lba, &chs);
+
         n = boot_drive_spt - (chs.sector - 1);
 
         if (n > remaining) {
             n = remaining;
         }
 
-        safe_load_sectors(n, &chs, target);
+        safe_load_sectors(n, &chs, seg, ofs);
 
         remaining -= n;
-        target += n * 512;
-        chs.sector = 1;
-        ++chs.head;
-
-        if (chs.head == boot_drive_heads) {
-            chs.head = 0;
-            ++chs.cylinder;
-        }
+        lba += n;
+        ofs += n * 512;
     }
 }
 
@@ -270,7 +276,8 @@ cmain(void)
     load_drive_geometry();
     fix_diskette_param_table(boot_drive_spt);
 
-    load_kernel();
+    load_region(KERNEL_SEGMENT, KERNEL_OFFSET, KERNEL_START_LBA, KERNEL_SIZE);
+    load_region(INITRD_SEGMENT, INITRD_OFFSET, INITRD_START_LBA, INITRD_SIZE);
 
     if (boot_drive_index == 0 || boot_drive_index == 1) {
         stop_floppy_motor();

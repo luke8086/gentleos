@@ -7,6 +7,9 @@
 
 my $KRN_FLAG_COLORS_INVERTED = (1 << 1);
 
+my $KERNEL_SIZE = 127 * 512;
+my $INITRD_SIZE = 128 * 512;
+
 sub slurp {
     my ($path) = @_;
     open(my $f, $path) or die "Cannot read $path\n";
@@ -37,8 +40,11 @@ sub make_disk {
 
     my $kernel = slurp("gentleos.com");
     substr($kernel, 2, 2, pack("v", $flags));
+    $kernel = pad($kernel, $KERNEL_SIZE);
 
-    my $image = pad($boot1 . $boot1 . $boot2 . $kernel, $size);
+    my $initrd = pad("", $INITRD_SIZE);
+
+    my $image = pad($boot1 . $boot1 . $boot2 . $kernel . $initrd, $size);
 
     print "Creating $path... ";
 

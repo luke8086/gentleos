@@ -4,6 +4,8 @@
 /*.COM
 /*.img
 /*.IMG
+/*.dat
+/*.DAT
 /build
 /BUILD
 /MAKEFILE

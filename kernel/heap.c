@@ -7,37 +7,22 @@
 
 #include <kernel.h>
 
-static uint16_t krn_heap_current_seg;
-static uint16_t krn_heap_current_ofs;
+#define KRN_HEAP_SIZE 0x10000UL
+
+static uint16_t krn_heap_segment;
+static uint32_t krn_heap_current_ofs;
 
 global void far *
 krn_heap_alloc(uint16_t size)
 {
-    uint16_t seg, ofs;
-    uint32_t remaining_space = 0x10000UL - krn_heap_current_ofs;
+    uint32_t remaining_space = KRN_HEAP_SIZE - krn_heap_current_ofs;
     void far *ret;
 
     if (size < 0xFFFF) {
         size = (size + 1) & ~1;
     }
 
-    if (size == remaining_space) {
-        seg = krn_heap_current_seg;
-        ofs = krn_heap_current_ofs;
-        krn_heap_current_seg += 0x1000;
-        krn_heap_current_ofs = 0;
-    } else if (size > remaining_space) {
-        krn_heap_current_seg += 0x1000;
-        seg = krn_heap_current_seg;
-        ofs = 0;
-        krn_heap_current_ofs = size;
-    } else {
-        seg = krn_heap_current_seg;
-        ofs = krn_heap_current_ofs;
-        krn_heap_current_ofs += size;
-    }
-
-    if (seg >= 0xa000) {
+    if (size > remaining_space) {
         krn_debug_printf("FATAL: Out of memory\n");
         krn_debug_beep_adv(300, 500, 3);
 
@@ -45,7 +30,8 @@ krn_heap_alloc(uint16_t size)
         /* UNREACHABLE */
     }
 
-    ret = MK_FP(seg, ofs);
+    ret = MK_FP(krn_heap_segment, (uint16_t)krn_heap_current_ofs);
+    krn_heap_current_ofs += size;
 
     memset_far(ret, 0, size);
 
@@ -55,7 +41,6 @@ krn_heap_alloc(uint16_t size)
 global void
 krn_heap_init(void)
 {
-    krn_heap_current_seg = krn_main_segment + 0x1000;
-    krn_heap_current_seg = (krn_heap_current_seg + 0xfff) & 0xf000;
+    krn_heap_segment = krn_main_segment + 0x1000;
     krn_heap_current_ofs = 0;
 }

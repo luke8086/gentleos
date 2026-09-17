@@ -37,7 +37,6 @@ extern bitmap_st sprite_heart_2;
 extern bitmap_st sprite_mine;
 extern bitmap_st sprite_spade_1;
 extern bitmap_st sprite_spade_2;
-extern bitmap_st icon_calendar;
 extern bitmap_st icon_clock;
 extern bitmap_st icon_fonts;
 extern bitmap_st icon_keys;

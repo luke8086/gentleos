@@ -2,8 +2,6 @@
 extern app_st app_2048;
 /* apps/bjack.c */
 extern app_st app_blackjack;
-/* apps/calendar.c */
-extern app_st app_calendar;
 /* apps/clock.c */
 extern app_st app_clock;
 /* apps/fonts.c */

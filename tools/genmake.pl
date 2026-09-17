@@ -12,7 +12,7 @@ my $MAKEFILE_TPL = <<'EOT';
 all: disks .SYMBOLIC
     @echo All done!
 
-disks: gentleos.com build/boot1/boot1.bin build/boot2/boot2.com .SYMBOLIC
+disks: gentleos.com gentleos.dat build/boot1/boot1.bin build/boot2/boot2.com .SYMBOLIC
     perl tools/mkdisks.pl
 
 run: all .SYMBOLIC
@@ -33,11 +33,17 @@ BOOT2_OBJS = &
 INCLUDES = &
 <INCLUDES>
 
+INITRD_ASSETS = &
+<INITRD_ASSETS>
+
 build/boot1/boot1.bin: boot1/boot1.s
     nasm -o build/boot1/boot1.bin boot1/boot1.s
 
 gentleos.com: $(KERNEL_OBJS)
 	wlink @build/kernel.lnk
+
+gentleos.dat: tools/mkinitrd.pl $(INITRD_ASSETS)
+    perl tools/mkinitrd.pl
 
 build\boot2\boot2.com: $(BOOT2_OBJS)
     wlink @boot2/boot2.lnk
@@ -115,6 +121,10 @@ sub collect_includes {
     return @includes;
 }
 
+sub collect_initrd_assets {
+    return sort(glob("assets/songs/*.spk"));
+}
+
 sub make_object_rule {
     my ($src) = @_;
     my ($base, $ext) = splitext($src);
@@ -144,18 +154,20 @@ sub make_obj_lines {
 }
 
 sub generate_makefile {
-    my ($kernel_sources_ref, $boot2_sources_ref, $includes_ref) = @_;
+    my ($kernel_sources_ref, $boot2_sources_ref, $includes_ref, $initrd_assets_ref) = @_;
 
     my @all_sources = (@$kernel_sources_ref, @$boot2_sources_ref);
     my $kernel_objs = make_obj_lines($kernel_sources_ref);
     my $boot2_objs = make_obj_lines($boot2_sources_ref);
     my $incs = join("\n", map { "\t" . $_ . " &" } @$includes_ref);
+    my $initrd_assets = join("\n", map { "\t" . $_ . " &" } @$initrd_assets_ref);
     my $rules = join("\n\n", map { make_object_rule($_) } @all_sources);
 
     my $content = $MAKEFILE_TPL;
     $content =~ s/<KERNEL_OBJS>/$kernel_objs/;
     $content =~ s/<BOOT2_OBJS>/$boot2_objs/;
     $content =~ s/<INCLUDES>/$incs/;
+    $content =~ s/<INITRD_ASSETS>/$initrd_assets/;
     $content =~ s/<OBJECT_RULES>/$rules/;
 
     $content =~ s/\n/\r\n/g;
@@ -195,7 +207,8 @@ sub main {
     my @kernel_sources = collect_kernel_sources();
     my @boot2_sources = collect_boot2_sources();
     my @includes = collect_includes();
-    generate_makefile(\@kernel_sources, \@boot2_sources, \@includes);
+    my @initrd_assets = collect_initrd_assets();
+    generate_makefile(\@kernel_sources, \@boot2_sources, \@includes, \@initrd_assets);
     generate_kernel_lnk(\@kernel_sources);
 }
 

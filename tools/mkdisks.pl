@@ -42,7 +42,7 @@ sub make_disk {
     substr($kernel, 2, 2, pack("v", $flags));
     $kernel = pad($kernel, $KERNEL_SIZE);
 
-    my $initrd = pad("", $INITRD_SIZE);
+    my $initrd = pad(slurp("gentleos.dat"), $INITRD_SIZE);
 
     my $image = pad($boot1 . $boot1 . $boot2 . $kernel . $initrd, $size);
 

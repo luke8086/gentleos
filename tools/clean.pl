@@ -11,6 +11,7 @@ rmtree('build');
 unlink('data/data.c');
 unlink('Makefile');
 unlink('gentleos.com');
+unlink('gentleos.dat');
 unlink("disk.img");
 unlink("fd720.img");
 unlink("fd1440.img");

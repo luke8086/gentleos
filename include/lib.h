@@ -115,6 +115,11 @@ enum {
     FILE_TYPE_COUNT,
 };
 
+typedef struct {
+    uint16_t pitch;
+    uint16_t ticks;
+} note_st;
+
 enum {
     KEY_UP = 0x48,
     KEY_DOWN = 0x50,

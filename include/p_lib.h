@@ -7,6 +7,9 @@ extern void bios_uart_init(void);
 extern void bios_uart_putc(char c);
 extern void bios_uart_puts(const char *s);
 extern void bios_reboot(void);
+/* lib/file.c */
+extern uint16_t file_count(void);
+extern file_st far * file_get(uint16_t index);
 /* lib/key.c */
 extern char key_char_for_code(uint8_t code, uint8_t mods);
 extern int key_number_for_code(uint8_t code);
@@ -22,6 +25,8 @@ extern uint16_t rand(void);
 /* lib/sleep.c */
 extern void sleep(uint32_t msecs);
 extern void halt(void);
+/* lib/song.c */
+extern uint32_t song_get_total_ticks(const note_st far *notes);
 /* lib/string.c */
 extern void * memcpy(void *dest, const void *src, size_t n);
 extern void far * memcpy_far(void far *dest, const void far *src, size_t n);

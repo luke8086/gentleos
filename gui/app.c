@@ -22,6 +22,10 @@ global void
 gui_app_launch(app_st *app)
 {
     if (gui_app_current) {
+        if (gui_app_current->on_close) {
+            gui_app_current->on_close();
+        }
+
         gui_app_current = NULL;
     }
 

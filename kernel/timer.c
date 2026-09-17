@@ -26,6 +26,8 @@ krn_timer_handle_intr(void)
 
     timer_msecs += timer_msecs_per_tick;
 
+    krn_speaker_on_tick();
+
     event.type = EVENT_TIMER_TICK;
     event.payload = timer_msecs;
 

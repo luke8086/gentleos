@@ -69,6 +69,7 @@ krn_exit(void)
     }
 
     krn_vga_deinit();
+    krn_speaker_deinit();
     krn_timer_deinit();
     krn_keyboard_deinit();
 

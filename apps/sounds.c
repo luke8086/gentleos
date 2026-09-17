@@ -150,7 +150,7 @@ on_key_down(uint8_t key_code, uint8_t key_mods)
         prev_widget->draw(prev_widget);
     }
 
-    krn_speaker_play(key_frequency(widget));
+    krn_speaker_play_freq(key_frequency(widget), &app_sounds);
     a->pressed_widget = widget;
     widget->draw(widget);
 }
@@ -167,7 +167,7 @@ on_key_up(uint8_t key_code, uint8_t key_mods)
 
     a->pressed_widget = NULL;
     widget->draw(widget);
-    krn_speaker_stop();
+    krn_speaker_stop(&app_sounds);
 }
 
 static void

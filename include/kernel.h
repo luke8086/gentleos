@@ -29,6 +29,23 @@ typedef struct {
     uint32_t payload;
 } event_st;
 
+enum {
+    SPEAKER_STATE_STOPPED = 0,
+    SPEAKER_STATE_PLAYING = 1,
+    SPEAKER_STATE_PAUSED = 2,
+};
+
+typedef struct {
+    uint8_t state;
+
+    const note_st far *song;
+    void *song_owner;
+    uint32_t song_elapsed_ticks;
+
+    const note_st far *note;
+    uint16_t note_ticks_left;
+} speaker_state_st;
+
 #define VGA_THEME_COUNT 4
 
 typedef struct {

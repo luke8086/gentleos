@@ -78,6 +78,7 @@ typedef int32_t ssize_t;
 
 #define PIT_FREQUENCY 1193180
 #define DEFAULT_TICK_FREQUENCY 20
+#define SONG_TICK_FREQUENCY 100
 
 typedef union {
     void far *ptr;

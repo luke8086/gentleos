@@ -49,12 +49,13 @@ krn_debug_assert(int expr, const char *file, unsigned line)
 global void
 krn_debug_beep_adv(unsigned hz, unsigned msecs, unsigned count)
 {
+    static int beep_owner;
     unsigned i;
 
     for (i = 0; i < count; i++) {
-        krn_speaker_play(hz);
+        krn_speaker_play_freq(hz, &beep_owner);
         sleep(msecs);
-        krn_speaker_stop();
+        krn_speaker_stop(&beep_owner);
         sleep(msecs);
     }
 }

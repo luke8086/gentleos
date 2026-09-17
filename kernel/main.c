@@ -35,6 +35,7 @@ krn_main(void)
     krn_check_load();
     krn_mem_init();
     krn_heap_init();
+    krn_initrd_init();
     krn_keyboard_init();
     krn_timer_init();
     krn_rtc_init();

@@ -96,6 +96,25 @@ typedef struct {
     uint16_t year;
 } time_st;
 
+typedef struct {
+    char name[31];
+    uint8_t type;
+
+    union {
+        uint32_t offset;
+        void far *addr;
+    } u;
+
+    uint32_t size;
+} file_st;
+
+enum {
+    FILE_TYPE_UNKNOWN,
+    FILE_TYPE_BITMAP,
+    FILE_TYPE_SONG,
+    FILE_TYPE_COUNT,
+};
+
 enum {
     KEY_UP = 0x48,
     KEY_DOWN = 0x50,

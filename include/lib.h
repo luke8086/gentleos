@@ -116,6 +116,15 @@ enum {
 };
 
 typedef struct {
+    uint16_t main_segment;
+    uint16_t heap_segment;
+    uint16_t initrd_segment;
+
+    uint16_t initrd_files_count;
+    file_st far *initrd_files;
+} system_info_st;
+
+typedef struct {
     uint16_t pitch;
     uint16_t ticks;
 } note_st;

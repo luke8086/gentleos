@@ -86,12 +86,14 @@ krn_timer_set_frequency(uint16_t hz)
 global void
 krn_timer_init(void)
 {
+    system_info_st *si = &system_info;
+
     krn_debug_printf("Initializing timer... ");
 
     krn_timer_set_frequency(DEFAULT_TICK_FREQUENCY);
 
     krn_get_isr(0x08, &saved_isr_handler);
-    krn_set_isr(0x08, krn_main_segment, (uint16_t)(uint32_t)&krn_isr_timer);
+    krn_set_isr(0x08, si->main_segment, (uint16_t)(uint32_t)&krn_isr_timer);
 
     krn_debug_printf("ok\n");
 }

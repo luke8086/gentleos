@@ -11,6 +11,8 @@
 
 extern uint32_t krn_magic_number;
 
+global system_info_st system_info;
+
 global isr_st far *krn_ivt = MK_FP(0, 0);
 
 static void
@@ -34,7 +36,6 @@ krn_main(void)
     krn_debug_printf("\n");
     krn_check_load();
     krn_mem_init();
-    krn_heap_init();
     krn_initrd_init();
     krn_keyboard_init();
     krn_timer_init();

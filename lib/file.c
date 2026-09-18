@@ -10,15 +10,19 @@
 global uint16_t
 file_count(void)
 {
-    return krn_initrd_files_count;
+    system_info_st *si = &system_info;
+
+    return si->initrd_files_count;
 }
 
 global file_st far *
 file_get(uint16_t index)
 {
-    if (index >= krn_initrd_files_count) {
+    system_info_st *si = &system_info;
+
+    if (index >= si->initrd_files_count) {
         return NULL;
     }
 
-    return &krn_initrd_files[index];
+    return &si->initrd_files[index];
 }

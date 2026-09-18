@@ -9,11 +9,12 @@
 
 #define KRN_HEAP_SIZE 0x10000UL
 
-static uint32_t krn_heap_current_ofs;
-
 global void far *
 krn_heap_alloc(uint16_t size)
 {
+    static uint32_t krn_heap_current_ofs = 0;
+
+    system_info_st *si = &system_info;
     uint32_t remaining_space = KRN_HEAP_SIZE - krn_heap_current_ofs;
     void far *ret;
 
@@ -29,16 +30,10 @@ krn_heap_alloc(uint16_t size)
         /* UNREACHABLE */
     }
 
-    ret = MK_FP(krn_heap_segment, (uint16_t)krn_heap_current_ofs);
+    ret = MK_FP(si->heap_segment, (uint16_t)krn_heap_current_ofs);
     krn_heap_current_ofs += size;
 
     memset_far(ret, 0, size);
 
     return ret;
-}
-
-global void
-krn_heap_init(void)
-{
-    krn_heap_current_ofs = 0;
 }

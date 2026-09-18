@@ -23,19 +23,17 @@ enum {
 
 static const char initrd_dos_path[] = "gentleos.dat";
 
-global uint16_t krn_initrd_files_count;
-global file_st far *krn_initrd_files;
-
 static uint32_t
 initrd_dos_load(void)
 {
+    system_info_st *si = &system_info;
     static char buf[512];
-    uint16_t far *psp_first_free_seg = MK_FP(krn_main_segment, 0x02);
+    uint16_t far *psp_first_free_seg = MK_FP(si->main_segment, 0x02);
     uint32_t total = 0;
     regs_st regs;
     uint16_t handle, n;
 
-    if ((uint32_t)krn_initrd_segment + 0x1000 > *psp_first_free_seg) {
+    if ((uint32_t)si->initrd_segment + 0x1000 > *psp_first_free_seg) {
         krn_debug_printf("not enough memory\n");
         return 0;
     }
@@ -77,7 +75,7 @@ initrd_dos_load(void)
             break;
         }
 
-        memcpy_far(MK_FP(krn_initrd_segment, (uint16_t)total), buf, n);
+        memcpy_far(MK_FP(si->initrd_segment, (uint16_t)total), buf, n);
         total += n;
     }
 
@@ -91,6 +89,7 @@ initrd_dos_load(void)
 global void
 krn_initrd_init(void)
 {
+    system_info_st *si = &system_info;
     initrd_header_st far *header;
     file_st far *files;
     uint32_t image_size = INITRD_MAX_SIZE;
@@ -98,8 +97,8 @@ krn_initrd_init(void)
 
     krn_debug_printf("Initializing initrd... ");
 
-    header = MK_FP(krn_initrd_segment, 0);
-    files = MK_FP(krn_initrd_segment, (uint16_t)sizeof(initrd_header_st));
+    header = MK_FP(si->initrd_segment, 0);
+    files = MK_FP(si->initrd_segment, (uint16_t)sizeof(initrd_header_st));
 
     if (krn_is_dos()) {
         image_size = initrd_dos_load();
@@ -138,12 +137,12 @@ krn_initrd_init(void)
             return;
         }
 
-        files[i].u.addr = MK_FP(krn_initrd_segment, (uint16_t)files[i].u.offset);
+        files[i].u.addr = MK_FP(si->initrd_segment, (uint16_t)files[i].u.offset);
         files[i].name[sizeof(files[i].name) - 1] = 0;
     }
 
     krn_debug_printf("found %u files\n", count);
 
-    krn_initrd_files_count = count;
-    krn_initrd_files = files;
+    si->initrd_files_count = count;
+    si->initrd_files = files;
 }

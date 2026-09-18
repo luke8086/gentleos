@@ -13,10 +13,7 @@ extern int krn_event_pop(event_st *event);
 extern uint16_t krn_event_count(void);
 /* kernel/heap.c */
 extern void far * krn_heap_alloc(uint16_t size);
-extern void krn_heap_init(void);
 /* kernel/initrd.c */
-extern uint16_t krn_initrd_files_count;
-extern file_st far *krn_initrd_files;
 extern void krn_initrd_init(void);
 /* kernel/keyboard.c */
 extern int krn_keyboard_use_bios;
@@ -29,6 +26,7 @@ extern void krn_keyboard_deinit(void);
 extern krn_lock_t krn_lock(void);
 extern void krn_unlock(krn_lock_t lock);
 /* kernel/main.c */
+extern system_info_st system_info;
 extern isr_st far *krn_ivt;
 extern void krn_main(void);
 extern int krn_is_dos(void);
@@ -36,8 +34,6 @@ extern void krn_exit(void);
 extern void krn_set_isr(uint8_t no, uint16_t seg, uint16_t ofs);
 extern void krn_get_isr(uint8_t no, isr_st *dst);
 /* kernel/mem.c */
-extern uint16_t krn_heap_segment;
-extern uint16_t krn_initrd_segment;
 extern void krn_mem_init(void);
 /* kernel/rtc.c */
 extern int krn_rtc_get_time(time_st *t);

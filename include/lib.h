@@ -258,6 +258,8 @@ uint8_t inb(uint16_t port);
 void outb(uint8_t value, uint16_t port);
 void intr(int, regs_st *);
 
+void far *heap_alloc(uint16_t);
+
 #include "p_lib.h"
 
 #endif /* _LIB_H_ */

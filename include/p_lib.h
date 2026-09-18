@@ -10,6 +10,8 @@ extern void bios_reboot(void);
 /* lib/file.c */
 extern uint16_t file_count(void);
 extern file_st far * file_get(uint16_t index);
+/* lib/heap.c */
+extern void far * heap_alloc(uint16_t size);
 /* lib/key.c */
 extern char key_char_for_code(uint8_t code, uint8_t mods);
 extern int key_number_for_code(uint8_t code);

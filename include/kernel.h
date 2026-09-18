@@ -46,8 +46,6 @@ enum {
     KRN_FLAG_COLORS_INVERTED = 1 << 1,
 };
 
-void far *krn_heap_alloc(uint16_t);
-
 #include "p_kernel.h"
 
 #endif /* _KERNEL_H_ */

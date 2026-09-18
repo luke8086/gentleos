@@ -21,7 +21,7 @@ gui_surface_init(void)
 {
     int i;
 
-    gui_surface_pixels = krn_heap_alloc(GUI_FB_PLANE_SIZE);
+    gui_surface_pixels = heap_alloc(GUI_FB_PLANE_SIZE);
 
     for (i = 0; i < 256; ++i) {
         gui_surface_byte_expansions[i] =

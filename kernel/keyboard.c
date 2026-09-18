@@ -92,7 +92,7 @@ krn_keyboard_handle_scancode(uint8_t scancode)
 
     if (key.p.code == KEY_DEL && ctrl && alt && is_key_down) {
         outb(0xFE, PS2_PORT_CMD);
-        bios_reboot();
+        krn_bios_reboot();
     }
 
     (void)krn_event_ipush(&ev);
@@ -119,7 +119,7 @@ krn_keyboard_handle_bios(void)
     event_st ev;
     key_st key;
 
-    while ((key.encoded = bios_get_key()) != 0) {
+    while ((key.encoded = krn_bios_get_key()) != 0) {
         ev.payload = key.encoded;
 
         ev.type = EVENT_KEY_DOWN;

@@ -32,7 +32,7 @@ krn_check_load(void)
 global void
 krn_main(void)
 {
-    bios_uart_init();
+    krn_bios_uart_init();
     krn_debug_printf("\n");
     krn_check_load();
     krn_mem_init();

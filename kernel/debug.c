@@ -22,11 +22,11 @@ krn_debug_printf(const char *fmt, ...)
     va_end(args);
 
 #if DEBUG_TO_UART
-    bios_uart_puts(buf);
+    krn_bios_uart_puts(buf);
 #endif
 
     if (krn_debug_text_mode_enabled) {
-        bios_puts(buf);
+        krn_bios_puts(buf);
     }
 }
 

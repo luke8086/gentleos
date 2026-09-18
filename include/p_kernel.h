@@ -1,3 +1,12 @@
+/* kernel/bios.c */
+extern void krn_bios_putc(char c);
+extern void krn_bios_puts(const char *s);
+extern uint16_t krn_bios_getc(void);
+extern uint16_t krn_bios_get_key(void);
+extern void krn_bios_uart_init(void);
+extern void krn_bios_uart_putc(char c);
+extern void krn_bios_uart_puts(const char *s);
+extern void krn_bios_reboot(void);
 /* kernel/debug.c */
 extern int krn_debug_text_mode_enabled;
 extern void (*krn_debug_status_cb)(const char *, ...);

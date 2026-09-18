@@ -8,7 +8,7 @@
 #include <lib.h>
 
 global void
-bios_putc(char c)
+krn_bios_putc(char c)
 {
     regs_st regs;
 
@@ -20,19 +20,19 @@ bios_putc(char c)
 }
 
 global void
-bios_puts(const char *s)
+krn_bios_puts(const char *s)
 {
     while (*s) {
         if ((*s) == '\n') {
-            bios_putc('\r');
+            krn_bios_putc('\r');
         }
 
-        bios_putc(*s++);
+        krn_bios_putc(*s++);
     }
 }
 
 global uint16_t
-bios_getc(void)
+krn_bios_getc(void)
 {
     regs_st regs;
 
@@ -43,7 +43,7 @@ bios_getc(void)
 }
 
 global uint16_t
-bios_get_key(void)
+krn_bios_get_key(void)
 {
     regs_st regs;
     key_st key;
@@ -70,7 +70,7 @@ bios_get_key(void)
 }
 
 global void
-bios_uart_init(void)
+krn_bios_uart_init(void)
 {
     regs_st regs;
 
@@ -82,7 +82,7 @@ bios_uart_init(void)
 }
 
 global void
-bios_uart_putc(char c)
+krn_bios_uart_putc(char c)
 {
     regs_st regs;
 
@@ -94,19 +94,19 @@ bios_uart_putc(char c)
 }
 
 global void
-bios_uart_puts(const char *s)
+krn_bios_uart_puts(const char *s)
 {
     while (*s) {
         if ((*s) == '\n') {
-            bios_uart_putc('\r');
+            krn_bios_uart_putc('\r');
         }
 
-        bios_uart_putc(*s++);
+        krn_bios_uart_putc(*s++);
     }
 }
 
 global void
-bios_reboot(void)
+krn_bios_reboot(void)
 {
     void (far *reset)(void) = MK_FP(0xFFFF, 0);
     uint8_t far *bda = MK_FP(0x40, 0);

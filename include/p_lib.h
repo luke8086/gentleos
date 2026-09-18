@@ -1,12 +1,3 @@
-/* lib/bios.c */
-extern void bios_putc(char c);
-extern void bios_puts(const char *s);
-extern uint16_t bios_getc(void);
-extern uint16_t bios_get_key(void);
-extern void bios_uart_init(void);
-extern void bios_uart_putc(char c);
-extern void bios_uart_puts(const char *s);
-extern void bios_reboot(void);
 /* lib/file.c */
 extern uint16_t file_count(void);
 extern file_st far * file_get(uint16_t index);

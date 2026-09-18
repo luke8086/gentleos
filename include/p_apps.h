@@ -20,6 +20,8 @@ extern app_st app_mahjong;
 extern app_st app_mines;
 /* apps/pairs.c */
 extern app_st app_pairs;
+/* apps/player.c */
+extern app_st app_player;
 /* apps/setup.c */
 extern app_st app_setup;
 /* apps/snake.c */

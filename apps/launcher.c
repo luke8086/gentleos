@@ -35,6 +35,7 @@ static app_st *apps[] = {
     &app_fonts,
     &app_keys,
     &app_sounds,
+    &app_player,
     &app_mines,
     &app_pairs,
     &app_mahjong,

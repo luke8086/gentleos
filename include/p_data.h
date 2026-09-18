@@ -5,6 +5,7 @@ extern bitmap_st icon_freecell;
 extern bitmap_st icon_klondike;
 extern bitmap_st icon_mines;
 extern bitmap_st icon_pairs;
+extern bitmap_st icon_player;
 extern bitmap_st icon_setup;
 extern bitmap_st icon_tetris;
 extern bitmap_st sprite_mj_ba_2;

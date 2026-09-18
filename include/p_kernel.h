@@ -32,6 +32,8 @@ extern void krn_exit(void);
 extern void krn_set_isr(uint8_t no, uint16_t seg, uint16_t ofs);
 extern void krn_get_isr(uint8_t no, isr_st *dst);
 /* kernel/mem.c */
+extern uint16_t krn_heap_segment;
+extern uint16_t krn_initrd_segment;
 extern void krn_mem_init(void);
 /* kernel/rtc.c */
 extern int krn_rtc_get_time(time_st *t);

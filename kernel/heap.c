@@ -9,7 +9,6 @@
 
 #define KRN_HEAP_SIZE 0x10000UL
 
-static uint16_t krn_heap_segment;
 static uint32_t krn_heap_current_ofs;
 
 global void far *
@@ -41,6 +40,5 @@ krn_heap_alloc(uint16_t size)
 global void
 krn_heap_init(void)
 {
-    krn_heap_segment = krn_main_segment + 0x1000;
     krn_heap_current_ofs = 0;
 }

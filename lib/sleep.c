@@ -13,7 +13,7 @@ sleep(uint32_t msecs)
     uint32_t start = krn_timer_get_msecs();
 
     while (krn_timer_get_msecs() - start < msecs) {
-        cpu_hlt();
+        krn_cpu_hlt();
     }
 }
 
@@ -21,7 +21,7 @@ global void
 halt(void)
 {
     while (1) {
-        cpu_hlt();
+        krn_cpu_hlt();
     }
     /* UNREACHABLE */
 }

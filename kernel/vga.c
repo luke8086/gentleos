@@ -31,7 +31,7 @@ krn_vga_set_color(uint8_t idx, uint32_t rgb)
     regs.h.ah = 0x10;
     regs.h.al = 0x07;
     regs.h.bl = idx;
-    intr(0x10, &regs);
+    krn_intr(0x10, &regs);
     dac_index = regs.h.bh;
 
     regs.h.ah = 0x10;
@@ -41,7 +41,7 @@ krn_vga_set_color(uint8_t idx, uint32_t rgb)
     regs.h.ch = g6;
     regs.h.cl = b6;
 
-    intr(0x10, &regs);
+    krn_intr(0x10, &regs);
 }
 
 global void
@@ -71,7 +71,7 @@ krn_vga_init(void)
 
     regs.h.ah = 0x00;
     regs.h.al = 0x04;
-    intr(0x10, &regs);
+    krn_intr(0x10, &regs);
 
     krn_debug_printf("ok\n");
 
@@ -87,7 +87,7 @@ krn_vga_deinit(void)
 
     regs.h.ah = 0x00;
     regs.h.al = 0x03;
-    intr(0x10, &regs);
+    krn_intr(0x10, &regs);
 
     krn_debug_text_mode_enabled = 1;
 }

@@ -31,7 +31,7 @@ krn_timer_handle_intr(void)
 
     (void)krn_event_ipush(&event);
 
-    outb(0x20, 0x20);
+    krn_outb(0x20, 0x20);
 }
 
 global uint32_t
@@ -46,9 +46,9 @@ krn_timer_get_counter_0(void)
     uint8_t lo, hi;
 
     /* Latch counter 0 and read the snapshot */
-    outb(0x00, PIT_CWR);
-    lo = inb(PIT_CR0);
-    hi = inb(PIT_CR0);
+    krn_outb(0x00, PIT_CWR);
+    lo = krn_inb(PIT_CR0);
+    hi = krn_inb(PIT_CR0);
 
     return ((uint16_t)hi << 8) | lo;
 }
@@ -57,11 +57,11 @@ static void
 krn_timer_set_counter_0(uint16_t div)
 {
     /* Set Counter 0, write both LSB and MSB, use mode 3 (square wave), binary counter */
-    outb(0x36, PIT_CWR);
+    krn_outb(0x36, PIT_CWR);
 
     /* Write LSB and MSB for counter 0 */
-    outb((uint8_t)((div >> 0) & 0xFF), PIT_CR0);
-    outb((uint8_t)((div >> 8) & 0xFF), PIT_CR0);
+    krn_outb((uint8_t)((div >> 0) & 0xFF), PIT_CR0);
+    krn_outb((uint8_t)((div >> 8) & 0xFF), PIT_CR0);
 }
 
 /* Note: The divisor must fit in 16 bits and a tick must last a whole number of msecs */

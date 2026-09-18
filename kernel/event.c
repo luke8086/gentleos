@@ -65,7 +65,7 @@ krn_event_wait(event_st *out)
             break;
         }
 
-        cpu_hlt();
+        krn_cpu_hlt();
     }
 }
 

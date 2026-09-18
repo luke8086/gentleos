@@ -9,14 +9,14 @@
 
 section _TEXT class=CODE
 
-global _cpu_get_flags
-_cpu_get_flags:
+global _krn_cpu_get_flags
+_krn_cpu_get_flags:
     pushf
     pop ax
     ret
 
-global _cpu_set_flags
-_cpu_set_flags:
+global _krn_cpu_set_flags
+_krn_cpu_set_flags:
     push bp
     mov bp, sp
     mov ax, [bp + 4]
@@ -25,18 +25,18 @@ _cpu_set_flags:
     pop bp
     ret
 
-global _cpu_cli
-_cpu_cli:
+global _krn_cpu_cli
+_krn_cpu_cli:
     cli
     ret
 
-global _cpu_hlt
-_cpu_hlt:
+global _krn_cpu_hlt
+_krn_cpu_hlt:
     hlt
     ret
 
-global _inb
-_inb:
+global _krn_inb
+_krn_inb:
     push bp
     mov bp, sp
 
@@ -49,8 +49,8 @@ _inb:
     pop bp
     ret
 
-global _outb
-_outb:
+global _krn_outb
+_krn_outb:
     push bp
     mov bp, sp
     push dx
@@ -67,8 +67,8 @@ _outb:
     ret
 
 
-global _intr
-_intr:
+global _krn_intr
+_krn_intr:
     push bp
     mov bp, sp
 
@@ -77,7 +77,7 @@ _intr:
     push bp
 
     mov ax, [bp+4]
-    mov byte [intr_int+1], al
+    mov byte [krn_intr_int+1], al
     jmp short $+2
 
     mov si, [bp+6]
@@ -89,7 +89,7 @@ _intr:
     mov di, [si+10]
     mov si, [si+12]
 
-intr_int:
+krn_intr_int:
     int 0
 
     pop bp

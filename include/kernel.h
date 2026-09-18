@@ -46,6 +46,29 @@ enum {
     KRN_FLAG_COLORS_INVERTED = 1 << 1,
 };
 
+/* kernel/cpu.s */
+typedef union {
+    struct {
+        uint16_t ax, bx, cx, dx;
+        uint16_t bp, di, si, flags;
+    } x;
+
+    struct {
+        uint8_t al, ah;
+        uint8_t bl, bh;
+        uint8_t cl, ch;
+        uint8_t dl, dh;
+    } h;
+} regs_st;
+
+uint16_t krn_cpu_get_flags(void);
+void krn_cpu_set_flags(uint16_t flags);
+void krn_cpu_cli(void);
+void krn_cpu_hlt(void);
+uint8_t krn_inb(uint16_t port);
+void krn_outb(uint8_t value, uint16_t port);
+void krn_intr(int, regs_st *);
+
 #include "p_kernel.h"
 
 #endif /* _KERNEL_H_ */

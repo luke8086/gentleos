@@ -91,7 +91,7 @@ krn_keyboard_handle_scancode(uint8_t scancode)
 #endif
 
     if (key.p.code == KEY_DEL && ctrl && alt && is_key_down) {
-        outb(0xFE, PS2_PORT_CMD);
+        krn_outb(0xFE, PS2_PORT_CMD);
         krn_bios_reboot();
     }
 
@@ -102,15 +102,15 @@ global void
 krn_keyboard_handle_intr(void)
 {
     uint8_t ctrl;
-    uint8_t scan = inb(PS2_PORT_DATA);
+    uint8_t scan = krn_inb(PS2_PORT_DATA);
 
     krn_keyboard_handle_scancode(scan);
 
-    ctrl = inb(0x61);
-    outb(ctrl | 0x80, 0x61);
-    outb(ctrl, 0x61);
+    ctrl = krn_inb(0x61);
+    krn_outb(ctrl | 0x80, 0x61);
+    krn_outb(ctrl, 0x61);
 
-    outb(0x20, 0x20);
+    krn_outb(0x20, 0x20);
 }
 
 global void

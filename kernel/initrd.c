@@ -41,7 +41,7 @@ initrd_dos_load(void)
     regs.h.ah = 0x3d;
     regs.h.al = 0x00;
     regs.x.dx = (uint16_t)(uint32_t)initrd_dos_path;
-    intr(0x21, &regs);
+    krn_intr(0x21, &regs);
 
     if (regs.x.flags & 0x0001) {
         krn_debug_printf("not found\n");
@@ -55,7 +55,7 @@ initrd_dos_load(void)
         regs.x.bx = handle;
         regs.x.cx = sizeof(buf);
         regs.x.dx = (uint16_t)(uint32_t)buf;
-        intr(0x21, &regs);
+        krn_intr(0x21, &regs);
 
         if (regs.x.flags & 0x0001) {
             krn_debug_printf("read error\n");
@@ -81,7 +81,7 @@ initrd_dos_load(void)
 
     regs.h.ah = 0x3e;
     regs.x.bx = handle;
-    intr(0x21, &regs);
+    krn_intr(0x21, &regs);
 
     return total;
 }

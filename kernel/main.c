@@ -72,7 +72,7 @@ krn_exit(void)
     krn_timer_deinit();
     krn_keyboard_deinit();
 
-    intr(0x20, &regs);
+    krn_intr(0x20, &regs);
 }
 
 global void

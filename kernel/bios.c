@@ -5,7 +5,7 @@
  * File: bios.c - Wrappers for BIOS functions
  */
 
-#include <lib.h>
+#include <kernel.h>
 
 global void
 krn_bios_putc(char c)
@@ -16,7 +16,7 @@ krn_bios_putc(char c)
     regs.h.al = c;
     regs.x.bx = 0;
 
-    intr(0x10, &regs);
+    krn_intr(0x10, &regs);
 }
 
 global void
@@ -37,7 +37,7 @@ krn_bios_getc(void)
     regs_st regs;
 
     regs.h.ah = 0x00;
-    intr(0x16, &regs);
+    krn_intr(0x16, &regs);
 
     return regs.x.ax;
 }
@@ -49,18 +49,18 @@ krn_bios_get_key(void)
     key_st key;
 
     regs.h.ah = 0x01;
-    intr(0x16, &regs);
+    krn_intr(0x16, &regs);
 
     if (regs.x.flags & 0x40) {
         return 0;
     }
 
     regs.h.ah = 0x00;
-    intr(0x16, &regs);
+    krn_intr(0x16, &regs);
     key.p.code = regs.h.ah;
 
     regs.h.ah = 0x02;
-    intr(0x16, &regs);
+    krn_intr(0x16, &regs);
     key.p.mods =
         (KEY_MOD_SHIFT * ((regs.h.al & 0x03) != 0)) |
         (KEY_MOD_CTRL  * ((regs.h.al & 0x04) != 0)) |
@@ -78,7 +78,7 @@ krn_bios_uart_init(void)
     regs.h.al = 0xe3; /* 8N1, 9600 */
     regs.x.dx = 0;
 
-    intr(0x14, &regs);
+    krn_intr(0x14, &regs);
 }
 
 global void
@@ -90,7 +90,7 @@ krn_bios_uart_putc(char c)
     regs.h.al = c;
     regs.x.dx = 0;
 
-    intr(0x14, &regs);
+    krn_intr(0x14, &regs);
 }
 
 global void

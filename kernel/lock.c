@@ -13,8 +13,8 @@ krn_lock(void)
 {
     krn_lock_t ret;
 
-    ret = cpu_get_flags();
-    cpu_cli();
+    ret = krn_cpu_get_flags();
+    krn_cpu_cli();
 
     return ret;
 }
@@ -22,5 +22,5 @@ krn_lock(void)
 global void
 krn_unlock(krn_lock_t lock)
 {
-    cpu_set_flags(lock);
+    krn_cpu_set_flags(lock);
 }

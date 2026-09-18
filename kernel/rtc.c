@@ -41,15 +41,15 @@ valid_bcd(uint8_t val, uint8_t max)
 static uint8_t
 krn_rtc_get_reg(uint8_t reg)
 {
-    outb(reg, RTC_PORT_ADDR);
-    return inb(RTC_PORT_DATA);
+    krn_outb(reg, RTC_PORT_ADDR);
+    return krn_inb(RTC_PORT_DATA);
 }
 
 static void
 krn_rtc_set_reg(uint8_t reg, uint8_t val)
 {
-    outb(reg, RTC_PORT_ADDR);
-    outb(val, RTC_PORT_DATA);
+    krn_outb(reg, RTC_PORT_ADDR);
+    krn_outb(val, RTC_PORT_DATA);
 }
 
 static uint8_t

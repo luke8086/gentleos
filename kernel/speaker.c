@@ -17,8 +17,8 @@ enum {
 global void
 krn_speaker_stop(void)
 {
-    uint8_t val = inb(PPI_PB);
-    outb(val & ~0x03, PPI_PB);
+    uint8_t val = krn_inb(PPI_PB);
+    krn_outb(val & ~0x03, PPI_PB);
  }
 
 global void
@@ -34,14 +34,14 @@ krn_speaker_play(uint16_t hz)
     }
 
     /* Configure counter 2 of PIT to mode 3 (square wave) */
-    outb(0xB6, PIT_CWR);
+    krn_outb(0xB6, PIT_CWR);
 
     /* Set counter 2 to the desired frequency */
     (void)udiv32(&divisor, PIT_FREQUENCY, hz);
-    outb((uint16_t)divisor & 0xFF, PIT_CR2);
-    outb(((uint16_t)divisor >> 8) & 0xFF, PIT_CR2);
+    krn_outb((uint16_t)divisor & 0xFF, PIT_CR2);
+    krn_outb(((uint16_t)divisor >> 8) & 0xFF, PIT_CR2);
 
     /* Enable speaker by setting bits 0 (speaker enable) and 1 (gate) on port 0x61 */
-    val = inb(PPI_PB);
-    outb(val | 0x03, PPI_PB);
+    val = krn_inb(PPI_PB);
+    krn_outb(val | 0x03, PPI_PB);
 }

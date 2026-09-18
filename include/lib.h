@@ -235,29 +235,6 @@ typedef union {
     } p;
 } key_st;
 
-/* lib/cpu.s */
-typedef union {
-    struct {
-        uint16_t ax, bx, cx, dx;
-        uint16_t bp, di, si, flags;
-    } x;
-
-    struct {
-        uint8_t al, ah;
-        uint8_t bl, bh;
-        uint8_t cl, ch;
-        uint8_t dl, dh;
-    } h;
-} regs_st;
-
-uint16_t cpu_get_flags(void);
-void cpu_set_flags(uint16_t flags);
-void cpu_cli(void);
-void cpu_hlt(void);
-uint8_t inb(uint16_t port);
-void outb(uint8_t value, uint16_t port);
-void intr(int, regs_st *);
-
 void far *heap_alloc(uint16_t);
 
 #include "p_lib.h"

@@ -231,11 +231,18 @@ on_show(void)
 }
 
 static void
+on_close(void)
+{
+    krn_speaker_stop(&app_sounds);
+}
+
+static void
 on_init(void)
 {
     ASSERT(sizeof(app_state_st) <= sizeof(gui_app_shared_buffer));
 
     app_sounds.on_show = on_show;
+    app_sounds.on_close = on_close;
     app_sounds.on_key_down = on_key_down;
     app_sounds.on_key_up = on_key_up;
 }

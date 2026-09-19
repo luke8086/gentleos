@@ -47,7 +47,7 @@ krn_mem_init(void)
 
     si->main_segment = krn_main_segment;
     si->heap_segment = (si->main_segment + 0x1000 + 0xfff) & 0xf000;
-    si->initrd_segment = si->heap_segment + 0x1000;;
+    si->initrd_segment = si->heap_segment + 0x1000;
 
     krn_mem_dump_layout();
 }

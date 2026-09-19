@@ -21,7 +21,7 @@ my @FILE_TYPE_NAMES = (
     "song",
 );
 
-my $PLAYER_TIMER_HZ = 100;
+my $SONG_TICK_FREQUENCY = 100; # Must match lib.h
 my $OUTPUT_MAX_SIZE = 0x10000; # 64KB
 my $OUTPUT_PATH = "gentleos.dat";
 
@@ -92,7 +92,7 @@ sub process_spk {
         my ($pitch, $duration) = @$segment;
 
         $total_ms += $duration;
-        my $ticks = int(($total_ms * $PLAYER_TIMER_HZ + 500) / 1000) - $total_ticks;
+        my $ticks = int(($total_ms * $SONG_TICK_FREQUENCY + 500) / 1000) - $total_ticks;
         $ticks = max(min($ticks, 0xffff), 1);
         $total_ticks += $ticks;
 

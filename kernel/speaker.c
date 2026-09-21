@@ -18,6 +18,9 @@ enum {
 
 static volatile speaker_state_st krn_speaker_state;
 
+/* Preserved speaker bits of port B, since V86.js doesn't read them back */
+global uint8_t krn_speaker_ppi_bits;
+
 static void
 krn_speaker_set_freq(uint16_t hz)
 {
@@ -28,6 +31,7 @@ krn_speaker_set_freq(uint16_t hz)
     if (hz == 0) {
         val = krn_inb(PPI_PB);
         krn_outb(val & ~0x03, PPI_PB);
+        krn_speaker_ppi_bits = 0;
         return;
     }
 
@@ -44,6 +48,7 @@ krn_speaker_set_freq(uint16_t hz)
     /* Enable speaker by setting bits 0 (speaker enable) and 1 (gate) on port 0x61 */
     val = krn_inb(PPI_PB);
     krn_outb(val | 0x03, PPI_PB);
+    krn_speaker_ppi_bits = 0x03;
 }
 
 /* Must be called while locked or in interrupt context */

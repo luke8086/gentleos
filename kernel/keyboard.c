@@ -106,7 +106,7 @@ krn_keyboard_handle_intr(void)
 
     krn_keyboard_handle_scancode(scan);
 
-    ctrl = krn_inb(0x61);
+    ctrl = krn_inb(0x61) | krn_speaker_ppi_bits;
     krn_outb(ctrl | 0x80, 0x61);
     krn_outb(ctrl, 0x61);
 

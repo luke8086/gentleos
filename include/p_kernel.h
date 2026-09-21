@@ -47,6 +47,7 @@ extern int krn_rtc_get_time(time_st *t);
 extern void krn_rtc_set_time(time_st *t);
 extern void krn_rtc_init(void);
 /* kernel/speaker.c */
+extern uint8_t krn_speaker_ppi_bits;
 extern void krn_speaker_get_state(speaker_state_st *out);
 extern void krn_speaker_play_song(const note_st far *notes, void *owner);
 extern void krn_speaker_play_freq(uint16_t hz, void *owner);

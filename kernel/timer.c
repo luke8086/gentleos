@@ -24,6 +24,7 @@ krn_timer_handle_intr(void)
 {
     event_st event;
 
+    /* At default 18.2Hz freq this drifts by ~2min/day */
     timer_msecs += timer_msecs_per_tick;
 
     krn_speaker_on_tick();
@@ -86,13 +87,26 @@ krn_timer_set_frequency(uint16_t hz)
 }
 
 global void
+krn_timer_set_default_frequency(void)
+{
+    krn_lock_t lock;
+
+    lock = krn_lock();
+
+    timer_msecs_per_tick = DEFAULT_TICK_MSECS;
+    krn_timer_set_counter_0(0);
+
+    krn_unlock(lock);
+}
+
+global void
 krn_timer_init(void)
 {
     system_info_st *si = &system_info;
 
     krn_debug_printf("Initializing timer... ");
 
-    krn_timer_set_frequency(DEFAULT_TICK_FREQUENCY);
+    krn_timer_set_default_frequency();
 
     krn_get_isr(0x08, &saved_isr_handler);
     krn_set_isr(0x08, si->main_segment, (uint16_t)(uint32_t)&krn_isr_timer);
@@ -103,6 +117,6 @@ krn_timer_init(void)
 global void
 krn_timer_deinit(void)
 {
-    krn_timer_set_counter_0(0);
+    krn_timer_set_default_frequency();
     krn_set_isr(0x08, saved_isr_handler.seg, saved_isr_handler.ofs);
 }

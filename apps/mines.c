@@ -438,6 +438,5 @@ on_init(void)
 global app_st app_mines = {
     "Mines",
     &icon_mines,
-    DEFAULT_TICK_FREQUENCY,
     on_init,
 };

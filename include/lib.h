@@ -77,8 +77,10 @@ typedef int32_t ssize_t;
 #define ASSERT(expr) krn_debug_assert((expr), __FILE__, __LINE__)
 
 #define PIT_FREQUENCY 1193180
-#define DEFAULT_TICK_FREQUENCY 20
 #define SONG_TICK_FREQUENCY 100
+
+#define DEFAULT_TICK_MSECS 55 /* At 18.2Hz */
+#define MSECS_TO_TICKS(msecs) (((msecs) + DEFAULT_TICK_MSECS / 2) / DEFAULT_TICK_MSECS)
 
 typedef union {
     void far *ptr;

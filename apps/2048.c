@@ -23,8 +23,7 @@ enum {
     WINDOW_HEIGHT = GRID_Y + GRID_HEIGHT + 1,
 
     CELL_EXP_WIN = 11, /* 2^11 == 2048 */
-    TICK_FREQUENCY = DEFAULT_TICK_FREQUENCY,
-    FLASH_TICKS = TICK_FREQUENCY * 15 / 100, /* 0.15s */
+    FLASH_TICKS = MSECS_TO_TICKS(150),
 };
 
 typedef struct {
@@ -476,6 +475,5 @@ on_init(void)
 global app_st app_2048 = {
     "2048",
     &icon_2048,
-    TICK_FREQUENCY,
     on_init,
 };

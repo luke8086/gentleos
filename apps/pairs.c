@@ -23,8 +23,7 @@ enum {
 
     PAIR_COUNT = GRID_CELL_COUNT / 2,
 
-    TICK_FREQUENCY = DEFAULT_TICK_FREQUENCY,
-    MISMATCH_TICKS = TICK_FREQUENCY, /* 1s */
+    MISMATCH_TICKS = MSECS_TO_TICKS(1000),
 };
 
 static window_st window;
@@ -308,6 +307,5 @@ on_init(void)
 global app_st app_pairs = {
     "Pairs",
     &icon_pairs,
-    TICK_FREQUENCY,
     on_init,
 };

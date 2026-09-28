@@ -240,6 +240,5 @@ on_init(void)
 global app_st app_setup = {
     "Setup",
     &icon_setup,
-    DEFAULT_TICK_FREQUENCY,
     on_init,
 };

@@ -250,6 +250,5 @@ on_init(void)
 global app_st app_sounds = {
     "Sounds",
     &icon_sounds,
-    DEFAULT_TICK_FREQUENCY,
     on_init,
 };

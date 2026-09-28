@@ -39,8 +39,7 @@ enum {
     WINDOW_WIDTH = CONTENT_X + CONTENT_WIDTH + PADDING,
     WINDOW_HEIGHT = GRID_Y + GRID_HEIGHT + 1 + PADDING,
 
-    TICK_FREQUENCY = SONG_TICK_FREQUENCY,
-    REFRESH_TICKS = TICK_FREQUENCY * 25 / 100, /* 0.25s */
+    REFRESH_TICKS = SONG_TICK_FREQUENCY * 25 / 100, /* 0.25s */
 
     SONG_MAX_COUNT = 16,
 };
@@ -141,7 +140,7 @@ get_ticks_duration(uint32_t ticks, unsigned *mins, unsigned *secs)
 {
     uint32_t total_secs;
 
-    (void)udiv32(&total_secs, ticks, TICK_FREQUENCY);
+    (void)udiv32(&total_secs, ticks, SONG_TICK_FREQUENCY);
 
     total_secs = MIN(total_secs, 99UL * 60 + 59);
 
@@ -327,8 +326,8 @@ sync_playback_state(const speaker_state_st *st, int refresh_status)
         elapsed_ticks = MIN(st->song_elapsed_ticks, total_ticks);
     }
 
-    (void)udiv32(&elapsed_secs, elapsed_ticks, TICK_FREQUENCY);
-    (void)udiv32(&total_secs, total_ticks, TICK_FREQUENCY);
+    (void)udiv32(&elapsed_secs, elapsed_ticks, SONG_TICK_FREQUENCY);
+    (void)udiv32(&total_secs, total_ticks, SONG_TICK_FREQUENCY);
 
     if (elapsed_secs != a->last_elapsed_secs || total_secs != a->last_total_secs) {
         draw_time(elapsed_ticks);
@@ -526,6 +525,8 @@ on_show(void)
 {
     app_state_st *a = app_state;
 
+    krn_timer_set_frequency(SONG_TICK_FREQUENCY);
+
     gui_window_init(&a->window, WINDOW_WIDTH, WINDOW_HEIGHT);
     init_grid();
     init_songs();
@@ -562,6 +563,5 @@ on_init(void)
 global app_st app_player = {
     "Player",
     &icon_player,
-    TICK_FREQUENCY,
     on_init,
 };

@@ -188,6 +188,5 @@ on_init(void)
 global app_st app_fonts = {
     "Fonts",
     &icon_fonts,
-    DEFAULT_TICK_FREQUENCY,
     on_init,
 };

@@ -36,7 +36,7 @@ gui_app_launch(app_st *app)
 
     gui_app_current = app;
 
-    krn_timer_set_frequency(gui_app_current->tick_frequency);
+    krn_timer_set_default_frequency();
 
     memset(gui_app_shared_buffer, 0, sizeof(gui_app_shared_buffer));
 

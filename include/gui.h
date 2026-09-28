@@ -82,7 +82,6 @@ typedef struct {
 typedef struct {
     const char *name;
     bitmap_st *icon;
-    uint16_t tick_frequency;
     void (*on_init)(void);
     void (*on_show)(void);
     void (*on_key_down)(uint8_t, uint8_t);

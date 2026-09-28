@@ -624,6 +624,5 @@ on_init(void)
 global app_st app_mahjong = {
     "Mahjong",
     &glyph_mn_east_icn,
-    DEFAULT_TICK_FREQUENCY,
     on_init,
 };

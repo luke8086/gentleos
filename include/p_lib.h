@@ -40,4 +40,4 @@ extern void time_clear(time_st *t);
 extern void time_copy(time_st *dst, time_st *src);
 extern void time_add_seconds(time_st *t, uint32_t secs);
 extern void time_get(time_st *t);
-extern void time_set(time_st *t, int set_rtc);
+extern void time_set(time_st *t);

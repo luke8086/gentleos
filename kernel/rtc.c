@@ -26,12 +26,6 @@ from_bcd(uint16_t bcd)
     return ret;
 }
 
-static uint8_t
-to_bcd(uint8_t val)
-{
-    return ((val / 10) << 4) | (val % 10);
-}
-
 static int
 valid_bcd(uint8_t val, uint8_t max)
 {
@@ -43,13 +37,6 @@ krn_rtc_get_reg(uint8_t reg)
 {
     krn_outb(reg, RTC_PORT_ADDR);
     return krn_inb(RTC_PORT_DATA);
-}
-
-static void
-krn_rtc_set_reg(uint8_t reg, uint8_t val)
-{
-    krn_outb(reg, RTC_PORT_ADDR);
-    krn_outb(val, RTC_PORT_DATA);
 }
 
 static uint8_t
@@ -168,34 +155,6 @@ krn_rtc_get_time(time_st *t)
 }
 
 global void
-krn_rtc_set_time(time_st *t)
-{
-    uint8_t reg_b;
-
-    /* Update HW clock only if status register A is valid */
-    if (krn_rtc_get_reg(0x0a) == 0xFF) {
-        return;
-    }
-
-    /* Force BCD (clear DM) + 24h (set bit 1), preserve other bits */
-    reg_b = krn_rtc_get_reg(0x0b);
-    reg_b = (reg_b | 0x02) & ~0x04;
-
-    /* Inhibit updates while writing */
-    krn_rtc_set_reg(0x0b, reg_b | 0x80);
-
-    krn_rtc_set_reg(0x00, to_bcd(t->second));
-    krn_rtc_set_reg(0x02, to_bcd(t->minute));
-    krn_rtc_set_reg(0x04, to_bcd(t->hour));
-    krn_rtc_set_reg(0x07, to_bcd(t->day));
-    krn_rtc_set_reg(0x08, to_bcd(t->month));
-    krn_rtc_set_reg(0x09, to_bcd(t->year % 100));
-
-    /* Resume updates */
-    krn_rtc_set_reg(0x0b, reg_b);
-}
-
-global void
 krn_rtc_init(void)
 {
     int avail;
@@ -206,14 +165,14 @@ krn_rtc_init(void)
     avail = krn_rtc_get_time(&t);
 
     if (avail && t.year > 2000) {
-        time_set(&t, 0);
+        time_set(&t);
         krn_debug_printf("available and set\n");
         return;
     }
 
     time_init(&t, DEFAULT_YEAR, DEFAULT_MONTH, DEFAULT_DAY,
         DEFAULT_HOUR, DEFAULT_MINUTE, 0);
-    time_set(&t, 1);
+    time_set(&t);
 
     krn_debug_printf(avail ? "available but unset" : "unavailable");
     krn_debug_printf(", using default time\n");

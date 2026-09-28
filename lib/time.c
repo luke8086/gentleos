@@ -132,12 +132,8 @@ time_get(time_st *t)
 }
 
 global void
-time_set(time_st *t, int set_rtc)
+time_set(time_st *t)
 {
     time_copy(&time_base, t);
     time_base_msecs = krn_timer_get_msecs();
-
-    if (set_rtc) {
-        krn_rtc_set_time(t);
-    }
 }

@@ -44,7 +44,6 @@ extern void krn_get_isr(uint8_t no, isr_st *dst);
 extern void krn_mem_init(void);
 /* kernel/rtc.c */
 extern int krn_rtc_get_time(time_st *t);
-extern void krn_rtc_set_time(time_st *t);
 extern void krn_rtc_init(void);
 /* kernel/speaker.c */
 extern uint8_t krn_speaker_ppi_bits;

@@ -195,7 +195,7 @@ save_fields(void)
     t.hour = fields[FIELD_HOUR].val;
     t.minute = fields[FIELD_MINUTE].val;
     t.second = fields[FIELD_SECOND].val;;
-    time_set(&t, 1);
+    time_set(&t);
 
     if (fields[FIELD_THEME].val != krn_vga_current_theme) {
         krn_vga_set_theme(fields[FIELD_THEME].val);

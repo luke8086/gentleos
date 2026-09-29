@@ -3,7 +3,7 @@
 A hobby operating system for vintage 16-bit PCs,
 built for tinkering with old hardware on the bare metal.
 
-You can find more information on its [website](https://luke8086.dev/gentleos16).
+You can find more information on its [website](https://luke8086.dev/gentleos/16).
 
 It's a simplified version of [GentleOS/32](https://github.com/luke8086/gentleos32),
 targetting i386+ devices.

@@ -89,6 +89,9 @@ _krn_intr:
     mov di, [si+10]
     mov si, [si+12]
 
+    ; Clear CF since some BIOSes may leave it unchanged on success
+    clc
+
 krn_intr_int:
     int 0
 

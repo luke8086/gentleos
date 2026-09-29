@@ -31,7 +31,7 @@ gui_main(void)
     event_st event;
 
     gui_surface_init();
-    gui_colors_inverted = (krn_flags & KRN_FLAG_COLORS_INVERTED) ? 1 : DEFAULT_COLORS_INVERTED;
+    gui_colors_inverted = (krn_flags & KRN_FLAG_COLORS_INVERTED) != 0;
     gui_set_colors_inverted(gui_colors_inverted);
     gui_surface_clear();
     gui_status_init();

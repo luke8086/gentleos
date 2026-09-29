@@ -14,7 +14,7 @@ global const vga_theme_st krn_vga_themes[VGA_THEME_COUNT] = {
     { 0x55ffff, 0x002041, "Cyan/Blue" },
 };
 
-global int krn_vga_current_theme = DEFAULT_VGA_THEME;
+global int krn_vga_current_theme;
 
 static void
 krn_vga_set_color(uint8_t idx, uint32_t rgb)
@@ -75,9 +75,7 @@ krn_vga_init(void)
 
     krn_debug_printf("ok\n");
 
-#if DEFAULT_VGA_THEME
-    krn_vga_set_theme(DEFAULT_VGA_THEME);
-#endif
+    krn_vga_set_theme(1);
 }
 
 global void

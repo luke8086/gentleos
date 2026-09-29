@@ -8,7 +8,7 @@
 my $KRN_FLAG_COLORS_INVERTED = (1 << 1);
 
 my $KERNEL_SIZE = 127 * 512;
-my $INITRD_SIZE = 128 * 512;
+my $INITRD_SIZE = 256 * 512;
 
 sub slurp {
     my ($path) = @_;

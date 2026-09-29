@@ -14,14 +14,28 @@ typedef struct {
 } initrd_header_st;
 
 #define INITRD_MAGIC 0x32445249UL /* "IRD2" */
-#define INITRD_MAX_SIZE 0x10000L
+#define INITRD_MAX_SIZE 0x20000L
+#define INITRD_MAX_TABLE_SIZE 0x10000L
 
 enum {
     INITRD_VERSION = 2,
-    INITRD_MAX_COUNT = (INITRD_MAX_SIZE - sizeof(initrd_header_st)) / sizeof(file_st),
+    INITRD_MAX_COUNT = (INITRD_MAX_TABLE_SIZE - sizeof(initrd_header_st)) / sizeof(file_st),
 };
 
 static const char initrd_dos_path[] = "gentleos.dat";
+
+static void far *
+initrd_get_addr(uint32_t offset)
+{
+    uint16_t ofs = (uint16_t)offset;
+    uint16_t seg = system_info.initrd_segment + (ofs >> 4);
+
+    if (offset >= 0x10000UL) {
+        seg += 0x1000;
+    }
+
+    return MK_FP(seg, ofs & 0x0f);
+}
 
 static uint32_t
 initrd_dos_load(void)
@@ -33,7 +47,7 @@ initrd_dos_load(void)
     regs_st regs;
     uint16_t handle, n;
 
-    if ((uint32_t)si->initrd_segment + 0x1000 > *psp_first_free_seg) {
+    if ((uint32_t)si->initrd_segment + (INITRD_MAX_SIZE >> 4) > *psp_first_free_seg) {
         krn_debug_printf("not enough memory\n");
         return 0;
     }
@@ -75,7 +89,7 @@ initrd_dos_load(void)
             break;
         }
 
-        memcpy_far(MK_FP(si->initrd_segment, (uint16_t)total), buf, n);
+        memcpy_far(initrd_get_addr(total), buf, n);
         total += n;
     }
 
@@ -137,7 +151,7 @@ krn_initrd_init(void)
             return;
         }
 
-        files[i].u.addr = MK_FP(si->initrd_segment, (uint16_t)files[i].u.offset);
+        files[i].u.addr = initrd_get_addr(files[i].u.offset);
         files[i].name[sizeof(files[i].name) - 1] = 0;
     }
 

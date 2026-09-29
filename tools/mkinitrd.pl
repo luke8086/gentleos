@@ -22,7 +22,8 @@ my @FILE_TYPE_NAMES = (
 );
 
 my $SONG_TICK_FREQUENCY = 100; # Must match lib.h
-my $OUTPUT_MAX_SIZE = 0x10000; # 64KB
+my $OUTPUT_MAX_SIZE = 0x20000; # 128KB, must match initrd.c
+my $FILE_MAX_SIZE = 0xfff0;    # Must be addressable through one far pointer
 my $OUTPUT_PATH = "gentleos.dat";
 
 sub min {
@@ -122,6 +123,10 @@ sub build_initrd {
         my $name = $file->{name};
         my $size = length($file->{data});
         my $ftype = $file->{type};
+
+        if ($size > $FILE_MAX_SIZE) {
+            die "Error: file \"$name\" is too big ($size > $FILE_MAX_SIZE bytes)\n";
+        }
 
         printf "- %s: %x (%u B, %s)\n", $name, $offset, $size, $FILE_TYPE_NAMES[$ftype];
 

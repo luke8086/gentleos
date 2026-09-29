@@ -44,17 +44,6 @@ time_get_days_in_month(int month, int year)
     return (is_leap && month == 2) ? 29 : days_in_month[month];
 }
 
-global int
-time_equals(time_st *t1, time_st *t2)
-{
-    return t1->year == t2->year &&
-        t1->month == t2->month &&
-        t1->day == t2->day &&
-        t1->hour == t2->hour &&
-        t1->minute == t2->minute &&
-        t1->second == t2->second;
-}
-
 global void
 time_init(time_st *t, uint16_t year, uint8_t month, uint8_t day,
     uint8_t hour, uint8_t minute, uint8_t second)
@@ -65,12 +54,6 @@ time_init(time_st *t, uint16_t year, uint8_t month, uint8_t day,
     t->hour = hour;
     t->minute = minute;
     t->second = second;
-}
-
-global void
-time_clear(time_st *t)
-{
-    time_init(t, 1, 1, 1, 0, 0, 0);
 }
 
 global void

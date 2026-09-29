@@ -7,6 +7,18 @@
 
 #include <kernel.h>
 
+static uint8_t
+from_bcd(uint8_t bcd)
+{
+    return ((bcd >> 4) & 0x0F) * 10 + (bcd & 0x0F);
+}
+
+static int
+valid_bcd(uint8_t val, uint8_t min, uint8_t max)
+{
+    return (val & 0x0F) <= 9 && (val >> 4) <= 9 && val >= min && val <= max;
+}
+
 global void
 krn_bios_putc(char c)
 {
@@ -67,6 +79,51 @@ krn_bios_get_key(void)
         (KEY_MOD_ALT   * ((regs.h.al & 0x08) != 0));
 
     return key.encoded;
+}
+
+global int
+krn_bios_get_time(time_st *t)
+{
+    regs_st regs;
+
+    regs.h.ah = 0x04;
+    regs.x.cx = 0xFFFF;
+    regs.x.dx = 0xFFFF;
+    krn_intr(0x1a, &regs);
+
+    if ((regs.x.flags & 0x0001)
+        || !valid_bcd(regs.h.ch, 0x19, 0x20)
+        || !valid_bcd(regs.h.cl, 0x00, 0x99)
+        || !valid_bcd(regs.h.dh, 0x01, 0x12)
+        || !valid_bcd(regs.h.dl, 0x01, 0x31)) {
+        return 0;
+    }
+
+    t->year = from_bcd(regs.h.ch) * 100 + from_bcd(regs.h.cl);
+    t->month = from_bcd(regs.h.dh);
+    t->day = from_bcd(regs.h.dl);
+
+    if (t->year < 1980) {
+        t->year += 100;
+    }
+
+    regs.h.ah = 0x02;
+    regs.x.cx = 0xFFFF;
+    regs.x.dx = 0xFFFF;
+    krn_intr(0x1a, &regs);
+
+    if ((regs.x.flags & 0x0001)
+        || !valid_bcd(regs.h.ch, 0x00, 0x23)
+        || !valid_bcd(regs.h.cl, 0x00, 0x59)
+        || !valid_bcd(regs.h.dh, 0x00, 0x59)) {
+        return 0;
+    }
+
+    t->hour = from_bcd(regs.h.ch);
+    t->minute = from_bcd(regs.h.cl);
+    t->second = from_bcd(regs.h.dh);
+
+    return 1;
 }
 
 global void

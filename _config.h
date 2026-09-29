@@ -26,12 +26,3 @@
  */
 #define DEBUG_TO_UART 0
 
-/*
- * Default date & time to set on boot if the current year is below 2000.
- * This is useful for hardware with dead RTC battery
- */
-#define DEFAULT_YEAR 2026
-#define DEFAULT_MONTH 6
-#define DEFAULT_DAY 1
-#define DEFAULT_HOUR 12
-#define DEFAULT_MINUTE 00

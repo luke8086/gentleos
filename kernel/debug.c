@@ -7,6 +7,10 @@
 
 #include <kernel.h>
 
+enum {
+    DEBUG_TO_UART = 0,
+};
+
 static char buf[128];
 
 global int krn_debug_text_mode_enabled = 1;
@@ -21,9 +25,9 @@ krn_debug_printf(const char *fmt, ...)
     (void)vsnprintf(buf, sizeof(buf), fmt, args);
     va_end(args);
 
-#if DEBUG_TO_UART
-    krn_bios_uart_puts(buf);
-#endif
+    if (DEBUG_TO_UART) {
+        krn_bios_uart_puts(buf);
+    }
 
     if (krn_debug_text_mode_enabled) {
         krn_bios_puts(buf);

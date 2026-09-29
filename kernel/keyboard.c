@@ -14,7 +14,7 @@ enum {
 
 static isr_st saved_isr_handler;
 extern void *krn_isr_keyboard;
-global int krn_keyboard_use_bios = USE_BIOS_KEYBOARD;
+global volatile int krn_keyboard_use_bios = 1;
 
 global uint16_t
 krn_keyboard_getc(void)
@@ -104,6 +104,8 @@ krn_keyboard_handle_intr(void)
     uint8_t ctrl;
     uint8_t scan = krn_inb(PS2_PORT_DATA);
 
+    krn_keyboard_use_bios = 0;
+
     krn_keyboard_handle_scancode(scan);
 
     ctrl = krn_inb(0x61) | krn_speaker_ppi_bits;
@@ -137,11 +139,6 @@ krn_keyboard_init(void)
 
     krn_debug_printf("Initializing keyboard... ");
 
-    if (krn_keyboard_use_bios) {
-        krn_debug_printf("ok (bios)\n");
-        return;
-    }
-
     krn_get_isr(0x09, &saved_isr_handler);
     krn_set_isr(0x09, si->main_segment, (uint16_t)(uint32_t)&krn_isr_keyboard);
 
@@ -151,9 +148,5 @@ krn_keyboard_init(void)
 global void
 krn_keyboard_deinit(void)
 {
-    if (krn_keyboard_use_bios) {
-        return;
-    }
-
     krn_set_isr(0x09, saved_isr_handler.seg, saved_isr_handler.ofs);
 }

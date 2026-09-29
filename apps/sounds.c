@@ -224,7 +224,7 @@ on_show(void)
     }
 
     if (krn_keyboard_use_bios) {
-        gui_status_set("This app is unavailable when USE_BIOS_KEYBOARD is set");
+        gui_status_set("This app is not available on this device");
     } else {
         gui_status_set("Z-,: Wh/Lo  S-J: Bl/Lo  W-O: Wh/Hi  3-8: Bl/Hi");
     }

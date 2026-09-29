@@ -24,7 +24,7 @@ extern uint16_t krn_event_count(void);
 /* kernel/initrd.c */
 extern void krn_initrd_init(void);
 /* kernel/keyboard.c */
-extern int krn_keyboard_use_bios;
+extern volatile int krn_keyboard_use_bios;
 extern uint16_t krn_keyboard_getc(void);
 extern void krn_keyboard_handle_intr(void);
 extern void krn_keyboard_handle_bios(void);

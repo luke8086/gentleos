@@ -244,12 +244,21 @@ load_region(uint16_t seg, uint16_t ofs, uint16_t lba, int count)
 {
     chs_st chs;
     int remaining = count;
-    unsigned n;
+    unsigned n, remaining_sectors_in_segment;
+    uint16_t paragraph = seg + (ofs >> 4);
 
     while (remaining > 0) {
         lba_to_chs(lba, &chs);
 
+        seg = paragraph & 0xf000;
+        ofs = (paragraph & 0x0fff) << 4;
+        remaining_sectors_in_segment = (0x1000 - (paragraph & 0x0fff)) / 32;
+
         n = boot_drive_spt - (chs.sector - 1);
+
+        if (n > remaining_sectors_in_segment) {
+            n = remaining_sectors_in_segment;
+        }
 
         if (n > remaining) {
             n = remaining;
@@ -259,7 +268,7 @@ load_region(uint16_t seg, uint16_t ofs, uint16_t lba, int count)
 
         remaining -= n;
         lba += n;
-        ofs += n * 512;
+        paragraph += n * 32;
     }
 }
 

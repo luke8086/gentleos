@@ -1,10 +1,7 @@
 /* data/data.c */
-extern bitmap_st card_club_1;
-extern bitmap_st card_club_2;
-extern bitmap_st card_diamnd_1;
-extern bitmap_st card_diamnd_2;
-extern bitmap_st card_heart_1;
-extern bitmap_st card_heart_2;
+extern bitmap_st card_club;
+extern bitmap_st card_diamnd;
+extern bitmap_st card_heart;
 extern bitmap_st card_rank_10;
 extern bitmap_st card_rank_2;
 extern bitmap_st card_rank_3;
@@ -18,8 +15,7 @@ extern bitmap_st card_rank_a;
 extern bitmap_st card_rank_j;
 extern bitmap_st card_rank_k;
 extern bitmap_st card_rank_q;
-extern bitmap_st card_spade_1;
-extern bitmap_st card_spade_2;
+extern bitmap_st card_spade;
 extern bitmap_st icon_2048;
 extern bitmap_st icon_bjack;
 extern bitmap_st icon_freecell;

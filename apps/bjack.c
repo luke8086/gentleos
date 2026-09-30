@@ -11,7 +11,7 @@ enum {
     SPACING = 10,
 
     CARD_WIDTH = 30,
-    CARD_HEIGHT = 45,
+    CARD_HEIGHT = 36,
     CARD_SPACING = 4,
     CARDS_X = SPACING,
     CARDS_MAX = 6,
@@ -32,18 +32,8 @@ enum {
     STATE_OVER = 1,
 };
 
-static const char *rank_str[] = {
-    "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"
-};
-
-static bitmap_st *suit_bmp[] = {
-    &card_heart_1,
-    &card_diamnd_1,
-    &card_club_1,
-    &card_spade_1,
-};
-
 static window_st window;
+static card_game_st game;
 
 static uint8_t deck[DECK_SIZE];
 static int deck_pos;
@@ -85,18 +75,6 @@ deal_card(void)
 }
 
 static int
-card_rank(uint8_t card)
-{
-    return card % 13;
-}
-
-static int
-card_suit(uint8_t card)
-{
-    return card / 13;
-}
-
-static int
 hand_score(uint8_t *hand, int count)
 {
     int i;
@@ -105,7 +83,7 @@ hand_score(uint8_t *hand, int count)
     int rank;
 
     for (i = 0; i < count; i++) {
-        rank = card_rank(hand[i]);
+        rank = CARD_RANK(hand[i]);
 
         if (rank == 0) {
             score += 11;
@@ -132,39 +110,6 @@ is_blackjack(uint8_t *hand, int count)
 }
 
 static void
-draw_card(int x, int y, uint8_t card, int face_up)
-{
-    rect_st r;
-    int rank, suit;
-    uint8_t fg, bg;
-
-    gui_rect_init(&r, x, y, CARD_WIDTH, CARD_HEIGHT);
-
-    if (!face_up) {
-        gui_surface_draw_rect(&window.origin, &r, gui_color_bg);
-        gui_surface_draw_border(&window.origin, &r, gui_color_fg);
-        gui_surface_draw_str_centered(&window.origin, &r, NULL,
-            "?", gui_color_fg, gui_color_bg);
-        return;
-    }
-
-    rank = card_rank(card);
-    suit = card_suit(card);
-    fg = gui_color_fg;
-    bg = gui_color_bg;
-
-    gui_surface_draw_rect(&window.origin, &r, bg);
-    gui_surface_draw_border(&window.origin, &r, gui_color_fg);
-    gui_surface_draw_str(&window.origin, x + 3, y + 2, NULL, rank_str[rank], fg, bg);
-    gui_surface_draw_bitmap_centered(&window.origin, &window.size, &r,
-        suit_bmp[suit], gui_color_fg);
-    gui_surface_draw_str(&window.origin,
-        x + CARD_WIDTH - strlen(rank_str[rank]) * 8 - 3,
-        y + CARD_HEIGHT - 10,
-        NULL, rank_str[rank], fg, bg);
-}
-
-static void
 draw_hand(uint8_t *hand)
 {
     int is_player = (hand == player_hand);
@@ -185,7 +130,11 @@ draw_hand(uint8_t *hand)
 
     for (i = 0; i < count; i++) {
         x = CARDS_X + i * step;
-        draw_card(x, y, hand[i], all_face_up || i == 0);
+        if (all_face_up || i == 0) {
+            card_draw(&game, x, y, hand[i], 0);
+        } else {
+            card_back_draw(&game, x, y);
+        }
     }
 
     gui_surface_mark_dirty(&window.origin, &r);
@@ -326,6 +275,11 @@ static void
 on_init(void)
 {
     gui_window_init(&window, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    game.origin = &window.origin;
+    game.size = &window.size;
+    game.card_width = CARD_WIDTH;
+    game.card_height = CARD_HEIGHT;
 
     app_blackjack.on_show = on_show;
     app_blackjack.on_key_down = on_key_down;

@@ -24,10 +24,10 @@ static bitmap_st *card_rank_bmp[] = {
 };
 
 static bitmap_st *card_suit_bmp[] = {
-    &card_heart_2,
-    &card_diamnd_2,
-    &card_club_2,
-    &card_spade_2,
+    &card_heart,
+    &card_diamnd,
+    &card_club,
+    &card_spade,
 };
 
 global void

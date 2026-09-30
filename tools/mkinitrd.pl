@@ -5,11 +5,13 @@
 # File: mkinitrd.pl - Create initial RAM disk
 #
 
-my $MAGIC       = "IRD2";
-my $VERSION     = 2;
-my $NAME_LEN    = 31;
-my $HEADER_LEN  = 12;                # a4 magic + V version + V count
-my $ENTRY_LEN   = $NAME_LEN + 9;      # name + C type + V offset + V size
+my $INITRD_MAGIC        = "IRD2";
+my $INITRD_VERSION      = 2;
+my $INITRD_NAME_LEN     = 31;
+my $INITRD_HEADER_LEN   = 12;                   # a4 magic + V version + V count
+my $INITRD_ENTRY_LEN    = $INITRD_NAME_LEN + 9; # name + C type + V offset + V size
+my $INITRD_MAX_SIZE     = 0x20000; # 128KB, must match initrd.c
+my $INITRD_PATH         = "gentleos.dat";
 
 my $FILE_TYPE_UNKNOWN = 0;
 my $FILE_TYPE_BITMAP  = 1;
@@ -21,10 +23,9 @@ my @FILE_TYPE_NAMES = (
     "song",
 );
 
-my $SONG_TICK_FREQUENCY = 100; # Must match lib.h
-my $OUTPUT_MAX_SIZE = 0x20000; # 128KB, must match initrd.c
 my $FILE_MAX_SIZE = 0xfff0;    # Must be addressable through one far pointer
-my $OUTPUT_PATH = "gentleos.dat";
+
+my $SONG_TICK_FREQUENCY = 100; # Must match lib.h
 
 sub min {
     my ($x, $y) = @_;
@@ -105,7 +106,7 @@ sub process_spk {
     printf "ok (\"%s\", %d notes, %d ms)\n", $title, scalar(@$segments), $total_ms;
 
     return {
-        name => substr($title, 0, $NAME_LEN - 1),
+        name => substr($title, 0, $INITRD_NAME_LEN - 1),
         type => $FILE_TYPE_SONG,
         data => $data,
     };
@@ -115,7 +116,7 @@ sub build_initrd {
     my (@files) = @_;
 
     my $count = scalar(@files);
-    my $offset = $HEADER_LEN + $count * $ENTRY_LEN;
+    my $offset = $INITRD_HEADER_LEN + $count * $INITRD_ENTRY_LEN;
     my $table = "";
     my $blobs = "";
 
@@ -135,7 +136,7 @@ sub build_initrd {
         $offset += $size;
     }
 
-    return pack("a4 V V", $MAGIC, $VERSION, $count) . $table . $blobs;
+    return pack("a4 V V", $INITRD_MAGIC, $INITRD_VERSION, $count) . $table . $blobs;
 }
 
 sub main {
@@ -147,13 +148,13 @@ sub main {
     my $image = build_initrd(@files);
     my $size = length($image);
 
-    if ($size > $OUTPUT_MAX_SIZE) {
-        die "Error: initrd is too big ($size > $OUTPUT_MAX_SIZE bytes)\n";
+    if ($size > $INITRD_MAX_SIZE) {
+        die "Error: initrd is too big ($size > $INITRD_MAX_SIZE bytes)\n";
     }
 
-    spit($OUTPUT_PATH, $image);
+    spit($INITRD_PATH, $image);
 
-    print "Initrd saved to $OUTPUT_PATH ($size bytes)\n";
+    print "Initrd saved to $INITRD_PATH ($size bytes)\n";
 }
 
 main();

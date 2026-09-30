@@ -41,7 +41,7 @@ static uint32_t
 initrd_dos_load(void)
 {
     system_info_st *si = &system_info;
-    static char buf[512];
+    char buf[512];
     uint16_t far *psp_first_free_seg = MK_FP(si->main_segment, 0x02);
     uint32_t total = 0;
     regs_st regs;

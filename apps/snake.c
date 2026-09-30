@@ -50,9 +50,8 @@ typedef struct {
     uint8_t cells[GRID_COLS][GRID_ROWS];
 
     struct {
-        coords_st coords[GRID_COLS * GRID_ROWS];
-        coords_st *head;
-        coords_st *tail;
+        coords_st far *head;
+        coords_st far *tail;
         int grow;
     } body;
 
@@ -65,6 +64,7 @@ typedef struct {
 } app_state_st;
 
 static int best_score;
+static coords_st far *body_coords;
 static app_state_st *app_state = (app_state_st *)gui_app_shared_buffer;
 
 static void
@@ -145,7 +145,7 @@ static void
 move_snake(coords_st next_head)
 {
     app_state_st *a = app_state;
-    coords_st *c;
+    coords_st far *c;
 
     if (a->body.grow) {
         ++a->body.tail;
@@ -186,9 +186,9 @@ restart_game(void)
     a->game_over = 0;
     a->game_paused = 0;
 
-    a->body.coords[0].x = GRID_COLS / 2;
-    a->body.coords[0].y = GRID_ROWS / 2;
-    a->body.head = a->body.tail = a->body.coords;
+    body_coords[0].x = GRID_COLS / 2;
+    body_coords[0].y = GRID_ROWS / 2;
+    a->body.head = a->body.tail = body_coords;
     a->body.grow = 7;
 
     a->prev_dir = DIR_RIGHT;
@@ -314,6 +314,8 @@ static void
 on_init(void)
 {
     ASSERT(sizeof(app_state_st) <= sizeof(gui_app_shared_buffer));
+
+    body_coords = heap_alloc(GRID_COUNT * sizeof(coords_st));
 
     app_snake.on_show = on_show;
     app_snake.on_tick = on_tick;

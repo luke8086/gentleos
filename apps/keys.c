@@ -17,12 +17,12 @@ typedef struct {
 } cell_st;
 
 enum {
-    CELL_H = 15,
-    CELL_W = 15,
+    CELL_H = 17,
+    CELL_W = 17,
 };
 
 static cell_st cells[] = {
-    { KEY_ESC,      CELL_W, "Esc" },
+    { KEY_ESC,      CELL_W, "Es" },
     { KEY_F1,       CELL_W, "F1" },
     { KEY_F2,       CELL_W, "F2" },
     { KEY_F3,       CELL_W, "F3" },
@@ -32,9 +32,9 @@ static cell_st cells[] = {
     { KEY_F7,       CELL_W, "F7" },
     { KEY_F8,       CELL_W, "F8" },
     { KEY_F9,       CELL_W, "F9" },
-    { KEY_F10,      CELL_W, "F10" },
-    { KEY_F11,      CELL_W, "F11" },
-    { KEY_F12,      CELL_W, "F12" },
+    { KEY_F10,      CELL_W, "10" },
+    { KEY_F11,      CELL_W, "11" },
+    { KEY_F12,      CELL_W, "12" },
     { KEY_BKTICK,   CELL_W, "`" },
     { KEY_1,        CELL_W, "1" },
     { KEY_2,        CELL_W, "2" },
@@ -48,7 +48,7 @@ static cell_st cells[] = {
     { KEY_0,        CELL_W, "0" },
     { KEY_MINUS,    CELL_W, "-" },
     { KEY_EQUAL,    CELL_W, "=" },
-    { KEY_BKSP,     34,     "Bksp" },
+    { KEY_BKSP,     24,     "Bks" },
     { KEY_TAB,      23,     "Tab" },
     { KEY_Q,        CELL_W, "Q" },
     { KEY_W,        CELL_W, "W" },
@@ -62,7 +62,7 @@ static cell_st cells[] = {
     { KEY_P,        CELL_W, "P" },
     { KEY_LBRCKT,   CELL_W, "[" },
     { KEY_RBRCKT,   CELL_W, "]" },
-    { KEY_BKSLASH,  26,     "\\" },
+    { KEY_BKSLASH,  18,     "\\" },
     { KEY_CAPS,     27,     "Caps" },
     { KEY_A,        CELL_W, "A" },
     { KEY_S,        CELL_W, "S" },
@@ -75,7 +75,7 @@ static cell_st cells[] = {
     { KEY_L,        CELL_W, "L" },
     { KEY_SEMICOL,  CELL_W, ";" },
     { KEY_QUOTE,    CELL_W, "'" },
-    { KEY_ENTER,    37,     "Enter" },
+    { KEY_ENTER,    31,     "Enter" },
     { KEY_LSHIFT,   35,     "Shift" },
     { KEY_Z,        CELL_W, "Z" },
     { KEY_X,        CELL_W, "X" },
@@ -87,18 +87,18 @@ static cell_st cells[] = {
     { KEY_COMMA,    CELL_W, "," },
     { KEY_PERIOD,   CELL_W, "." },
     { KEY_SLASH,    CELL_W, "/" },
-    { KEY_RSHIFT,   44,     "Shift" },
-    { KEY_CTRL,     25,     "Ctrl" },
-    { KEY_ALT,      26,     "Alt" },
-    { KEY_SPACE,    127,    "Space" },
-    { KEY_RALT,     26,     "Alt" },
-    { KEY_RCTRL,    25,     "Ctrl" },
-    { KEY_INS,      CELL_W, "Ins" },
-    { KEY_HOME,     CELL_W, "Hom" },
-    { KEY_PGUP,     CELL_W, "PgU" },
-    { KEY_DEL,      CELL_W, "Del" },
-    { KEY_END,      CELL_W, "End" },
-    { KEY_PGDN,     CELL_W, "PgD" },
+    { KEY_RSHIFT,   40,     "Shift" },
+    { KEY_CTRL,     29,     "Ctrl" },
+    { KEY_ALT,      27,     "Alt" },
+    { KEY_SPACE,    133,    "Space" },
+    { KEY_RALT,     27,     "Alt" },
+    { KEY_RCTRL,    29,     "Ctrl" },
+    { KEY_INS,      CELL_W, "In" },
+    { KEY_HOME,     CELL_W, "Ho" },
+    { KEY_PGUP,     CELL_W, "PU" },
+    { KEY_DEL,      CELL_W, "De" },
+    { KEY_END,      CELL_W, "En" },
+    { KEY_PGDN,     CELL_W, "PD" },
     { KEY_UP,       CELL_W, "^" },
     { KEY_LEFT,     CELL_W, "<" },
     { KEY_DOWN,     CELL_W, "v" },
@@ -124,21 +124,21 @@ init_cells(void)
         cells[i].pressed = 0;
     }
 
-    cells[1].x = 27;
-    cells[5].x = 98;
-    cells[9].x = 169;
+    cells[1].x = 27;                /* F1 */
+    cells[5].x = 98;                /* F5 */
+    cells[9].x = 169;               /* F9 */
     cells[13].y = CELL_H + 5;
     cells[27].y = CELL_H * 2 + 5;
     cells[41].y = CELL_H * 3 + 5;
     cells[54].y = CELL_H * 4 + 5;
     cells[66].y = CELL_H * 5 + 5;
-    cells[71].x = 240;
+    cells[71].x = 250;
     cells[71].y = CELL_H + 5;
-    cells[74].x = 240;
+    cells[74].x = 250;
     cells[74].y = CELL_H * 2 + 5;
-    cells[77].x = 240 + CELL_W;
+    cells[77].x = 250 + CELL_W;
     cells[77].y = CELL_H * 4 + 5;
-    cells[78].x = 240;
+    cells[78].x = 250;
     cells[78].y = CELL_H * 5 + 5;
 
     for (i = 1; i < CELL_COUNT; ++i) {
@@ -160,18 +160,20 @@ init_cells(void)
 static void
 draw_cell(cell_st *key, int pressed)
 {
-    rect_st rect;
+    rect_st rect, label_rect;
     uint8_t fg = pressed ? gui_color_bg : gui_color_fg;
     uint8_t bg = pressed ? gui_color_fg : gui_color_bg;
 
     gui_rect_init(&rect, key->x, key->y, key->width + 1, CELL_H + 1);
+    gui_rect_init(&label_rect, key->x + 1, key->y, key->width, CELL_H + 1);
+
     gui_surface_draw_rect(&window.origin, &rect, bg);
 
     if (!pressed) {
         gui_surface_draw_border(&window.origin, &rect, gui_color_fg);
     }
 
-    gui_surface_draw_str_centered(&window.origin, &rect, FONT_4x8, key->label, fg, bg);
+    gui_surface_draw_str_centered(&window.origin, &label_rect, FONT_5x8, key->label, fg, bg);
     gui_surface_mark_dirty(&window.origin, &rect);
 }
 

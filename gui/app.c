@@ -14,7 +14,7 @@ global rect_st gui_app_rect = {
     GUI_HEIGHT - STATUS_HEIGHT * 2,
 };
 
-global uint8_t gui_app_shared_buffer[1536];
+global uint8_t gui_app_shared_buffer[640];
 
 static app_st *gui_app_current;
 

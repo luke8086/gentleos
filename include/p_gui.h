@@ -1,6 +1,6 @@
 /* gui/app.c */
 extern rect_st gui_app_rect;
-extern uint8_t gui_app_shared_buffer[1536];
+extern uint8_t gui_app_shared_buffer[640];
 extern void gui_app_launch(app_st *app);
 extern void gui_app_handle_event(event_st *event);
 /* gui/button.c */

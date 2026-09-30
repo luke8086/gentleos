@@ -6,6 +6,8 @@
 # File: mkdata.pl - Generate data.c and initrd
 #
 
+use strict;
+
 use File::Basename;
 
 my $INITRD_MAGIC        = "IRD2";
@@ -370,7 +372,7 @@ sub build_initrd_image {
 
         printf "- %s: %x (%u B, %s)\n", $name, $offset, $size, $FILE_TYPE_NAMES[$ftype];
 
-        $table .= pack("a${NAME_LEN} C V V", $name, $ftype, $offset, $size);
+        $table .= pack("a${INITRD_NAME_LEN} C V V", $name, $ftype, $offset, $size);
         $blobs .= $file->{data};
         $offset += $size;
     }

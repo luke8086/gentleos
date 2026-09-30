@@ -16,13 +16,6 @@ my @FONTS = (
         height => 8,
         pitch => 8,
     },
-    {
-        path => "vendor/atarism/atarism.pbm",
-        name => "Atari Small 4x8",
-        width => 4,
-        height => 8,
-        pitch => 4,
-    },
 );
 
 my $FONT_MAX_CHARS = 128;

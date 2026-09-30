@@ -169,7 +169,6 @@ on_show(void)
 
     draw_font_label();
     draw_all_cells();
-    gui_status_set_br("PgUp/PgDn: Select font");
 
     update_status();
 }

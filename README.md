@@ -53,10 +53,6 @@ C:\>WMAKE
   [The Ultimate Oldschool PC Font Pack](https://int10h.org/oldschool-pc-fonts/)
   and modified ([LICENSE](vendor/int10h/LICENSE.txt))
 
-- The [Atari Small](vendor/atarism) font by [Tom Fine](https://hea-www.harvard.edu/~fine/)
-  has been obtained from https://hea-www.harvard.edu/~fine/Tech/x11fonts.html
-  ([LICENSE](vendor/atarism/LICENSE.txt))
-
 ## Contributors
 
 -  Alexander Rau ([l00nix](https://github.com/l00nix)) -

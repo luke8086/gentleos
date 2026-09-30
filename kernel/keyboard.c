@@ -12,9 +12,7 @@ enum {
     PS2_PORT_CMD  = 0x64,
 };
 
-enum {
-    DEBUG_KEYBOARD = 0,
-};
+#define DEBUG_KEYBOARD 0
 
 static isr_st saved_isr_handler;
 extern void *krn_isr_keyboard;
@@ -89,10 +87,10 @@ krn_keyboard_handle_scancode(uint8_t scancode)
     ev.type = is_key_down ? EVENT_KEY_DOWN : EVENT_KEY_UP;
     ev.payload = key.encoded;
 
-    if (DEBUG_KEYBOARD) {
-        krn_debug_printf("Key %s: code=%02X mods=%02X\n",
-            is_key_down ? "down" : "up", key.p.code, key.p.mods);
-    }
+#if DEBUG_KEYBOARD
+    krn_debug_printf("Key %s: code=%02X mods=%02X\n",
+        is_key_down ? "down" : "up", key.p.code, key.p.mods);
+#endif
 
     if (key.p.code == KEY_DEL && ctrl && alt && is_key_down) {
         krn_outb(0xFE, PS2_PORT_CMD);

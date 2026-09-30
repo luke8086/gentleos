@@ -96,30 +96,6 @@ draw_font_label(void)
 }
 
 static void
-set_prev_font(void)
-{
-    if (current_font == 0) {
-        return;
-    }
-
-    --current_font;
-    draw_font_label();
-    draw_all_cells();
-}
-
-static void
-set_next_font(void)
-{
-    if (current_font >= (FONT_COUNT - 1)) {
-        return;
-    }
-
-    ++current_font;
-    draw_font_label();
-    draw_all_cells();
-}
-
-static void
 update_current_cell(int dx, int dy)
 {
     int prev_col = current_col;
@@ -142,8 +118,6 @@ on_key_down(uint8_t key_code, uint8_t key_mods)
         case KEY_RIGHT: update_current_cell(1, 0); return;
         case KEY_UP:    update_current_cell(0, -1); return;
         case KEY_DOWN:  update_current_cell(0, 1); return;
-        case KEY_PGUP:  set_prev_font(); return;
-        case KEY_PGDN:  set_next_font(); return;
     }
 }
 

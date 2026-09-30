@@ -258,7 +258,7 @@ gui_surface_draw_char(const point_st *origin, uint16_t x, uint16_t y,
     int i, j, bit;
 
     if (!font) {
-        font = &fonts[0];
+        font = FONT_DEFAULT;
     }
 
     if (!ch) {
@@ -301,7 +301,7 @@ gui_surface_draw_str(const point_st *origin, uint16_t x, uint16_t y,
     int i;
 
     if (!font) {
-        font = &fonts[0];
+        font = FONT_DEFAULT;
     }
 
     for (i = 0; s[i]; i++) {
@@ -316,7 +316,7 @@ gui_surface_draw_str_lines(const point_st *origin, uint16_t x, uint16_t y,
     int i;
 
     if (!font) {
-        font = &fonts[0];
+        font = FONT_DEFAULT;
     }
 
     for (i = 0; lines[i]; ++i) {
@@ -332,7 +332,7 @@ gui_surface_draw_str_centered(const point_st *origin, const rect_st *rect,
     int x, y, text_width;
 
     if (!font) {
-        font = &fonts[0];
+        font = FONT_DEFAULT;
     }
 
     text_width = (uint16_t)(strlen(s)) * font->size.width;

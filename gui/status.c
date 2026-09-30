@@ -39,7 +39,7 @@ gui_status_set_text(int corner, const char *text)
     point_st origin = { 0, 0 };
     rect_st clear_rect, text_rect;
     uint16_t len = strlen(text);
-    font_st *font = &fonts[0];
+    font_st *font = FONT_DEFAULT;
     int width = len * font->size.width;
     int prev_width = status_text_len[corner] * font->size.width;
     int x = TEXT_X;

@@ -31,6 +31,7 @@ enum {
     FONT_COUNT = 2,
 };
 
+#define FONT_DEFAULT (&fonts[0])
 #define FONT_5x8 (&fonts[0])
 #define FONT_4x8 (&fonts[1])
 

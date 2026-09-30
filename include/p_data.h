@@ -47,6 +47,7 @@ extern bitmap_st sprite_arr_up;
 extern bitmap_st sprite_flag;
 extern bitmap_st sprite_github;
 extern bitmap_st sprite_mine;
+extern bitmap_st icon_calendar;
 extern bitmap_st icon_clock;
 extern bitmap_st icon_fonts;
 extern bitmap_st icon_keys;

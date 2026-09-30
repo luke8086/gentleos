@@ -8,13 +8,13 @@
 #include <gui.h>
 
 enum {
-    GRID_COLS = 5,
+    GRID_COLS = 6,
     GRID_ROWS = 3,
 
-    APP_BUTTON_H_MARGIN = 12,
-    APP_BUTTON_V_MARGIN = 8,
-    APP_BUTTON_WIDTH = 42,
-    APP_BUTTON_HEIGHT = 42,
+    APP_BUTTON_H_MARGIN = 10,
+    APP_BUTTON_V_MARGIN = 10,
+    APP_BUTTON_WIDTH = 40,
+    APP_BUTTON_HEIGHT = 40,
     APP_BUTTON_H_STRIDE = APP_BUTTON_WIDTH + APP_BUTTON_H_MARGIN,
     APP_BUTTON_V_STRIDE = APP_BUTTON_HEIGHT + APP_BUTTON_V_MARGIN,
 
@@ -31,6 +31,7 @@ enum {
 
 static app_st *apps[] = {
     &app_clock,
+    &app_calendar,
     &app_fonts,
     &app_keys,
     &app_sounds,

@@ -1,4 +1,17 @@
 /* data/data.c */
+extern bitmap_st card_rank_10;
+extern bitmap_st card_rank_2;
+extern bitmap_st card_rank_3;
+extern bitmap_st card_rank_4;
+extern bitmap_st card_rank_5;
+extern bitmap_st card_rank_6;
+extern bitmap_st card_rank_7;
+extern bitmap_st card_rank_8;
+extern bitmap_st card_rank_9;
+extern bitmap_st card_rank_a;
+extern bitmap_st card_rank_j;
+extern bitmap_st card_rank_k;
+extern bitmap_st card_rank_q;
 extern bitmap_st icon_2048;
 extern bitmap_st icon_bjack;
 extern bitmap_st icon_freecell;

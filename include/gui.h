@@ -28,12 +28,11 @@ typedef struct {
 } rect_st;
 
 enum {
-    FONT_COUNT = 3,
+    FONT_COUNT = 2,
 };
 
 #define FONT_5x8 (&fonts[0])
 #define FONT_4x8 (&fonts[1])
-#define FONT_4x6 (&fonts[2])
 
 typedef struct {
     size_st size;

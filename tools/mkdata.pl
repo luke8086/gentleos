@@ -23,13 +23,6 @@ my @FONTS = (
         height => 8,
         pitch => 4,
     },
-    {
-        path => "vendor/font4x6/font_4x6.pbm",
-        name => "Font 4x6",
-        width => 4,
-        height => 6,
-        pitch => 4,
-    },
 );
 
 my $FONT_MAX_CHARS = 128;
@@ -131,6 +124,7 @@ sub process_bitmap {
     my $prefix = "bitmap_";
     $prefix = "icon_" if $dirname eq "assets/icons";
     $prefix = "icon_" if $dirname eq "vendor/icons8";
+    $prefix = "card_" if $dirname eq "assets/cards";
     $prefix = "sprite_" if $dirname eq "assets/sprites";
     $prefix = "sprite_mj_" if $dirname eq "assets/mahjong";
     $prefix = "glyph_mn_" if $dirname eq "vendor/mona";
@@ -152,6 +146,7 @@ sub process_bitmaps {
     my @bitmap_files = sort((
         glob("bitmaps/*.pbm"),
         glob("assets/icons/*.pbm"),
+        glob("assets/cards/*.pbm"),
         glob("assets/mahjong/*.pbm"),
         glob("assets/sprites/*.pbm"),
         glob("vendor/icons8/*.pbm"),

@@ -57,10 +57,6 @@ C:\>WMAKE
   has been obtained from https://hea-www.harvard.edu/~fine/Tech/x11fonts.html
   ([LICENSE](vendor/atarism/LICENSE.txt))
 
-- [Font 4x6](vendor/font4x6) by [Luiz Bills](https://www.luizpb.com/) has been
-  sourced from https://github.com/luizbills/font4x6
-  ([LICENSE](vendor/font4x6/LICENSE.txt))
-
 ## Contributors
 
 -  Alexander Rau ([l00nix](https://github.com/l00nix)) -

@@ -7,8 +7,20 @@
 
 #include <gui.h>
 
-static const char *card_rank_str[] = {
-    "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"
+static bitmap_st *card_rank_bmp[] = {
+    &card_rank_a,
+    &card_rank_2,
+    &card_rank_3,
+    &card_rank_4,
+    &card_rank_5,
+    &card_rank_6,
+    &card_rank_7,
+    &card_rank_8,
+    &card_rank_9,
+    &card_rank_10,
+    &card_rank_j,
+    &card_rank_q,
+    &card_rank_k,
 };
 
 static bitmap_st *card_suit_bmp[] = {
@@ -114,8 +126,8 @@ card_draw(card_game_st *game, int x, int y, card_t card, int is_sel)
         return;
     }
 
-    gui_surface_draw_str(game->origin, x + 3, y + 3, &fonts[2],
-        card_rank_str[rank], fg, bg);
+    gui_surface_draw_bitmap(game->origin, game->size,
+        x + 3, y + 3, card_rank_bmp[rank], fg);
 
     gui_surface_draw_bitmap(game->origin, game->size,
         x + game->card_width - 8, y + 3, card_suit_bmp[suit], fg);
@@ -134,8 +146,8 @@ card_stub_draw(card_game_st *game, int x, int y, int height, card_t card)
     gui_surface_draw_rect(game->origin, &r, gui_color_bg);
     gui_surface_draw_border(game->origin, &r, gui_color_fg);
 
-    gui_surface_draw_str(game->origin, x + 3, y + 3, &fonts[2],
-        card_rank_str[rank], gui_color_fg, gui_color_bg);
+    gui_surface_draw_bitmap(game->origin, game->size,
+        x + 3, y + 3, card_rank_bmp[rank], gui_color_fg);
 
     gui_surface_draw_bitmap(game->origin, game->size,
         x + game->card_width - 8, y + 3, card_suit_bmp[suit], gui_color_fg);

@@ -15,7 +15,7 @@ all: disks .SYMBOLIC
 disks: gentleos.com gentleos.dat build/boot1/boot1.bin build/boot2/boot2.com .SYMBOLIC
     perl tools/mkdisks.pl
 
-run: all .SYMBOLIC
+run: gentleos.com gentleos.dat .SYMBOLIC
     gentleos.com
 
 boot: all .SYMBOLIC

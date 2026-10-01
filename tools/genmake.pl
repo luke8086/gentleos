@@ -123,7 +123,10 @@ sub collect_includes {
 }
 
 sub collect_initrd_assets {
-    return sort(glob("assets/spk/*.spk"));
+    return sort((
+        glob("assets/spk/*.spk"),
+        glob("vendor/misc/*.pbm"),
+    ));
 }
 
 sub make_object_rule {

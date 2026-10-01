@@ -129,6 +129,13 @@ typedef struct {
     uint16_t ticks;
 } note_st;
 
+typedef struct {
+    uint16_t width;
+    uint16_t height;
+    uint16_t pitch;
+    /* Followed by pitch * height bytes of pixels */
+} bitmap_file_st;
+
 enum {
     KEY_UP = 0x48,
     KEY_DOWN = 0x50,

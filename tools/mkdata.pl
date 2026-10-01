@@ -7,6 +7,7 @@
 #
 
 use strict;
+use integer;
 
 use File::Basename;
 
@@ -19,6 +20,14 @@ my $INITRD_HEADER_LEN   = 12;                   # a4 magic + V version + V count
 my $INITRD_ENTRY_LEN    = $INITRD_NAME_LEN + 9; # name + C type + V offset + V size
 my $INITRD_MAX_SIZE     = 0x20000; # 128KB, must match initrd.c
 my $INITRD_PATH         = "gentleos.dat";
+
+my @INITRD_SPK_GLOBS = (
+    "assets/spk/*.spk",
+);
+
+my @INITRD_BITMAP_GLOBS = (
+    "vendor/misc/*.pbm",
+);
 
 my $FILE_TYPE_UNKNOWN = 0;
 my $FILE_TYPE_BITMAP  = 1;
@@ -50,7 +59,7 @@ sub load_pbm {
     my ($path) = @_;
     open(my $fh, "<", $path) or die "Cannot read $path: $!\n";
 
-    printf "- %-28s", $path;
+    printf "- %s... ", $path;
 
     my @header;
     my $raster = "";
@@ -76,10 +85,14 @@ sub load_pbm {
     my $width = int($header[1]);
     my $height = int($header[2]);
 
-    print "  size: ${width}x${height}";
-
     $raster =~ s/\s+//g;
     my @flat = split(//, $raster);
+
+    if (@flat != $width * $height) {
+        die "\nError: $path: pixel data does not match the size in the header\n";
+    }
+
+    print "ok (size: ${width}x${height})";
 
     my @pixels;
     for (my $i = 0; $i < @flat; $i += $width) {
@@ -304,7 +317,7 @@ sub read_spk {
 sub process_spk {
     my ($path) = @_;
 
-    print "Importing $path... ";
+    print "- $path... ";
 
     my ($title, $segments) = read_spk($path);
 
@@ -330,6 +343,30 @@ sub process_spk {
     return {
         name => substr($title, 0, $INITRD_NAME_LEN - 1),
         type => $FILE_TYPE_SONG,
+        data => $data,
+    };
+}
+
+sub process_initrd_bitmap {
+    my ($path) = @_;
+
+    my $name = bitmap_name($path) . ".pbm";
+
+    my ($pixels, $width, $height) = load_pbm($path);
+    my $pitch = int(($width + 7) / 8);
+    my @packed_pixel_rows = pack_pixel_rows($pixels);
+
+    print "\n";
+
+    my $data = pack("vvv", $width, $height, $pitch);
+
+    foreach my $bytes (@packed_pixel_rows) {
+        $data .= pack("C*", @$bytes);
+    }
+
+    return {
+        name => substr($name, 0, $INITRD_NAME_LEN - 1),
+        type => $FILE_TYPE_BITMAP,
         data => $data,
     };
 }
@@ -363,11 +400,17 @@ sub build_initrd_image {
 
 sub make_initrd {
     print "\nImporting initrd assets:\n";
-    my @files = map { process_spk($_) } sort(glob("assets/spk/*.spk"));
 
-    die "Error: no songs found\n" if !@files;
+    my @spk_paths = sort(map(glob, @INITRD_SPK_GLOBS));
+    my @bitmap_paths = sort(map(glob, @INITRD_BITMAP_GLOBS));
+
+    my @files;
+
+    push @files, map { process_spk($_) } (@spk_paths);
+    push @files, map { process_initrd_bitmap($_) } @bitmap_paths;
 
     print "\nGenerating initrd:\n";
+
     my $image = build_initrd_image(@files);
     my $size = length($image);
 

@@ -5,6 +5,8 @@
 # File: cproto.pl - Script for auto-generating header files with prototypes
 #
 
+require "./tools/common.pl";
+
 my @SOURCE_DIRS = ("apps", "data", "kernel", "lib", "gui");
 
 sub uniq {
@@ -51,11 +53,8 @@ sub main {
             push @lines, @protos;
         }
 
-        my $header = "include/p_${dir}.h";
-        open(my $fh, ">", $header) or die "Cannot open $header: $!";
-        binmode($fh);
-        print $fh join("\r\n", @lines) . "\r\n";
-        close($fh);
+        my $data = join("\r\n", @lines) . "\r\n";
+        update_file("include/p_${dir}.h", $data);
     }
 }
 

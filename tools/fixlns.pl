@@ -37,8 +37,7 @@ sub main {
 
         next if $new eq $old;
 
-        print "Fixing $path\n";
-        spit($path, $new)
+        update_file($path, $new);
     }
 }
 

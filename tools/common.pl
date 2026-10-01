@@ -35,4 +35,18 @@ sub spit {
     close $f or die "Write error on $path\n";
 }
 
+sub update_file {
+    my ($path, $data) = @_;
+
+    if (!-e $path) {
+        spit($path, $data);
+        print "$path: created\n";
+    } elsif (slurp($path) ne $data) {
+        spit($path, $data);
+        print "$path: updated\n";
+    } else {
+        print "$path: unchanged\n";
+    }
+}
+
 1;

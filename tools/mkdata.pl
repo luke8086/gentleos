@@ -53,10 +53,7 @@ sub clean_pbm {
     my @lines = grep { !/^#/ } <$fh>;
     close $fh;
 
-    open($fh, ">", $path) or die "Cannot write $path: $!\n";
-    binmode($fh);
-    print $fh @lines;
-    close $fh;
+    update_file($path, join("", @lines));
 }
 
 sub load_pbm {
@@ -378,6 +375,7 @@ sub make_initrd {
         die "Error: initrd is too big ($size > $INITRD_MAX_SIZE bytes)\n";
     }
 
+    # Always write so wmake sees it as newer than its deps
     spit($INITRD_PATH, $image);
 
     print "Initrd saved to $INITRD_PATH ($size bytes)\n";
@@ -398,14 +396,7 @@ sub make_data {
     );
 
     -d "data" or mkdir "data" or die "Cannot create data dir: $!\n";
-    open(my $fh, ">", "data/data.c") or die "Cannot write data/data.c: $!\n";
-    binmode($fh);
-    print $fh join("\r\n", @lines);
-    close($fh);
-
-    print "Static data saved to data/data.c\n";
-
-
+    update_file("data/data.c", join("\r\n", @lines));
 }
 
 make_data();

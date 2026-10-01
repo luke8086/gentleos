@@ -27,6 +27,8 @@ sub pad {
 sub make_disk {
     my ($path, $size, $flags) = @_;
 
+    print "Creating $path... ";
+
     my $boot1 = pad(slurp("build/boot1/boot1.bin"), 512);
     my $boot2 = pad(slurp("build/boot2/boot2.com"), 2048);
 
@@ -38,13 +40,7 @@ sub make_disk {
 
     my $image = pad($boot1 . $boot1 . $boot2 . $kernel . $initrd, $size);
 
-    print "Creating $path... ";
-
-    unlink $path;
-    open(my $out, ">$path") or die "Cannot write $path\n";
-    binmode $out;
-    print $out $image;
-    close $out or die "Write error\n";
+    spit($path, $image);
 
     print "Done\n";
 }

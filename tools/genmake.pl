@@ -5,6 +5,8 @@
 # File: genmake.pl - Script for genereating Makefile and linker scripts
 #
 
+require "./tools/common.pl";
+
 my @KERNEL_SOURCE_DIRS = ("apps", "data", "kernel", "lib", "gui");
 my @BOOT2_SOURCE_DIRS = ("boot2");
 
@@ -171,10 +173,7 @@ sub generate_makefile {
 
     $content =~ s/\n/\r\n/g;
 
-    open(my $fh, ">", "Makefile") or die "Cannot open Makefile: $!";
-    binmode($fh);
-    print $fh $content;
-    close($fh);
+    update_file("Makefile", $content);
 }
 
 sub generate_kernel_lnk {
@@ -196,10 +195,7 @@ sub generate_kernel_lnk {
 
     push @lines, "";
 
-    open(my $fh, ">", "build/kernel.lnk") or die "Cannot open build/kernel.lnk: $!";
-    binmode($fh);
-    print $fh join("\r\n", @lines);
-    close($fh);
+    update_file("build/kernel.lnk", join("\r\n", @lines));
 }
 
 sub main {

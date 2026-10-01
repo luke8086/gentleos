@@ -96,18 +96,9 @@ sub bitmap_name {
     return $p;
 }
 
-sub process_bitmap {
-    my ($path) = @_;
-
-    my $name = bitmap_name($path);
-    my $dirname = dirname($path);
-
-    my ($pixels, $width, $height) = load_pbm($path);
-    my $pitch = int(($width + 7) / 8);
-
-    print "\n";
-
-    my @pixel_lines;
+sub pack_pixel_rows {
+    my ($pixels) = @_;
+    my @rows;
 
     foreach my $row (@$pixels) {
         my @bytes;
@@ -121,7 +112,28 @@ sub process_bitmap {
             push @bytes, $byte;
         }
 
-        my $pixel_str = join("", map { sprintf("\\x%02x", $_) } @bytes);
+        push @rows, \@bytes;
+    }
+
+    return @rows;
+}
+
+sub process_bitmap {
+    my ($path) = @_;
+
+    my $name = bitmap_name($path);
+    my $dirname = dirname($path);
+
+    my ($pixels, $width, $height) = load_pbm($path);
+    my $pitch = int(($width + 7) / 8);
+
+    print "\n";
+
+    my @pixel_lines;
+    my @packed_pixel_rows = pack_pixel_rows($pixels);
+
+    foreach my $bytes (@packed_pixel_rows) {
+        my $pixel_str = join("", map { sprintf("\\x%02x", $_) } @$bytes);
         push @pixel_lines, "        \"$pixel_str\" \\";
     }
 

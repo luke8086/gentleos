@@ -50,7 +50,12 @@ static app_st *apps[] = {
 
 #define APPS_COUNT (sizeof(apps) / sizeof(apps[0]))
 
-static window_st window;
+typedef struct {
+    window_st window;
+} app_state_st;
+
+static app_state_st *app_state = (app_state_st *)gui_app_shared_buffer;
+
 static int current_col;
 static int current_row;
 
@@ -114,26 +119,28 @@ on_tick(void)
 static void
 draw_cursor(int col, int row, uint8_t color)
 {
+    app_state_st *a = app_state;
     rect_st rect;
 
     cell_rect_init(&rect, col, row);
     gui_rect_shrink(&rect, 2);
-    gui_surface_draw_border(&window.origin, &rect, color);
-    gui_surface_mark_dirty(&window.origin, &rect);
+    gui_surface_draw_border(&a->window.origin, &rect, color);
+    gui_surface_mark_dirty(&a->window.origin, &rect);
 }
 
 static void
 draw_cell(int col, int row)
 {
+    app_state_st *a = app_state;
     rect_st rect;
     int i = row * GRID_COLS + col;
 
     cell_rect_init(&rect, col, row);
-    gui_surface_draw_rect(&window.origin, &rect, gui_color_bg);
-    gui_surface_draw_border(&window.origin, &rect, gui_color_fg);
+    gui_surface_draw_rect(&a->window.origin, &rect, gui_color_bg);
+    gui_surface_draw_border(&a->window.origin, &rect, gui_color_fg);
 
     if (i < APPS_COUNT && apps[i] && apps[i]->icon) {
-        gui_surface_draw_bitmap_centered(&window.origin, &window.size, &rect,
+        gui_surface_draw_bitmap_centered(&a->window.origin, &a->window.size, &rect,
             apps[i]->icon, gui_color_fg);
     }
 
@@ -141,7 +148,7 @@ draw_cell(int col, int row)
         draw_cursor(col, row, gui_color_fg);
     }
 
-    gui_surface_mark_dirty(&window.origin, &rect);
+    gui_surface_mark_dirty(&a->window.origin, &rect);
 }
 
 static void
@@ -196,7 +203,11 @@ on_key_down(uint8_t key_code, uint8_t key_mods)
 static void
 on_show(void)
 {
-    gui_window_draw(&window, gui_color_bg, 0);
+    app_state_st *a = app_state;
+
+    gui_window_init(&a->window, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    gui_window_draw(&a->window, gui_color_bg, 0);
     draw_all_cells();
 
     gui_status_set_tl("GentleOS");
@@ -208,7 +219,7 @@ on_show(void)
 static void
 on_init(void)
 {
-    gui_window_init(&window, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT(sizeof(app_state_st) <= sizeof(gui_app_shared_buffer));
 
     app_launcher.on_show = on_show;
     app_launcher.on_key_down = on_key_down;

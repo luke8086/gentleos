@@ -344,14 +344,14 @@ gui_surface_draw_str_centered(const point_st *origin, const rect_st *rect,
 }
 
 global void
-gui_surface_draw_bitmap(const point_st *origin, const size_st *bounds, int dst_x, int dst_y,
-    bitmap_st *bitmap, uint8_t fill)
+gui_surface_draw_bitmap_far(const point_st *origin, const size_st *bounds, int dst_x, int dst_y,
+    const size_st *size, int pitch, const uint8_t far *pixels, uint8_t fill)
 {
     rect_st src_rect;
     uint8_t fill_bit;
     uint16_t i, j;
 
-    gui_rect_init(&src_rect, 0, 0, bitmap->size.width, bitmap->size.height);
+    gui_rect_init(&src_rect, 0, 0, size->width, size->height);
 
     if (dst_x + src_rect.width > bounds->width) {
         src_rect.width = bounds->width - dst_x;
@@ -367,9 +367,9 @@ gui_surface_draw_bitmap(const point_st *origin, const size_st *bounds, int dst_x
 
     for (i = 0; i < src_rect.height; i++) {
         for (j = 0; j < src_rect.width; j++) {
-            int byte_no = (src_rect.y + i) * bitmap->pitch + (src_rect.x + j) / 8;
+            int byte_no = (src_rect.y + i) * pitch + (src_rect.x + j) / 8;
             int bit_no = 7 - ((src_rect.x + j) % 8);
-            int active = (bitmap->pixels[byte_no] >> bit_no) & 1;
+            int active = (pixels[byte_no] >> bit_no) & 1;
 
             if (!active) {
                 continue;
@@ -378,6 +378,14 @@ gui_surface_draw_bitmap(const point_st *origin, const size_st *bounds, int dst_x
             gui_surface_draw_pixel(origin, dst_x + j, dst_y + i, fill_bit);
         }
     }
+}
+
+global void
+gui_surface_draw_bitmap(const point_st *origin, const size_st *bounds, int dst_x, int dst_y,
+    bitmap_st *bitmap, uint8_t fill)
+{
+    gui_surface_draw_bitmap_far(origin, bounds, dst_x, dst_y,
+        &bitmap->size, bitmap->pitch, bitmap->pixels, fill);
 }
 
 global void

@@ -10,6 +10,8 @@ use strict;
 
 use File::Basename;
 
+require "./tools/common.pl";
+
 my $INITRD_MAGIC        = "IRD2";
 my $INITRD_VERSION      = 2;
 my $INITRD_NAME_LEN     = 31;
@@ -43,24 +45,6 @@ my @FONTS = (
 );
 
 my $FONT_MAX_CHARS = 128;
-
-sub min {
-    my ($x, $y) = @_;
-    return $x < $y ? $x : $y;
-}
-
-sub max {
-    my ($x, $y) = @_;
-    return $x > $y ? $x : $y;
-}
-
-sub spit {
-    my ($path, $data) = @_;
-    open(my $f, ">", $path) or die "Cannot write $path: $!\n";
-    binmode $f;
-    print $f $data;
-    close $f or die "Write error on $path\n";
-}
 
 sub clean_pbm {
     my ($path) = @_;

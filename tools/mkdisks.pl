@@ -5,20 +5,12 @@
 # File: mkdisks.pl - Script for creating disk images
 #
 
+require "./tools/common.pl";
+
 my $KRN_FLAG_COLORS_INVERTED = (1 << 1);
 
 my $KERNEL_SIZE = 127 * 512;
 my $INITRD_SIZE = 256 * 512;
-
-sub slurp {
-    my ($path) = @_;
-    open(my $f, $path) or die "Cannot read $path\n";
-    binmode $f;
-    local $/;
-    my $data = <$f>;
-    close $f;
-    return $data;
-}
 
 sub pad {
     my ($data, $size) = @_;

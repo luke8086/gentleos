@@ -42,7 +42,7 @@ build/boot1/boot1.bin: boot1/boot1.s
 gentleos.com: $(KERNEL_OBJS)
 	wlink @build/kernel.lnk
 
-gentleos.dat: tools/mkdata.pl $(INITRD_ASSETS)
+gentleos.dat: tools/mkdata.pl tools/common.pl $(INITRD_ASSETS)
     perl tools/mkdata.pl
 
 build\boot2\boot2.com: $(BOOT2_OBJS)

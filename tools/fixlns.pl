@@ -5,6 +5,8 @@
 # File: fixlns.pl - Fix line endings in source code
 #
 
+require "./tools/common.pl";
+
 my @GLOBS = (
     "apps/*",
     "boot1/*",
@@ -17,24 +19,6 @@ my @GLOBS = (
     "misc/*",
     "tools/*.pl",
 );
-
-sub slurp {
-    my ($path) = @_;
-    open(my $f, "<", $path) or die "Cannot read $path: $!\n";
-    binmode $f;
-    local $/;
-    my $data = <$f>;
-    close $f;
-    return $data;
-}
-
-sub spit {
-    my ($path, $data) = @_;
-    open(my $f, ">", $path) or die "Cannot write $path: $!\n";
-    binmode $f;
-    print $f $data;
-    close $f or die "Write error on $path\n";
-}
 
 sub collect_files {
     my @files;

@@ -382,7 +382,7 @@ sub build_initrd_image {
 
 sub make_initrd {
     print "\nImporting initrd assets:\n";
-    my @files = map { process_spk($_) } sort(glob("assets/songs/*.spk"));
+    my @files = map { process_spk($_) } sort(glob("assets/spk/*.spk"));
 
     die "Error: no songs found\n" if !@files;
 

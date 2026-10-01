@@ -121,7 +121,7 @@ sub collect_includes {
 }
 
 sub collect_initrd_assets {
-    return sort(glob("assets/songs/*.spk"));
+    return sort(glob("assets/spk/*.spk"));
 }
 
 sub make_object_rule {

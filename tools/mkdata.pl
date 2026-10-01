@@ -46,16 +46,6 @@ my @FONTS = (
 
 my $FONT_MAX_CHARS = 128;
 
-sub clean_pbm {
-    my ($path) = @_;
-
-    open(my $fh, "<", $path) or die "Cannot read $path: $!\n";
-    my @lines = grep { !/^#/ } <$fh>;
-    close $fh;
-
-    update_file($path, join("", @lines));
-}
-
 sub load_pbm {
     my ($path) = @_;
     open(my $fh, "<", $path) or die "Cannot read $path: $!\n";
@@ -108,8 +98,6 @@ sub bitmap_name {
 
 sub process_bitmap {
     my ($path) = @_;
-
-    clean_pbm($path);
 
     my $name = bitmap_name($path);
     my $dirname = dirname($path);

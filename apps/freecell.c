@@ -638,7 +638,6 @@ init_game(void)
     int i;
 
     a->game.origin = &a->window.origin;
-    a->game.size = &a->window.size;
 
     a->game.card_width = CARD_WIDTH;
     a->game.card_height = CARD_HEIGHT;

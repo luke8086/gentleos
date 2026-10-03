@@ -277,7 +277,6 @@ on_init(void)
     gui_window_init(&window, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     game.origin = &window.origin;
-    game.size = &window.size;
     game.card_width = CARD_WIDTH;
     game.card_height = CARD_HEIGHT;
 

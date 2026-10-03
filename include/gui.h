@@ -131,7 +131,6 @@ typedef struct {
 
 typedef struct {
     point_st *origin;
-    size_st *size;
 
     uint8_t card_width;
     uint8_t card_height;

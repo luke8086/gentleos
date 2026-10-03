@@ -334,31 +334,18 @@ gui_surface_draw_str_centered(const point_st *origin, const rect_st *rect,
 }
 
 global void
-gui_surface_draw_bitmap_far(const point_st *origin, const size_st *bounds, int dst_x, int dst_y,
+gui_surface_draw_bitmap_far(const point_st *origin, int dst_x, int dst_y,
     const size_st *size, int pitch, const uint8_t far *pixels, uint8_t fill)
 {
-    rect_st src_rect;
     uint8_t fill_bit;
     uint16_t i, j;
 
-    gui_rect_init(&src_rect, 0, 0, size->width, size->height);
-
-    if (dst_x + src_rect.width > bounds->width) {
-        src_rect.width = bounds->width - dst_x;
-        src_rect.width = src_rect.width < 0 ? 0 : src_rect.width;
-    }
-
-    if (dst_y + src_rect.height > bounds->height) {
-        src_rect.height = bounds->height - dst_y;
-        src_rect.height = src_rect.height < 0 ? 0 : src_rect.height;
-    }
-
     fill_bit = fill & 1;
 
-    for (i = 0; i < src_rect.height; i++) {
-        for (j = 0; j < src_rect.width; j++) {
-            int byte_no = (src_rect.y + i) * pitch + (src_rect.x + j) / 8;
-            int bit_no = 7 - ((src_rect.x + j) % 8);
+    for (i = 0; i < size->height; i++) {
+        for (j = 0; j < size->width; j++) {
+            int byte_no = i * pitch + j / 8;
+            int bit_no = 7 - (j % 8);
             int active = (pixels[byte_no] >> bit_no) & 1;
 
             if (!active) {
@@ -371,21 +358,27 @@ gui_surface_draw_bitmap_far(const point_st *origin, const size_st *bounds, int d
 }
 
 global void
-gui_surface_draw_bitmap(const point_st *origin, const size_st *bounds, int dst_x, int dst_y,
+gui_surface_draw_bitmap(const point_st *origin, int dst_x, int dst_y,
     bitmap_st *bitmap, uint8_t fill)
 {
-    gui_surface_draw_bitmap_far(origin, bounds, dst_x, dst_y,
+    gui_surface_draw_bitmap_far(origin, dst_x, dst_y,
         &bitmap->size, bitmap->pitch, bitmap->pixels, fill);
 }
 
 global void
-gui_surface_draw_bitmap_centered(const point_st *origin, const size_st *bounds, const rect_st *rect,
+gui_surface_draw_bitmap_centered(const point_st *origin, const rect_st *rect,
     bitmap_st *bitmap, uint8_t fill)
 {
-    int x = rect->x + (rect->width - bitmap->size.width) / 2;
-    int y = rect->y + (rect->height - bitmap->size.height) / 2;
+    int x, y;
 
-    gui_surface_draw_bitmap(origin, bounds, x, y, bitmap, fill);
+    if (bitmap->size.width > rect->width || bitmap->size.height > rect->height) {
+        return;
+    }
+
+    x = rect->x + (rect->width - bitmap->size.width) / 2;
+    y = rect->y + (rect->height - bitmap->size.height) / 2;
+
+    gui_surface_draw_bitmap(origin, x, y, bitmap, fill);
 }
 
 global void

@@ -128,11 +128,9 @@ draw_cell(int col, int row)
     gui_surface_draw_rect(&a->window.origin, &rect, gui_color_bg);
 
     if (state == CELL_STATE_FLAGGED) {
-        gui_surface_draw_bitmap_centered(&a->window.origin, &a->window.size, &rect, &sprite_flag,
-            gui_color_fg);
+        gui_surface_draw_bitmap_centered(&a->window.origin, &rect, &sprite_flag, gui_color_fg);
     } else if (state == CELL_STATE_REVEALED && type == CELL_TYPE_MINE) {
-        gui_surface_draw_bitmap_centered(&a->window.origin, &a->window.size, &rect, &sprite_mine,
-            gui_color_fg);
+        gui_surface_draw_bitmap_centered(&a->window.origin, &rect, &sprite_mine, gui_color_fg);
     } else if (state == CELL_STATE_REVEALED && type == CELL_TYPE_EMPTY) {
         gui_rect_init(&dot_rect, rect.x + rect.width / 2 - 1, rect.y + rect.height / 2, 2, 1);
         gui_surface_draw_rect(&a->window.origin, &dot_rect, gui_color_fg);

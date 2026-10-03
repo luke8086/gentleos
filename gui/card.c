@@ -126,10 +126,10 @@ card_draw(card_game_st *game, int x, int y, card_t card, int is_sel)
         return;
     }
 
-    gui_surface_draw_bitmap(game->origin, game->size,
+    gui_surface_draw_bitmap(game->origin,
         x + 3, y + 3, card_rank_bmp[rank], fg);
 
-    gui_surface_draw_bitmap(game->origin, game->size,
+    gui_surface_draw_bitmap(game->origin,
         x + game->card_width - 8, y + 3, card_suit_bmp[suit], fg);
 
     gui_surface_mark_dirty(game->origin, &r);
@@ -146,10 +146,10 @@ card_stub_draw(card_game_st *game, int x, int y, int height, card_t card)
     gui_surface_draw_rect(game->origin, &r, gui_color_bg);
     gui_surface_draw_border(game->origin, &r, gui_color_fg);
 
-    gui_surface_draw_bitmap(game->origin, game->size,
+    gui_surface_draw_bitmap(game->origin,
         x + 3, y + 3, card_rank_bmp[rank], gui_color_fg);
 
-    gui_surface_draw_bitmap(game->origin, game->size,
+    gui_surface_draw_bitmap(game->origin,
         x + game->card_width - 8, y + 3, card_suit_bmp[suit], gui_color_fg);
 
     gui_surface_mark_dirty(game->origin, &r);

@@ -123,7 +123,7 @@ draw_cell(int col, int row)
     gui_surface_draw_rect(&a->window.origin, &rect, gui_color_bg);
 
     if (state == CELL_STATE_REVEALED || state == CELL_STATE_MATCHED) {
-        gui_surface_draw_bitmap_centered(&a->window.origin, &a->window.size, &rect,
+        gui_surface_draw_bitmap_centered(&a->window.origin, &rect,
             icons[a->cell_icons[idx]], gui_color_fg);
     }
 

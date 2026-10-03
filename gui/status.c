@@ -139,11 +139,10 @@ global void
 gui_status_init(void)
 {
     point_st origin = { 0, 0 };
-    size_st size = { GUI_WIDTH, GUI_HEIGHT };
 
     gui_surface_draw_h_seg(&origin, 0, STATUS_HEIGHT - 1, STATUS_WIDTH, gui_color_fg);
     gui_surface_draw_h_seg(&origin, 0, GUI_HEIGHT - STATUS_HEIGHT, STATUS_WIDTH, gui_color_fg);
-    gui_surface_draw_bitmap(&origin, &size,
+    gui_surface_draw_bitmap(&origin,
         STATUS_WIDTH - 2 * TEXT_X - (int)strlen(github_link) * FONT_WIDTH - sprite_github.size.width,
         1, &sprite_github, gui_color_fg);
 

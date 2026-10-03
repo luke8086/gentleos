@@ -140,8 +140,7 @@ draw_cell(int col, int row)
     gui_surface_draw_border(&a->window.origin, &rect, gui_color_fg);
 
     if (i < APPS_COUNT && apps[i] && apps[i]->icon) {
-        gui_surface_draw_bitmap_centered(&a->window.origin, &a->window.size, &rect,
-            apps[i]->icon, gui_color_fg);
+        gui_surface_draw_bitmap_centered(&a->window.origin, &rect, apps[i]->icon, gui_color_fg);
     }
 
     if (col == current_col && row == current_row) {

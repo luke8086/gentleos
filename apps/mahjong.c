@@ -227,8 +227,7 @@ draw_tile(int layer, int col, int row)
     gui_rect_init(&rect, x, y, TILE_W, TILE_H);
     gui_surface_draw_rect(origin, &rect, face_color);
     gui_surface_draw_border(origin, &rect, gui_color_fg);
-    gui_surface_draw_bitmap_centered(origin, &a->window.size,
-        &rect, tile_bitmaps[type], glyph_color);
+    gui_surface_draw_bitmap_centered(origin, &rect, tile_bitmaps[type], glyph_color);
 
     if (is_cursor) {
         gui_rect_init(&rect, x + 2, y + 2, TILE_W - 4, TILE_H - 4);

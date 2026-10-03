@@ -10,6 +10,8 @@ extern app_st app_clock;
 extern app_st app_fonts;
 /* apps/freecell.c */
 extern app_st app_freecell;
+/* apps/gallery.c */
+extern app_st app_gallery;
 /* apps/keys.c */
 extern app_st app_keys;
 /* apps/klondike.c */

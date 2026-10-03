@@ -32,10 +32,12 @@ enum {
 static app_st *apps[] = {
     &app_clock,
     &app_calendar,
+    &app_gallery,
+    &app_player,
+    &app_sounds,
+    &app_setup,
     &app_fonts,
     &app_keys,
-    &app_sounds,
-    &app_player,
     &app_mines,
     &app_pairs,
     &app_mahjong,
@@ -45,7 +47,6 @@ static app_st *apps[] = {
     &app_freecell,
     &app_klondike,
     &app_blackjack,
-    &app_setup,
 };
 
 #define APPS_COUNT (sizeof(apps) / sizeof(apps[0]))
@@ -140,7 +141,8 @@ draw_cell(int col, int row)
     gui_surface_draw_border(&a->window.origin, &rect, gui_color_fg);
 
     if (i < APPS_COUNT && apps[i] && apps[i]->icon) {
-        gui_surface_draw_bitmap_centered(&a->window.origin, &rect, apps[i]->icon, gui_color_fg);
+        gui_surface_draw_bitmap_centered(&a->window.origin, &rect,
+            apps[i]->icon, gui_color_fg);
     }
 
     if (col == current_col && row == current_row) {

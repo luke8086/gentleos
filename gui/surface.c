@@ -337,23 +337,59 @@ global void
 gui_surface_draw_bitmap_far(const point_st *origin, int dst_x, int dst_y,
     const size_st *size, int pitch, const uint8_t far *pixels, uint8_t fill)
 {
-    uint8_t fill_bit;
-    uint16_t i, j;
+    uint8_t far *dst;
+    uint8_t dst_l_mask, dst_r_mask, dst_mask, invert_mask, dst_bits;
+    int dst_l_byte, dst_r_byte, dst_l_x, dst_r_x, dst_bytes, dst_shift;
+    uint16_t src_bits;
+    int src_bytes;
+    int x, y;
 
-    fill_bit = fill & 1;
+    if (size->width <= 0 || size->height <= 0) {
+        return;
+    }
 
-    for (i = 0; i < size->height; i++) {
-        for (j = 0; j < size->width; j++) {
-            int byte_no = i * pitch + j / 8;
-            int bit_no = 7 - (j % 8);
-            int active = (pixels[byte_no] >> bit_no) & 1;
+    dst_x += origin->x;
+    dst_y += origin->y;
 
-            if (!active) {
-                continue;
+    dst_l_x = dst_x;
+    dst_r_x = dst_l_x + size->width - 1;
+
+    dst_l_byte = dst_l_x / 8;
+    dst_r_byte = dst_r_x / 8;
+
+    dst_bytes = dst_r_byte - dst_l_byte + 1;
+    src_bytes = (size->width + 7) / 8;
+
+    dst_shift = dst_l_x & 7;
+    dst_l_mask = 0xFF >> (dst_l_x & 7);
+    dst_r_mask = 0xFF << (7 - (dst_r_x & 7));
+
+    invert_mask = (fill & 1) ? 0x00 : 0xFF;
+
+    dst = gui_surface_pixels + dst_y * GUI_FB_PITCH + dst_l_byte;
+
+    for (y = 0; y < size->height; ++y) {
+        src_bits = 0;
+
+        for (x = 0; x < dst_bytes; ++x) {
+            src_bits = (src_bits << 8) | (x < src_bytes ? pixels[x] : 0);
+            dst_bits = (uint8_t)(src_bits >> dst_shift) ^ invert_mask;
+
+            dst_mask = 0xFF;
+
+            if (x == 0) {
+                dst_mask &= dst_l_mask;
             }
 
-            gui_surface_draw_pixel(origin, dst_x + j, dst_y + i, fill_bit);
+            if (x == dst_bytes - 1) {
+                dst_mask &= dst_r_mask;
+            }
+
+            dst[x] = (dst[x] & ~dst_mask) | (dst_bits & dst_mask);
         }
+
+        dst += GUI_FB_PITCH;
+        pixels += pitch;
     }
 }
 

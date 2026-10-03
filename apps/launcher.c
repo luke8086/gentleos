@@ -32,7 +32,7 @@ enum {
 static app_st *apps[] = {
     &app_clock,
     &app_calendar,
-    &app_gallery,
+    /* &app_gallery, */
     &app_player,
     &app_sounds,
     &app_setup,

@@ -110,7 +110,7 @@ draw_field(int n)
     }
 
     gui_surface_draw_rect(&window.origin, &rect, bg);
-    gui_surface_draw_str(&window.origin, rect.x, rect.y + 1, NULL, buf, fg, bg);
+    gui_surface_draw_str(&window.origin, rect.x, rect.y + 1, NULL, buf, fg);
     gui_surface_mark_dirty(&window.origin, &rect);
 }
 
@@ -124,7 +124,7 @@ draw_all(void)
 
     gui_surface_draw_str_lines(&window.origin, CONTENT_X,
         CONTENT_Y + (ROW_HEIGHT - FONT_HEIGHT) / 2, ROW_HEIGHT - FONT_HEIGHT,
-        NULL, labels, gui_color_fg, gui_color_bg);
+        NULL, labels, gui_color_fg);
 
     for (i = 0; i < FIELD_COUNT; ++i) {
         draw_field(i);

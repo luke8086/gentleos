@@ -162,7 +162,7 @@ draw_cell(int col, int row)
 
     if (cell->exp) {
         snprintf(str, sizeof(str), "%u", 1u << cell->exp);
-        gui_surface_draw_str_centered(&a->window.origin, &rect, NULL, str, fg, bg);
+        gui_surface_draw_str_centered(&a->window.origin, &rect, NULL, str, fg);
     }
 
     gui_surface_mark_dirty(&a->window.origin, &rect);

@@ -187,7 +187,7 @@ draw_title(void)
 
     gui_surface_draw_rect(&a->window.origin, &rect, gui_color_bg);
     gui_surface_draw_str_centered(&a->window.origin, &rect, NULL,
-        get_song_name(get_shown_index()), gui_color_fg, gui_color_bg);
+        get_song_name(get_shown_index()), gui_color_fg);
 
     gui_surface_mark_dirty(&a->window.origin, &rect);
 }
@@ -210,8 +210,7 @@ draw_time(uint32_t elapsed_ticks)
     gui_rect_init(&rect, CONTENT_X, TIME_Y, CONTENT_WIDTH, TIME_HEIGHT);
 
     gui_surface_draw_rect(&a->window.origin, &rect, gui_color_bg);
-    gui_surface_draw_str_centered(&a->window.origin, &rect, NULL, time,
-        gui_color_fg, gui_color_bg);
+    gui_surface_draw_str_centered(&a->window.origin, &rect, NULL, time, gui_color_fg);
 
     gui_surface_mark_dirty(&a->window.origin, &rect);
 }
@@ -285,8 +284,8 @@ draw_row(int index)
     duration_x = rect.x + rect.width - 3 - (uint16_t)strlen(duration) * FONT_WIDTH;
 
     gui_surface_draw_rect(&a->window.origin, &rect, bg);
-    gui_surface_draw_str(&a->window.origin, text_x, text_y, NULL, get_song_name(index), fg, bg);
-    gui_surface_draw_str(&a->window.origin, duration_x, text_y, NULL, duration, fg, bg);
+    gui_surface_draw_str(&a->window.origin, text_x, text_y, NULL, get_song_name(index), fg);
+    gui_surface_draw_str(&a->window.origin, duration_x, text_y, NULL, duration, fg);
     gui_surface_mark_dirty(&a->window.origin, &rect);
 }
 

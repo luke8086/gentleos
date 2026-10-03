@@ -173,7 +173,7 @@ draw_cell(cell_st *key, int pressed)
         gui_surface_draw_border(&window.origin, &rect, gui_color_fg);
     }
 
-    gui_surface_draw_str_centered(&window.origin, &label_rect, FONT_5x8, key->label, fg, bg);
+    gui_surface_draw_str_centered(&window.origin, &label_rect, FONT_5x8, key->label, fg);
     gui_surface_mark_dirty(&window.origin, &rect);
 }
 

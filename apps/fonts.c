@@ -58,8 +58,7 @@ draw_cell(int col, int row)
         &r,
         &fonts[current_font],
         (const char *)str,
-        is_active ? gui_color_bg : gui_color_fg,
-        is_active ? gui_color_fg : gui_color_bg
+        is_active ? gui_color_bg : gui_color_fg
     );
 
     gui_surface_mark_dirty(&window.origin, &r);
@@ -90,7 +89,7 @@ draw_font_label(void)
     gui_rect_shrink(&shrunken, 1);
     gui_surface_draw_rect(&window.origin, &shrunken, gui_color_bg);
     gui_surface_draw_str_centered(&window.origin, &r, NULL,
-        fonts[current_font].name, gui_color_fg, gui_color_bg);
+        fonts[current_font].name, gui_color_fg);
 
     gui_surface_mark_dirty(&window.origin, &r);
 }

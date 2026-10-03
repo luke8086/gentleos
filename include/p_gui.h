@@ -63,10 +63,10 @@ extern void gui_surface_draw_h_seg(const point_st *origin, int x, int y, int w, 
 extern void gui_surface_draw_v_seg(const point_st *origin, int x, int y, int h, uint8_t color);
 extern void gui_surface_draw_border(const point_st *origin, const rect_st *r, uint8_t color);
 extern void gui_surface_draw_rect(const point_st *origin, const rect_st *rect, uint8_t color);
-extern void gui_surface_draw_char(const point_st *origin, uint16_t x, uint16_t y, font_st *font, uint8_t ch, uint8_t fg, uint8_t bg);
-extern void gui_surface_draw_str(const point_st *origin, uint16_t x, uint16_t y, font_st *font, const char *s, uint8_t fg, uint8_t bg);
-extern void gui_surface_draw_str_lines(const point_st *origin, uint16_t x, uint16_t y, uint8_t line_spc, font_st *font, const char **lines, uint8_t fg, uint8_t bg);
-extern void gui_surface_draw_str_centered(const point_st *origin, const rect_st *rect, font_st *font, const char *s, uint8_t fg, uint8_t bg);
+extern void gui_surface_draw_char(const point_st *origin, uint16_t x, uint16_t y, font_st *font, uint8_t ch, uint8_t fg);
+extern void gui_surface_draw_str(const point_st *origin, uint16_t x, uint16_t y, font_st *font, const char *s, uint8_t fg);
+extern void gui_surface_draw_str_lines(const point_st *origin, uint16_t x, uint16_t y, uint8_t line_spc, font_st *font, const char **lines, uint8_t fg);
+extern void gui_surface_draw_str_centered(const point_st *origin, const rect_st *rect, font_st *font, const char *s, uint8_t fg);
 extern void gui_surface_draw_bitmap_far(const point_st *origin, const size_st *bounds, int dst_x, int dst_y, const size_st *size, int pitch, const uint8_t far *pixels, uint8_t fill);
 extern void gui_surface_draw_bitmap(const point_st *origin, const size_st *bounds, int dst_x, int dst_y, bitmap_st *bitmap, uint8_t fill);
 extern void gui_surface_draw_bitmap_centered(const point_st *origin, const size_st *bounds, const rect_st *rect, bitmap_st *bitmap, uint8_t fill);

@@ -31,8 +31,7 @@ gui_button_draw(widget_st *widget)
             &rect,
             NULL,
             widget->label,
-            is_pressed ? gui_color_bg : gui_color_fg,
-            is_pressed ? gui_color_fg : gui_color_bg
+            is_pressed ? gui_color_bg : gui_color_fg
         );
     }
 

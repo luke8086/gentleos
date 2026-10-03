@@ -63,8 +63,7 @@ draw_month_label(void)
     snprintf(buf, sizeof(buf), "%s %d", month_name, a->sel_year);
 
     gui_surface_draw_border(&a->window.origin, &rect, gui_color_fg);
-    gui_surface_draw_str_centered(&a->window.origin, &rect, NULL, buf,
-        gui_color_fg, gui_color_bg);
+    gui_surface_draw_str_centered(&a->window.origin, &rect, NULL, buf, gui_color_fg);
     gui_surface_mark_dirty(&a->window.origin, &rect);
 }
 
@@ -95,7 +94,7 @@ draw_day_cell(int col, int row, int day)
     gui_surface_draw_rect(&a->window.origin, &rect, bg);
 
     snprintf(buf, sizeof(buf), "%d", day);
-    gui_surface_draw_str_centered(&a->window.origin, &rect, NULL, buf, fg, bg);
+    gui_surface_draw_str_centered(&a->window.origin, &rect, NULL, buf, fg);
 
     gui_surface_mark_dirty(&a->window.origin, &rect);
 }
@@ -133,7 +132,7 @@ draw_week_bar(void)
 
         gui_surface_draw_border(&a->window.origin, &rect, gui_color_fg);
         gui_surface_draw_str_centered(&a->window.origin, &rect, NULL,
-            TIME_DAY_NAMES_SHORT[y], gui_color_fg, gui_color_bg);
+            TIME_DAY_NAMES_SHORT[y], gui_color_fg);
     }
 }
 

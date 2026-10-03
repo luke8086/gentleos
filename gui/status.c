@@ -54,7 +54,7 @@ gui_status_set_text(int corner, const char *text)
         prev_x = STATUS_WIDTH - TEXT_X - prev_width;
     }
 
-    gui_surface_draw_str(&origin, x, TEXT_Y, font, text, gui_color_fg, gui_color_bg);
+    gui_surface_draw_str(&origin, x, TEXT_Y, font, text, gui_color_fg);
 
     /* If the new text is shorter than previous, clear the remaining space */
     if (len < status_text_len[corner]) {

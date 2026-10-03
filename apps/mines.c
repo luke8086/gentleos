@@ -143,7 +143,7 @@ draw_cell(int col, int row)
             rect.width - 1, rect.height - 1);
 
         gui_surface_draw_str_centered(&a->window.origin, &num_rect, NULL,
-            num_str, gui_color_fg, gui_color_bg);
+            num_str, gui_color_fg);
     }
 
     if (row == a->current_row && col == a->current_col) {

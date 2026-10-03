@@ -253,9 +253,6 @@ gui_surface_draw_char(const point_st *origin, uint16_t x, uint16_t y,
     font_st *font, uint8_t ch, uint8_t fg)
 {
     const uint8_t *glyph;
-    uint8_t fg_bit;
-    uint8_t glyph_byte, target_byte;
-    int i, j, bit;
 
     if (!font) {
         font = FONT_DEFAULT;
@@ -271,17 +268,7 @@ gui_surface_draw_char(const point_st *origin, uint16_t x, uint16_t y,
 
     glyph = font->pixels + (ch * font->size.height);
 
-    fg_bit = fg & 1;
-
-    for (j = 0; j < font->size.height; ++j) {
-        glyph_byte = glyph[j];
-        target_byte = fg_bit ? glyph_byte : ~glyph_byte;
-
-        for (i = 0; i < font->size.width; ++i) {
-            bit = (target_byte >> (7 - i)) & 1;
-            gui_surface_draw_pixel(origin, x + i, y + j, bit);
-        }
-    }
+    gui_surface_draw_bitmap_far(origin, x, y, &font->size, 1, glyph, fg);
 }
 
 global void

@@ -36,7 +36,7 @@ C:\>WMAKE
   in the `[cpu]` section of your DOSBox config file
 
 - For a quick turnaround, GentleOS can be started as a COM file
-  with `GENTLEOS.COM`. Pressing `Shift-Q` returns back to DOS.
+  with `GT16.COM`. Pressing `Shift-Q` returns back to DOS.
 
 ## Attributions
 

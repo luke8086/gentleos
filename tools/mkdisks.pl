@@ -32,11 +32,11 @@ sub make_disk {
     my $boot1 = pad(slurp("build/boot1/boot1.bin"), 512);
     my $boot2 = pad(slurp("build/boot2/boot2.com"), 2048);
 
-    my $kernel = slurp("gentleos.com");
+    my $kernel = slurp("GT16.COM");
     substr($kernel, 2, 2, pack("v", $flags));
     $kernel = pad($kernel, $KERNEL_SIZE);
 
-    my $initrd = pad(slurp("gentleos.dat"), $INITRD_SIZE);
+    my $initrd = pad(slurp("GT16.DAT"), $INITRD_SIZE);
 
     my $image = pad($boot1 . $boot1 . $boot2 . $kernel . $initrd, $size);
 
@@ -45,7 +45,7 @@ sub make_disk {
     print "Done\n";
 }
 
-make_disk("disk.img", 0, 0x00);
-make_disk("fd720.img", 720 * 1024, 0x00);
-make_disk("fd1440.img", 1440 * 1024, 0x00);
-make_disk("web.img", 1440 * 1024, $KRN_FLAG_COLORS_INVERTED);
+make_disk("GT16DISK.IMG", 0, 0x00);
+make_disk("GT16FD72.IMG", 720 * 1024, 0x00);
+make_disk("GT16FD14.IMG", 1440 * 1024, 0x00);
+make_disk("GT16WEB.IMG", 1440 * 1024, $KRN_FLAG_COLORS_INVERTED);

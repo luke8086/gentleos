@@ -19,7 +19,7 @@ my $INITRD_NAME_LEN     = 31;
 my $INITRD_HEADER_LEN   = 12;                   # a4 magic + V version + V count
 my $INITRD_ENTRY_LEN    = $INITRD_NAME_LEN + 9; # name + C type + V offset + V size
 my $INITRD_MAX_SIZE     = 0x20000; # 128KB, must match initrd.c
-my $INITRD_PATH         = "gentleos.dat";
+my $INITRD_PATH         = "GT16.DAT";
 
 my @INITRD_SPK_GLOBS = (
     "assets/spk/*.spk",

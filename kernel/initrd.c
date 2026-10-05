@@ -22,7 +22,7 @@ enum {
     INITRD_MAX_COUNT = (INITRD_MAX_TABLE_SIZE - sizeof(initrd_header_st)) / sizeof(file_st),
 };
 
-static const char initrd_dos_path[] = "gentleos.dat";
+static const char initrd_dos_path[] = "GT16.DAT";
 
 static void far *
 initrd_get_addr(uint32_t offset)

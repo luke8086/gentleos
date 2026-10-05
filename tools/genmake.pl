@@ -14,14 +14,14 @@ my $MAKEFILE_TPL = <<'EOT';
 all: disks .SYMBOLIC
     @echo All done!
 
-disks: gentleos.com gentleos.dat build/boot1/boot1.bin build/boot2/boot2.com .SYMBOLIC
+disks: GT16.COM GT16.DAT build/boot1/boot1.bin build/boot2/boot2.com .SYMBOLIC
     perl tools/mkdisks.pl
 
-run: gentleos.com gentleos.dat .SYMBOLIC
-    gentleos.com
+run: GT16.COM GT16.DAT .SYMBOLIC
+    GT16.COM
 
 boot: all .SYMBOLIC
-    boot fd1440.img
+    boot GT16FD14.IMG
 
 clean: .SYMBOLIC
     perl tools/clean.pl
@@ -41,10 +41,10 @@ INITRD_ASSETS = &
 build/boot1/boot1.bin: boot1/boot1.s
     nasm -o build/boot1/boot1.bin boot1/boot1.s
 
-gentleos.com: $(KERNEL_OBJS)
+GT16.COM: $(KERNEL_OBJS)
 	wlink @build/kernel.lnk
 
-gentleos.dat: tools/mkdata.pl tools/common.pl $(INITRD_ASSETS)
+GT16.DAT: tools/mkdata.pl tools/common.pl $(INITRD_ASSETS)
     perl tools/mkdata.pl
 
 build\boot2\boot2.com: $(BOOT2_OBJS)
@@ -184,7 +184,7 @@ sub generate_kernel_lnk {
 
     my @lines = (
         "system dos com",
-        "name gentleos.com",
+        "name GT16.COM",
         "option nodefaultlibs",
         "option quiet",
         "option map=build/kernel.map",

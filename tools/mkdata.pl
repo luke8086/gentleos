@@ -350,7 +350,7 @@ sub process_spk {
 sub process_initrd_bitmap {
     my ($path) = @_;
 
-    my $name = bitmap_name($path) . ".pbm";
+    my $name = uc(bitmap_name($path) . ".pbm");
 
     my ($pixels, $width, $height) = load_pbm($path);
     my $pitch = int(($width + 7) / 8);

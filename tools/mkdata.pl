@@ -23,10 +23,12 @@ my $INITRD_PATH         = "GT16.DAT";
 
 my @INITRD_SPK_GLOBS = (
     "assets/spk/*.spk",
+    "usrmedia/*.spk",
 );
 
 my @INITRD_BITMAP_GLOBS = (
     "vendor/misc/*.pbm",
+    "usrmedia/*.pbm",
 );
 
 my $FILE_TYPE_UNKNOWN = 0;
@@ -401,8 +403,8 @@ sub build_initrd_image {
 sub make_initrd {
     print "\nImporting initrd assets:\n";
 
-    my @spk_paths = sort(map(glob, @INITRD_SPK_GLOBS));
-    my @bitmap_paths = sort(map(glob, @INITRD_BITMAP_GLOBS));
+    my @spk_paths = sort { basename($a) cmp basename($b) } map(glob, @INITRD_SPK_GLOBS);
+    my @bitmap_paths = sort { basename($a) cmp basename($b) } map(glob, @INITRD_BITMAP_GLOBS);
 
     my @files;
 

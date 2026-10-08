@@ -13,6 +13,7 @@
 /data/*
 /config.h
 /tmp/*
+/usrmedia/*
 *.swp
 __pycache__
 *.ERR

@@ -124,6 +124,7 @@ typedef struct {
     file_st far *initrd_files;
 
     volatile int keyboard_native;
+    volatile int timer_available;
 } system_info_st;
 
 typedef struct {

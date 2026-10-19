@@ -24,6 +24,8 @@ krn_timer_handle_intr(void)
 {
     event_st event;
 
+    system_info.timer_available = 1;
+
     /* At default 18.2Hz freq this drifts by ~2min/day */
     timer_msecs += timer_msecs_per_tick;
 

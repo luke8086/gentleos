@@ -23,10 +23,7 @@ heap_alloc(uint16_t size)
     }
 
     if (size > remaining_space) {
-        krn_debug_printf("FATAL: Out of memory\n");
-        krn_debug_beep_adv(300, 500, 3);
-
-        halt();
+        krn_debug_fatal(3, "Fatal: Out of memory");
         /* UNREACHABLE */
     }
 

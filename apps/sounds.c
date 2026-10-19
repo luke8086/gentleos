@@ -223,7 +223,7 @@ on_show(void)
         a->keys_w[i].draw(&a->keys_w[i]);
     }
 
-    if (krn_keyboard_use_bios) {
+    if (!system_info.keyboard_native) {
         gui_status_set("This app is not available on this device");
     } else {
         gui_status_set("Z-,: Wh/Lo  S-J: Bl/Lo  W-O: Wh/Hi  3-8: Bl/Hi");

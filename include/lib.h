@@ -122,6 +122,8 @@ typedef struct {
 
     uint16_t initrd_files_count;
     file_st far *initrd_files;
+
+    volatile int keyboard_native;
 } system_info_st;
 
 typedef struct {

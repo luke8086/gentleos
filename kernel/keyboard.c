@@ -16,7 +16,6 @@ enum {
 
 static isr_st saved_isr_handler;
 extern void *krn_isr_keyboard;
-global volatile int krn_keyboard_use_bios = 1;
 
 global uint16_t
 krn_keyboard_getc(void)
@@ -106,7 +105,7 @@ krn_keyboard_handle_intr(void)
     uint8_t ctrl;
     uint8_t scan = krn_inb(PS2_PORT_DATA);
 
-    krn_keyboard_use_bios = 0;
+    system_info.keyboard_native = 1;
 
     krn_keyboard_handle_scancode(scan);
 

@@ -284,20 +284,20 @@ sub process_fonts {
 
 sub read_spk {
     my ($path) = @_;
-    my %meta;
     my @segments;
 
     open(my $fh, "<", $path) or die "Cannot read $path: $!\n";
 
+    my $title = <$fh>;
+    $title = "" if !defined $title;
+    $title =~ s/^\s+|\s+$//g;
+
+    die "Error: no title in $path\n" if $title eq "";
+
     while (my $line = <$fh>) {
         next if $line =~ /^\s*$/;
 
-        if ($line =~ /^\s*(\w+)\s*:\s*(.+?)\s*$/) {
-            $meta{$1} = $2;
-            next;
-        }
-
-        if ($line =~ /^\s*(\d+)\s*,\s*(\d+)\s*$/) {
+        if ($line =~ /^\s*(\d+)\s+(\d+)\s*$/) {
             my $pitch = min(int($1), 0xffff);
             my $duration = max(min(int($2), 0xffff), 1);
 
@@ -310,10 +310,9 @@ sub read_spk {
 
     close $fh;
 
-    die "Error: no title in $path\n" if $meta{title} eq "";
     die "Error: no notes in $path\n" if !@segments;
 
-    return ($meta{title}, \@segments);
+    return ($title, \@segments);
 }
 
 sub process_spk {

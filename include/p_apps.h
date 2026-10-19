@@ -30,6 +30,8 @@ extern app_st app_player;
 extern app_st app_setup;
 /* apps/snake.c */
 extern app_st app_snake;
+/* apps/sokoban.c */
+extern app_st app_sokoban;
 /* apps/sounds.c */
 extern app_st app_sounds;
 /* apps/tetris.c */

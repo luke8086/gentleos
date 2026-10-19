@@ -158,6 +158,7 @@ sub process_bitmap {
     $prefix = "card_" if $dirname eq "assets/cards";
     $prefix = "sprite_" if $dirname eq "assets/sprites";
     $prefix = "sprite_mj_" if $dirname eq "assets/mahjong";
+    $prefix = "sprite_sb_" if $dirname eq "assets/sokoban";
     $prefix = "glyph_mn_" if $dirname eq "vendor/mona";
 
     my @lines = (
@@ -179,6 +180,7 @@ sub process_bitmaps {
         glob("assets/icons/*.pbm"),
         glob("assets/cards/*.pbm"),
         glob("assets/mahjong/*.pbm"),
+        glob("assets/sokoban/*.pbm"),
         glob("assets/sprites/*.pbm"),
         glob("vendor/icons8/*.pbm"),
         glob("vendor/mona/*.pbm"),

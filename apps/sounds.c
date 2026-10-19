@@ -224,7 +224,7 @@ on_show(void)
     }
 
     if (!system_info.keyboard_native) {
-        gui_status_set("This app is not available on this device");
+        gui_status_set("App not supported: missing direct keyboard access");
     } else {
         gui_status_set("Z-,: Wh/Lo  S-J: Bl/Lo  W-O: Wh/Hi  3-8: Bl/Hi");
     }

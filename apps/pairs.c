@@ -273,6 +273,10 @@ on_key_down(uint8_t key_code, uint8_t key_mods)
 {
     app_state_st *a = app_state;
 
+    while (!system_info.timer_available && a->waiting) {
+        on_tick();
+    }
+
     if (a->matched_count == PAIR_COUNT) {
         if (key_code == KEY_R) {
             restart_game();

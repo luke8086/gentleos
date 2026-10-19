@@ -382,6 +382,11 @@ play_song(int index)
         return;
     }
 
+    if (!system_info.timer_available) {
+        gui_status_set("Playback not supported: timer unavailable");
+        return;
+    }
+
     a->active_index = index;
     krn_speaker_play_song(get_song_notes(index), &app_player);
 

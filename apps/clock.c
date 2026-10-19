@@ -139,6 +139,14 @@ on_show(void)
     last_day = 0xff;
     last_second = 0xff;
 
+    if (!system_info.timer_available) {
+        gui_status_set("App not supported: missing timer");
+        return;
+    }
+
+    gui_window_init(&window, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    init_grid();
     draw_time();
     update_status();
 }
@@ -146,10 +154,6 @@ on_show(void)
 static void
 on_init(void)
 {
-    gui_window_init(&window, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-    init_grid();
-
     app_clock.on_show = on_show;
     app_clock.on_tick = on_tick;
 }

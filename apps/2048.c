@@ -428,6 +428,10 @@ on_key_down(uint8_t key_code, uint8_t key_mods)
     case KEY_DOWN: make_move(0, 1); break;
     default: break;
     }
+
+    while (!system_info.timer_available && a->flash_ticks) {
+        on_tick();
+    }
 }
 
 static void

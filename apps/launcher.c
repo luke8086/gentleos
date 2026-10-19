@@ -98,6 +98,10 @@ update_status_br(void)
 {
     time_st t;
 
+    if (!system_info.timer_available) {
+        return;
+    }
+
     time_get(&t);
 
     gui_status_set_br("%04u-%02u-%02u %02u:%02u",

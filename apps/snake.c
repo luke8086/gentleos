@@ -258,6 +258,10 @@ on_key_down(uint8_t key_code, uint8_t key_mods)
 {
     app_state_st *a = app_state;
 
+    if (!system_info.timer_available) {
+        return;
+    }
+
     if (a->game_over) {
         restart_game();
         return;
@@ -296,6 +300,11 @@ static void
 on_show(void)
 {
     app_state_st *a = app_state;
+
+    if (!system_info.timer_available) {
+        gui_status_set("App not supported: missing timer");
+        return;
+    }
 
     gui_window_init(&a->window, WINDOW_WIDTH, WINDOW_HEIGHT);
     init_grid();

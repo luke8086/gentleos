@@ -577,39 +577,6 @@ restart_game(void)
 }
 
 static void
-on_key_down(uint8_t key_code, uint8_t key_mods)
-{
-    app_state_st *a = app_state;
-
-    if (a->state == STATE_AUTO_PENDING) {
-        return;
-    }
-
-    if (a->state == STATE_ENTER_MOVE_COUNT) {
-        handle_move_count(key_code);
-        return;
-    }
-
-    if (a->state == STATE_WON) {
-        if (key_code == KEY_R) {
-            restart_game();
-        }
-
-        return;
-    }
-
-    switch (key_code) {
-        case KEY_LEFT: move_cursor(-1, 0); return;
-        case KEY_RIGHT: move_cursor(1, 0); return;
-        case KEY_UP: move_cursor(0, -1); return;
-        case KEY_DOWN: move_cursor(0, 1); return;
-        case KEY_SPACE: handle_space(); return;
-        case KEY_F: request_move_to_found(); return;
-        case KEY_R: restart_game(); return;
-    }
-}
-
-static void
 on_tick(void)
 {
     app_state_st *a = app_state;
@@ -628,6 +595,42 @@ on_tick(void)
     if (a->ticks_waited > AUTO_MOVE_EXECUTE_TICKS) {
         a->state = STATE_DEFAULT;
         exec_move();
+    }
+}
+
+static void
+on_key_down(uint8_t key_code, uint8_t key_mods)
+{
+    app_state_st *a = app_state;
+
+    if (a->state == STATE_AUTO_PENDING) {
+        return;
+    }
+
+    if (a->state == STATE_WON) {
+        if (key_code == KEY_R) {
+            restart_game();
+        }
+
+        return;
+    }
+
+    if (a->state == STATE_ENTER_MOVE_COUNT) {
+        handle_move_count(key_code);
+    } else {
+        switch (key_code) {
+            case KEY_LEFT: move_cursor(-1, 0); break;
+            case KEY_RIGHT: move_cursor(1, 0); break;
+            case KEY_UP: move_cursor(0, -1); break;
+            case KEY_DOWN: move_cursor(0, 1); break;
+            case KEY_SPACE: handle_space(); break;
+            case KEY_F: request_move_to_found(); break;
+            case KEY_R: restart_game(); break;
+        }
+    }
+
+    while (!system_info.timer_available && a->state == STATE_AUTO_PENDING) {
+        on_tick();
     }
 }
 

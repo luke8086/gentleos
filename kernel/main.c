@@ -29,6 +29,23 @@ krn_check_load(void)
     krn_debug_printf("ok (flags: %02x)\n", krn_flags);
 }
 
+static void
+krn_main_pause(void)
+{
+    event_st event;
+    uint32_t start = krn_timer_get_msecs();
+
+    krn_debug_printf("Please wait for 2s or press any key to skip the pause\n");
+
+    while (krn_timer_get_msecs() - start < 2000) {
+        krn_event_wait(&event);
+
+        if (event.type == EVENT_KEY_DOWN) {
+            break;
+        }
+    }
+}
+
 global void
 krn_main(void)
 {
@@ -41,8 +58,7 @@ krn_main(void)
     krn_timer_init();
     krn_rtc_init();
 
-    krn_debug_printf("Starting GUI...\n");
-    sleep(2000);
+    krn_main_pause();
 
     krn_vga_init();
     gui_main();

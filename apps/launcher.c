@@ -41,6 +41,7 @@ static app_st *apps[] = {
     &app_mines,
     &app_pairs,
     &app_mahjong,
+    &app_sokoban,
     &app_snake,
     &app_tetris,
     &app_2048,

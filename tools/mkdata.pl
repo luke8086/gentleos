@@ -31,14 +31,20 @@ my @INITRD_BITMAP_GLOBS = (
     "usrmedia/*.pbm",
 );
 
+my @INITRD_SOKOBAN_GLOBS = (
+    "vendor/sokoban/levels.sbn",
+);
+
 my $FILE_TYPE_UNKNOWN = 0;
 my $FILE_TYPE_BITMAP  = 1;
 my $FILE_TYPE_SONG    = 2;
+my $FILE_TYPE_SOKOBAN = 3;
 
 my @FILE_TYPE_NAMES = (
     "unknown",
     "bitmap",
     "song",
+    "sokoban",
 );
 
 my $FILE_MAX_SIZE = 0xfff0;    # Must be addressable through one far pointer
@@ -374,6 +380,21 @@ sub process_initrd_bitmap {
     };
 }
 
+sub process_initrd_sokoban {
+    my ($path) = @_;
+
+    my $name = uc(basename($path));
+    my $data = slurp($path);
+
+    printf "- %s... ok (%d levels)\n", $path, unpack("v", $data);
+
+    return {
+        name => substr($name, 0, $INITRD_NAME_LEN - 1),
+        type => $FILE_TYPE_SOKOBAN,
+        data => $data,
+    };
+}
+
 sub build_initrd_image {
     my (@files) = @_;
 
@@ -404,13 +425,15 @@ sub build_initrd_image {
 sub make_initrd {
     print "\nImporting initrd assets:\n";
 
-    my @spk_paths = sort { basename($a) cmp basename($b) } map(glob, @INITRD_SPK_GLOBS);
-    my @bitmap_paths = sort { basename($a) cmp basename($b) } map(glob, @INITRD_BITMAP_GLOBS);
+    my @spk_paths = sort(map(glob, @INITRD_SPK_GLOBS));
+    my @bitmap_paths = sort(map(glob, @INITRD_BITMAP_GLOBS));
+    my @sokoban_paths = sort(map(glob, @INITRD_SOKOBAN_GLOBS));
 
     my @files;
 
     push @files, map { process_spk($_) } (@spk_paths);
     push @files, map { process_initrd_bitmap($_) } @bitmap_paths;
+    push @files, map { process_initrd_sokoban($_) } @sokoban_paths;
 
     print "\nGenerating initrd:\n";
 

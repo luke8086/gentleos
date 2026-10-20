@@ -125,8 +125,9 @@ sub collect_includes {
 sub collect_initrd_assets {
     return sort((
         glob("assets/spk/*.spk"),
-        glob("usrmedia/*.spk"),
         glob("vendor/misc/*.pbm"),
+        glob("vendor/sokoban/levels.sbn"),
+        glob("usrmedia/*.spk"),
         glob("usrmedia/*.pbm"),
     ));
 }

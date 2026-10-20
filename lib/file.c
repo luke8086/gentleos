@@ -26,3 +26,18 @@ file_get(uint16_t index)
 
     return &si->initrd_files[index];
 }
+
+global file_st far *
+file_lookup(const char *name)
+{
+    system_info_st *si = &system_info;
+    uint16_t i;
+
+    for (i = 0; i < si->initrd_files_count; ++i) {
+        if (strcmp_far(si->initrd_files[i].name, name) == 0) {
+            return &si->initrd_files[i];
+        }
+    }
+
+    return NULL;
+}

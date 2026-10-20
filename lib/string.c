@@ -126,6 +126,17 @@ strcmp(const char *s1, const char *s2)
     return (*s1 - *s2);
 }
 
+global int32_t
+strcmp_far(const char far *s1, const char far *s2)
+{
+    while (*s1 && (*s1 == *s2)) {
+        ++s1;
+        ++s2;
+    }
+
+    return (*s1 - *s2);
+}
+
 global size_t
 strlen(const char *s1)
 {

@@ -1,6 +1,7 @@
 /* lib/file.c */
 extern uint16_t file_count(void);
 extern file_st far * file_get(uint16_t index);
+extern file_st far * file_lookup(const char *name);
 /* lib/heap.c */
 extern void far * heap_alloc(uint16_t size);
 /* lib/key.c */
@@ -26,6 +27,7 @@ extern void far * memcpy_far(void far *dest, const void far *src, size_t n);
 extern void * memset(void *dest, int c, size_t n);
 extern void far * memset_far(void far *dest, int c, size_t n);
 extern int32_t strcmp(const char *s1, const char *s2);
+extern int32_t strcmp_far(const char far *s1, const char far *s2);
 extern size_t strlen(const char *s1);
 extern char * strncpy(char *dest, const char *src, size_t n);
 /* lib/time.c */

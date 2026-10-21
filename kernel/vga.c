@@ -8,10 +8,17 @@
 #include <kernel.h>
 
 global const vga_theme_st krn_vga_themes[VGA_THEME_COUNT] = {
+    { 0x67a353, 0x000000, "LCD" },
+    { 0xffffff, 0x000000, "White/Black" },
     { 0xcccccc, 0x000000, "Gray/Black" },
-    { 0x67a353, 0x000000, "Green/Black" },
+    { 0x00ff00, 0x000000, "Green/Black" },
+    { 0xffcc22, 0x000000, "Yellow/Blck" },
+    { 0xff9900, 0x000000, "Amber/Black" },
+    { 0xff3300, 0x000000, "Red/Black" },
     { 0x00b0e8, 0x000000, "Blue/Black" },
     { 0x55ffff, 0x002041, "Cyan/Blue" },
+    { 0xffcc22, 0x0000aa, "Yellow/Blue" },
+    { 0xffffff, 0x0000aa, "White/Blue" },
 };
 
 global int krn_vga_current_theme;
@@ -75,7 +82,7 @@ krn_vga_init(void)
 
     krn_debug_printf("ok\n");
 
-    krn_vga_set_theme(1);
+    krn_vga_set_theme(0);
 }
 
 global void

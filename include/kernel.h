@@ -46,7 +46,7 @@ typedef struct {
     uint16_t note_ticks_left;
 } speaker_state_st;
 
-#define VGA_THEME_COUNT 4
+#define VGA_THEME_COUNT 11
 
 typedef struct {
     uint32_t fg_color;

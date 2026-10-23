@@ -53,6 +53,7 @@ extern void krn_speaker_play_freq(uint16_t hz, void *owner);
 extern void krn_speaker_pause(void *owner);
 extern void krn_speaker_resume(void *owner);
 extern void krn_speaker_stop(void *owner);
+extern void krn_speaker_seek(void *owner, uint32_t ticks);
 extern void krn_speaker_on_tick(void);
 extern void krn_speaker_deinit(void);
 /* kernel/timer.c */

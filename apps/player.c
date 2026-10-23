@@ -40,6 +40,7 @@ enum {
     WINDOW_HEIGHT = GRID_Y + GRID_HEIGHT + 1 + PADDING,
 
     REFRESH_TICKS = SONG_TICK_FREQUENCY * 25 / 100, /* 0.25s */
+    SEEK_TICKS = SONG_TICK_FREQUENCY * 5, /* 5s */
 
     SONG_MAX_COUNT = 16,
 };
@@ -434,6 +435,33 @@ advance_song(void)
 }
 
 static void
+seek_song(int forward)
+{
+    speaker_state_st st;
+    uint32_t ticks;
+
+    krn_speaker_get_state(&st);
+
+    if (get_play_state(&st) != PLAY_STATE_PLAYING) {
+        return;
+    }
+
+    if (forward) {
+        ticks = st.song_elapsed_ticks + SEEK_TICKS;
+    } else {
+        ticks = st.song_elapsed_ticks > SEEK_TICKS ? st.song_elapsed_ticks - SEEK_TICKS : 0;
+    }
+
+    if (ticks >= get_shown_ticks()) {
+        advance_song();
+        return;
+    }
+
+    krn_speaker_seek(&app_player, ticks);
+    sync_playback_state(NULL, 0);
+}
+
+static void
 on_key_down(uint8_t key_code, uint8_t key_mods)
 {
     app_state_st *a = app_state;
@@ -453,6 +481,14 @@ on_key_down(uint8_t key_code, uint8_t key_mods)
 
     case KEY_ENTER:
         play_song(a->sel_index);
+        return;
+
+    case KEY_LEFT:
+        seek_song(0);
+        return;
+
+    case KEY_RIGHT:
+        seek_song(1);
         return;
 
     case KEY_P:

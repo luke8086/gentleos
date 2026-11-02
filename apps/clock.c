@@ -140,7 +140,7 @@ on_show(void)
     last_second = 0xff;
 
     if (!system_info.timer_available) {
-        gui_status_set("App not supported: missing timer");
+        gui_status_set("App not supported: timer unavailable");
         return;
     }
 

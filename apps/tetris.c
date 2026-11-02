@@ -365,7 +365,7 @@ on_show(void)
     app_state_st *a = app_state;
 
     if (!system_info.timer_available) {
-        gui_status_set("App not supported: missing timer");
+        gui_status_set("App not supported: timer unavailable");
         return;
     }
 
